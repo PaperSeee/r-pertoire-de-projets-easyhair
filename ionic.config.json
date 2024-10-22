@@ -1,0 +1,7 @@
+{
+  "name": "EasyHair",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
