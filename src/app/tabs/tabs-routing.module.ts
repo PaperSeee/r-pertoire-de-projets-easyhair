@@ -10,17 +10,19 @@ const routes: Routes = [
       {
         path: 'tab1',
         loadChildren: () =>
-          import('../HomePage/tab1.module').then((m) => m.Tab1PageModule),
+          import('../Pages/HomePage/tab1.module').then((m) => m.Tab1PageModule),
       },
       {
         path: 'tab2',
         loadChildren: () =>
-          import('../FavPage/tab2.module').then((m) => m.Tab2PageModule),
+          import('../Pages/FavPage/tab2.module').then((m) => m.Tab2PageModule),
       },
       {
         path: 'tab3',
         loadChildren: () =>
-          import('../ProfilePage/tab3.module').then((m) => m.Tab3PageModule),
+          import('../Pages/ProfilePage/tab3.module').then(
+            (m) => m.Tab3PageModule
+          ),
       },
       {
         path: '',
