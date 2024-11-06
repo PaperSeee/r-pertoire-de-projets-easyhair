@@ -1,0 +1,62 @@
+/* Style pour le conteneur principal */
+.container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Pour s'assurer que le conteneur couvre toute la hauteur de l'écran */
+}
+
+/* Style pour le lien d'inscription */
+.footer-link-signup {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.footer-link-signup a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* Style pour le lien "Continuer sans se connecter" */
+.footer-link-continue {
+    text-align: center;
+    margin-top: 10px;  /* Espacement différent entre les liens */
+}
+
+.footer-link-continue a {
+    color: #8c8c8c;  /* Couleur plus claire pour ce lien */
+    text-decoration: none;
+    font-size: 14px;
+}
+.login-button {
+    --background: #000000;  /* Couleur de fond noire */
+    --border-radius: 8px;
+    color: white;  /* Texte en blanc pour contraster avec le fond noir */
+}
+.footer-link-signup a {
+    color: #000000;  /* Couleur du texte */
+    text-decoration: underline;  /* Texte souligné */
+    text-decoration-color: #000000;  /* Couleur du soulignement en noir */
+    font-size: 14px;
+}
+/* Style pour le lien "Continuer sans se connecter" */
+.footer-link-continue {
+    text-align: center;
+    margin-top: auto;  /* Cela pousse le lien tout en bas de la page */
+    padding: 20px 0;   /* Ajoute un peu d'espace autour du lien */
+}
+
+.footer-link-continue a {
+    color: #8c8c8c;  /* Couleur plus claire pour ce lien */
+    text-decoration: none;
+    font-size: 14px;
+}
+/* Style pour le lien "Continuer sans se connecter" */
+.footer-link-continue a {
+    text-align: center;
+    margin-top: auto;  /* Cela pousse le lien tout en bas de la page */
+    padding: 20px 0;   /* Ajoute un peu d'espace autour du lien */
+}
+
+
