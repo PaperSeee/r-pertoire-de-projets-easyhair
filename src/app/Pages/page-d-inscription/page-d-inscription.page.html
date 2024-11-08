@@ -12,6 +12,7 @@
     </ion-toolbar>
   </ion-header>
 
+  <!-- Formulaire d'inscription -->
   <form [formGroup]="regForm" novalidate >
 
     <ion-item>
@@ -26,10 +27,12 @@
       <ion-input label="Mot de passe" labelPlacement="floating" type="text" formControlName="password" required ></ion-input>
     </ion-item>
 
+    <!-- Bouton pour s'inscrire -->
     <ion-button (click)="signUp()" expand="full" style="margin-top: 15px;">S'inscrire</ion-button>
 
   </form>
 
+  <!-- Bouton vers page pour se connecter-->
   <div>
     <p>Vous avez déjà un compte ? <a routerLink="/page-de-connexion" >Se connecter</a></p>
   </div>

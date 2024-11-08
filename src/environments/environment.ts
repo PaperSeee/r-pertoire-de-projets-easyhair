@@ -6,6 +6,7 @@ export const environment = {
   
   production: false,
   
+    // configuration de Firebase
     firebaseConfig : {
     apiKey: "AIzaSyBqqw7xytMSAJV_IRo3QPDTaFDrrLu12Ak",
     authDomain: "easyhair-3cebd.firebaseapp.com",

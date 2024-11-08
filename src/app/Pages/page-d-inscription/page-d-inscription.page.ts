@@ -11,6 +11,7 @@ import { AuthentificationService } from 'src/app/authentification.service';
 })
 export class PageDInscriptionPage implements OnInit {
 
+  // déclaration du formulaire d'inscription
   regForm: FormGroup;
 
   constructor(public formBuilder:FormBuilder, public loadingCtrl: LoadingController, public authService:AuthentificationService, public router: Router) { }
@@ -18,6 +19,7 @@ export class PageDInscriptionPage implements OnInit {
   ngOnInit() {
     this.regForm = this.formBuilder.group({
 
+      // déclaration des patterns de l'username, l'email et le password
       fullname: ['', [Validators.required]],
     
       email: ['', [
@@ -38,6 +40,7 @@ export class PageDInscriptionPage implements OnInit {
     return this.regForm?.controls;
   }
 
+  // fonction pour s'inscrire
   async signUp(){
     const loading = await this.loadingCtrl.create();
     await loading.present();

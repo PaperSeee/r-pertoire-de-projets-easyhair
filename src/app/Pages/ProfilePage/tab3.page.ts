@@ -7,6 +7,7 @@ import { AuthentificationService } from 'src/app/authentification.service';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
+
 export class Tab3Page {
 
   user:any
@@ -15,6 +16,7 @@ export class Tab3Page {
     this.user = authService.getProfile()
   }
 
+  // fonction pour se déconnecter
   async logout(){
     this.authService.signOut().then(()=>{
       this.router.navigate(['/page-de-connexion'])

@@ -15,7 +15,8 @@ export class ResetPasswordPage implements OnInit {
 
   ngOnInit() {
   }
-  
+
+  // fonction pour rénitialiser son mot de passe.
   async resetPassword(){
 
     this.authService.resetPassword(this.email).then(()=>{

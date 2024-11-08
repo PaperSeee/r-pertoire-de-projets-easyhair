@@ -11,19 +11,22 @@ import { AuthentificationService } from 'src/app/authentification.service';
 })
 export class PageDeConnexionPage implements OnInit {
 
+  // déclaration du formulaire de connexion
   loginForm: FormGroup;
 
   constructor(public router: Router, public formBuilder:FormBuilder, public loadingCtrl: LoadingController, public authService:AuthentificationService) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-          
+      
+      // déclaration des patterns de l'email
       email: ['', [
         Validators.required,
         Validators.email,
         Validators.pattern("[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$")
       ]],
   
+      // déclaration des patterns du password
       password: ['', [
         Validators.required,
         Validators.pattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}")
@@ -36,6 +39,7 @@ export class PageDeConnexionPage implements OnInit {
     return this.loginForm?.controls;
   }
 
+  // fonction pour se connecter
   async login(){
     const loading = await this.loadingCtrl.create();
     await loading.present();
