@@ -5,28 +5,29 @@ import { LoadingController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 
 @Component({
-  selector: 'app-page-de-connexion',
-  templateUrl: './page-de-connexion.page.html',
-  styleUrls: ['./page-de-connexion.page.scss'],
+  selector: 'app-page-d-inscription',
+  templateUrl: './page-d-inscription.page.html',
+  styleUrls: ['./page-d-inscription.page.scss'],
 })
-export class PageDeConnexionPage implements OnInit {
+export class PageDInscriptionPage implements OnInit {
 
-  // déclaration du formulaire de connexion
-  loginForm: FormGroup;
+  // déclaration du formulaire d'inscription
+  regForm: FormGroup;
 
-  constructor(public router: Router, public formBuilder:FormBuilder, public loadingCtrl: LoadingController, public authService:AuthentificationService) { }
+  constructor(public formBuilder:FormBuilder, public loadingCtrl: LoadingController, public authService:AuthentificationService, public router: Router) { }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      
-      // déclaration des patterns de l'email
+    this.regForm = this.formBuilder.group({
+
+      // déclaration des patterns de l'username, l'email et le password
+      fullname: ['', [Validators.required]],
+    
       email: ['', [
         Validators.required,
         Validators.email,
         Validators.pattern("[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$")
       ]],
   
-      // déclaration des patterns du password
       password: ['', [
         Validators.required,
         Validators.pattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}")
@@ -36,16 +37,15 @@ export class PageDeConnexionPage implements OnInit {
   }
 
   get errorControl() {
-    return this.loginForm?.controls;
+    return this.regForm?.controls;
   }
 
-  // fonction pour se connecter
-  async login(){
+  // fonction pour s'inscrire
+  async signUp(){
     const loading = await this.loadingCtrl.create();
     await loading.present();
-
-    if(this.loginForm?.valid){
-      const user = await this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password).catch((error) =>{
+    if(this.regForm?.valid){
+      const user = await this.authService.registerUser(this.regForm.value.email, this.regForm.value.password).catch((error) =>{
         console.log(error);
         loading.dismiss()
       })
@@ -57,7 +57,7 @@ export class PageDeConnexionPage implements OnInit {
         console.log('Veuillez entrer des valeurs correctes');
       }
     }
-    
   }
   
+
 }

@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Inscription</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Inscription</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Formulaire d'inscription -->
+  <form [formGroup]="regForm" novalidate >
+
+    <ion-item>
+      <ion-input label="Nom d'utilisateur" labelPlacement="floating" type="email" formControlName="fullname" required ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Email" labelPlacement="floating" type="email" formControlName="email" required ></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Mot de passe" labelPlacement="floating" type="text" formControlName="password" required ></ion-input>
+    </ion-item>
+
+    <!-- Bouton pour s'inscrire -->
+    <ion-button (click)="signUp()" expand="full" style="margin-top: 15px;">S'inscrire</ion-button>
+
+  </form>
+
+  <!-- Bouton vers page pour se connecter-->
+  <div>
+    <p>Vous avez déjà un compte ? <a routerLink="/page-de-connexion" >Se connecter</a></p>
+  </div>
+
+</ion-content>
