@@ -4,30 +4,33 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> 
-  <div class="container">
-    <!-- Formulaire de Connexion -->
-    <ion-item>
-      <ion-label position="floating">Adresse email</ion-label>
-      <ion-input type="email"></ion-input>
-    </ion-item>
+<ion-content class="ion-padding"> 
 
-    <ion-item>
-      <ion-label position="floating">Mot de passe</ion-label>
-      <ion-input type="password"></ion-input>
-    </ion-item>
+  <!-- Formulaire de connexion -->
+  <form [formGroup]="loginForm">
+      <ion-item>
+        <ion-input label="Email" labelPlacement="floating" type="email" formControlName="email" ></ion-input>
+      </ion-item>
 
-    <!-- Bouton de Connexion -->
-    <ion-button expand="block" class="login-button">Se connecter</ion-button>
+      <ion-item style="display: flex">
+        <ion-input label="Password" labelPlacement="floating" formControlName="password" type="password"></ion-input>
+        <div>
+          <a routerLink="/reset-password">Mot de passe oublié ?</a>
+        </div>
+      </ion-item>
 
-    <!-- Lien pour l'inscription -->
-    <div class="footer-link-signup">
-      <a href="#">S'inscrire maintenant</a>
-    </div>
+      <!-- Bouton de Connexion -->
+      <ion-button (click)="login()" expand="block" class="login-button" style="margin-top: 15px;" >Se connecter</ion-button>
+  </form>
 
-    <!-- Lien pour continuer sans se connecter -->
-    <div class="footer-link-continue">
-      <a href="#">Continuer sans se connecter</a>
-    </div>
+  <!-- Lien pour l'inscription -->
+  <div>
+    <p>Vous n'avez pas encore de compte ? <a routerLink="/page-d-inscription" >S'inscrire maintenant</a></p>
   </div>
+
+  <!-- Lien pour continuer sans se connecter -->
+  <div>
+    <a routerLink="/tabs/tab1" >Continuer sans se connecter</a>
+  </div>
+  
 </ion-content>

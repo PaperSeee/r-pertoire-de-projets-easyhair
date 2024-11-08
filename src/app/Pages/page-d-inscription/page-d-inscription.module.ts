@@ -4,18 +4,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { PageDeConnexionPageRoutingModule } from './page-de-connexion-routing.module';
+import { PageDInscriptionPageRoutingModule } from './page-d-inscription-routing.module';
 
-import { PageDeConnexionPage } from './page-de-connexion.page';
+import { PageDInscriptionPage } from './page-d-inscription.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     ReactiveFormsModule,
-    PageDeConnexionPageRoutingModule
+    IonicModule,
+    PageDInscriptionPageRoutingModule
   ],
-  declarations: [PageDeConnexionPage]
+  declarations: [PageDInscriptionPage]
 })
-export class PageDeConnexionPageModule {}
+export class PageDInscriptionPageModule {}
