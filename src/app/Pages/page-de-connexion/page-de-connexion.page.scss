@@ -1,0 +1,42 @@
+.separator-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.line {
+    flex: 1; /* S'étend pour occuper tout l'espace disponible */
+    height: 1px;
+    background-color: #ccc; /* Couleur grise */
+    margin: 0 8px; /* Espace autour du texte */
+}
+
+.separator-text {
+    font-size: 14px;
+    color: #666; /* Couleur du texte gris */
+    text-transform: uppercase; /* Met en majuscules si nécessaire */
+    font-weight: 500;
+}
+
+.texty {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 8px;
+}
+
+form {
+    margin-top: 12px;
+}
+
+ion-input {
+    margin-bottom: 12px;
+    padding-bottom: 18px;
+}
+
+.butbut {
+    font-weight: bold
+} 
+
+
