@@ -1,0 +1,76 @@
+
+ion-content {
+  --background: #F1F1F1;
+}
+
+.search{
+  --border-radius: 30px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px;
+}
+
+// Style de base pour la card
+ion-card {
+  width: 100%;
+  margin: 16px 0;
+  border-radius: 16px;
+}
+
+.barbercuts {
+    height: 200px;
+    width: 100%;
+    flex-shrink: 0;
+    object-fit: cover;
+    scroll-snap-align: start;
+}
+
+// Layout du contenu de la card
+ion-card-content {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 
+    "profile name price"
+    "profile type rate";
+  gap: 0px;
+  align-items: center;
+  padding: 16px;
+}
+
+.barberprofilepicture {
+  grid-area: profile;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.barbername {
+  grid-area: name;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.barbertype {
+  grid-area: type;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.prices {
+  grid-area: price;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.barberrate {
+  grid-area: rate;
+  margin: 0;
+}

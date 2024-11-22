@@ -1,9 +1,39 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Accueil</ion-title>
+  <ion-toolbar class="headerchiant">
+    <ion-title>Bienvenue, $name</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
+  <ion-searchbar search-icon="location-outline" placeholder="Entrez votre adresse" class="search"></ion-searchbar>
+
+  <div class="filters">
+    <ion-chip [outline]="true">Barbers</ion-chip>
+    <ion-chip [outline]="true">Coupe homme</ion-chip>
+    <ion-chip [outline]="true">Coupe femme</ion-chip>
+    <ion-chip [outline]="true"><ion-icon name="filter-circle-outline"></ion-icon></ion-chip>
+  </div>
+
+  <ion-card *ngFor="let barber of barbers">
+    <div class="cuts" style="display: inline;">
+      <img class="barbercuts" alt="coupe" [src]="barber.image" />
+    </div>
+
+    <ion-card-content> 
+      <img class="barberprofilepicture" alt="profil" [src]="barber.profile"/>
+      <ion-card-title class="barbername">{{barber.name}}</ion-card-title>
+      <ion-card-title class="prices">{{barber.price}}</ion-card-title>
+
+      <ion-card-subtitle class="barbertype">{{barber.type}}</ion-card-subtitle>
+      <ion-card-subtitle class="barberrate">{{barber.rating}} <ion-icon name="star"></ion-icon></ion-card-subtitle>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content 
+      loadingSpinner="bubbles"
+      loadingText="Chargement...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
