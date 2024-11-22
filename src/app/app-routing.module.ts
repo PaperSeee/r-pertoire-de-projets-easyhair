@@ -8,15 +8,15 @@ const routes: Routes = [
       import('./tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
-    path: 'page-de-connexion',
+    path: 'connexion',
     loadChildren: () =>
-      import('./Pages/page-de-connexion/page-de-connexion.module').then(
-        (m) => m.PageDeConnexionPageModule
+      import('./Pages/Connexion/connexion.module').then(
+        (m) => m.ConnexionPageModule
       ),
   },
   {
-    path: 'page-d-inscription',
-    loadChildren: () => import('./Pages/page-d-inscription/page-d-inscription.module').then( m => m.PageDInscriptionPageModule)
+    path: 'inscription',
+    loadChildren: () => import('./Pages/Inscription/inscription.module').then( m => m.InscriptionPageModule)
   },
   {
     path: 'reset-password',

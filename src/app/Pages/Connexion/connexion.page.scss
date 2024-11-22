@@ -1,0 +1,64 @@
+.separator-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.line {
+    flex: 1; /* S'étend pour occuper tout l'espace disponible */
+    height: 1px;
+    background-color: #ccc; /* Couleur grise */
+    margin: 0 8px; /* Espace autour du texte */
+}
+
+.separator-text {
+    font-size: 14px;
+    color: #666; /* Couleur du texte gris */
+    text-transform: uppercase; /* Met en majuscules si nécessaire */
+    font-weight: 500;
+}
+
+.texty {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 12px;
+}
+
+form {
+    margin-top: 12px;
+}
+
+ion-input {
+    margin-bottom: 12px;
+    padding-bottom: 18px;
+}
+
+
+.enbasla {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+form ion-input {
+    font-size: 14px;
+}
+
+.yow {
+    display: flex;
+    justify-content: center;
+}
+
+#logo {
+    width: 200px;
+    margin: 30px;
+}
