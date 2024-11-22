@@ -1,39 +1,29 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
+    <ion-icon name="close" slot="start" routerLink="/tabs/tab1" style="padding-left: 12px;"></ion-icon>
     <ion-title>Inscription</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Inscription</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+  <div class="yow">
+  <img src="../../../assets/icon/font-logo.png" alt="logo easyhair" id="logo">
+  </div>
   <!-- Formulaire d'inscription -->
   <form [formGroup]="regForm" novalidate >
 
-    <ion-item>
-      <ion-input label="Nom d'utilisateur" labelPlacement="floating" type="email" formControlName="fullname" required ></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input label="Email" labelPlacement="floating" type="email" formControlName="email" required ></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input label="Mot de passe" labelPlacement="floating" type="text" formControlName="password" required ></ion-input>
-    </ion-item>
+    <ion-input label="Nom d'utilisateur" labelPlacement="stacked" placeholder="Entrez votre surnom" fill="outline" type="text" formControlName="fullname" required ></ion-input>
+    <ion-input label="Email" labelPlacement="stacked" placeholder="Entrez votre email" type="email" fill="outline" formControlName="email" required ></ion-input>
+    <ion-input label="Mot de passe" labelPlacement="stacked" placeholder="Entrez votre mot de passe" type="password" fill="outline" formControlName="password" required ></ion-input>
 
     <!-- Bouton pour s'inscrire -->
-    <ion-button (click)="signUp()" expand="full" style="margin-top: 15px;">S'inscrire</ion-button>
+    <ion-button (click)="signUp()" expand="full" class="butbut">S'inscrire</ion-button>
 
   </form>
 
   <!-- Bouton vers page pour se connecter-->
-  <div>
+  <div class="enbasla">
     <p>Vous avez déjà un compte ? <a routerLink="/page-de-connexion" >Se connecter</a></p>
   </div>
 

@@ -41,14 +41,6 @@ ion-input {
     text-transform: none;
 } 
 
-.loginform {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 50vh;
-    width: 100%;
-}
-
 .enbasla {
     position: absolute;
     bottom: 0;
@@ -62,7 +54,16 @@ ion-input {
     gap: 16px;
 }
 
-
 form ion-input {
     font-size: 14px;
+}
+
+.yow {
+    display: flex;
+    justify-content: center;
+}
+
+#logo {
+    width: 200px;
+    margin: 30px;
 }
