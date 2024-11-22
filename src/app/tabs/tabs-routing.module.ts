@@ -8,32 +8,30 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'tab1',
+        path: 'accueil',
         loadChildren: () =>
-          import('../Pages/HomePage/tab1.module').then((m) => m.Tab1PageModule),
+          import('../Pages/Accueil/accueil.module').then((m) => m.AccueilPageModule),
       },
       {
-        path: 'tab2',
+        path: 'favoris',
         loadChildren: () =>
-          import('../Pages/FavPage/tab2.module').then((m) => m.Tab2PageModule),
+          import('../Pages/Favoris/favoris.module').then((m) => m.FavorisPageModule),
       },
       {
-        path: 'tab3',
+        path: 'profil',
         loadChildren: () =>
-          import('../Pages/ProfilePage/tab3.module').then(
-            (m) => m.Tab3PageModule
-          ),
+          import('../Pages/Profil/profil.module').then((m) => m.ProfilPageModule),
       },
       {
         path: '',
-        redirectTo: '/tabs/home-page',
+        redirectTo: '/tabs/accueil',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: '/tabs/home-page',
+    redirectTo: '/tabs/accueil',
     pathMatch: 'full',
   },
 ];
