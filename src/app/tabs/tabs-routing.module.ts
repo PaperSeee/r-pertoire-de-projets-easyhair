@@ -38,5 +38,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]  // Ajout de l'export du RouterModule
 })
 export class TabsPageRoutingModule {}
