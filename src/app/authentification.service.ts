@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, Auth, User } from 'firebase/auth';
-import { getFirestore, doc, setDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, Firestore } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -10,11 +10,33 @@ import { environment } from 'src/environments/environment';
 export class AuthentificationService {
   private firebaseApp = initializeApp(environment.firebaseConfig);
   private auth: Auth = getAuth(this.firebaseApp);
-  private firestore = getFirestore(this.firebaseApp);
+  private firestore: Firestore = getFirestore(this.firebaseApp);
 
-  // fonction d'inscription
-  async registerUser(email: string, password: string) {
-    return await createUserWithEmailAndPassword(this.auth, email, password);
+  // Modifions la fonction d'inscription pour sauvegarder dans Firestore
+  async registerUser(email: string, password: string, prénom: string, nom: string, genre: string, telephone: string) {
+    try {
+      // Créer l'utilisateur dans Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      
+      // Sauvegarder les données additionnelles dans Firestore
+      const userData = {
+        uid: userCredential.user.uid,
+        email: email,
+        telephone: telephone,
+        prénom: prénom,
+        nom: nom,
+        genre: genre,
+        createdAt: new Date().toISOString(),
+        role: 'user'
+      };
+
+      // Créer/mettre à jour le document dans la collection 'users'
+      await setDoc(doc(this.firestore, 'users', userCredential.user.uid), userData);
+
+      return userCredential;
+    } catch (error) {
+      throw error;
+    }
   }
 
   // fonction de connexion
