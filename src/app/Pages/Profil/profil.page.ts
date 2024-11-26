@@ -1,17 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthentificationService } from 'src/app/authentification.service';
 
 @Component({
   selector: 'app-profil',
-  templateUrl: 'profil.page.html',
-  styleUrls: ['profil.page.scss']
+  templateUrl: './profil.page.html',
+  styleUrls: ['./profil.page.scss']
 })
-export class ProfilPage {
+export class ProfilPage implements OnInit {
   user: any;
 
-  constructor(public authService: AuthentificationService, public router: Router) {
-    this.user = authService.getProfile()
+  constructor(public authService: AuthentificationService, public router: Router) { }
+
+  ngOnInit() {
+    this.loadProfile();
+  }
+
+  async loadProfile() {
+    try {
+      this.user = await this.authService.getProfile();
+      console.log('Profil chargé:', this.user);
+    } catch (error) {
+      console.error('Erreur lors du chargement du profil:', error);
+    }
   }
 
   async logout() {
