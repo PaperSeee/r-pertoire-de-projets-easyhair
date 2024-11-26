@@ -1,22 +1,29 @@
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <!-- <ion-tab-button tab="page-de-connexion">
-      <ion-icon name="home-outline"></ion-icon>
-      <ion-label>Home</ion-label>
-    </ion-tab-button> -->
-
-    <ion-tab-button tab="accueil" href="/tabs/accueil">
-      <ion-icon aria-hidden="true" name="home-outline"></ion-icon>
+    <!-- Accueil -->
+    <ion-tab-button tab="accueil" (click)="selectTab('accueil')">
+      <ion-icon
+        [name]="selectedTab === 'accueil' ? 'home' : 'home-outline'"
+        aria-hidden="true"
+      ></ion-icon>
       <ion-label>Accueil</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="favoris" href="/tabs/favoris">
-      <ion-icon aria-hidden="true" name="heart-outline"></ion-icon>
+    <!-- Favoris -->
+    <ion-tab-button tab="favoris" (click)="selectTab('favoris')">
+      <ion-icon
+        [name]="selectedTab === 'favoris' ? 'heart' : 'heart-outline'"
+        aria-hidden="true"
+      ></ion-icon>
       <ion-label>Favoris</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="profil" href="/tabs/profil">
-      <ion-icon aria-hidden="true" name="person-outline"></ion-icon>
+    <!-- Profil -->
+    <ion-tab-button tab="profil" (click)="selectTab('profil')">
+      <ion-icon
+        [name]="selectedTab === 'profil' ? 'person' : 'person-outline'"
+        aria-hidden="true"
+      ></ion-icon>
       <ion-label>Profil</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
