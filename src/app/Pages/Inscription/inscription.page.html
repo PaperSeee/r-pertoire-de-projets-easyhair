@@ -13,8 +13,30 @@
   <!-- Formulaire d'inscription -->
   <form [formGroup]="regForm" novalidate >
 
-    <ion-input label="Nom d'utilisateur" labelPlacement="stacked" placeholder="Entrez votre surnom" fill="outline" type="text" formControlName="fullname" required ></ion-input>
+    <ion-input label="Prénom" labelPlacement="stacked" placeholder="Entrez votre prénom" fill="outline" type="text" formControlName="prénom" required ></ion-input>
+    <ion-input label="Nom" labelPlacement="stacked" placeholder="Entrez votre nom" fill="outline" type="text" formControlName="nom" required ></ion-input>
+
+    <!-- Nouveau champ pour le genre -->
+    <ion-select label="Genre" labelPlacement="stacked" placeholder="Sélectionnez votre genre" fill="outline" formControlName="genre">
+      <ion-select-option value="homme">Homme</ion-select-option>
+      <ion-select-option value="femme">Femme</ion-select-option>
+      <ion-select-option value="helicoptere">Hélicoptère de combat</ion-select-option>
+      <ion-select-option value="x">Ne pas préciser</ion-select-option>
+    </ion-select>
+
     <ion-input label="Email" labelPlacement="stacked" placeholder="Entrez votre email" type="email" fill="outline" formControlName="email" required ></ion-input>
+    
+    <!-- Ajoutez ceci après le champ email et avant le mot de passe -->
+    <ion-input 
+        label="Téléphone" 
+        labelPlacement="stacked" 
+        placeholder="Entrez votre numéro de téléphone" 
+        type="tel" 
+        fill="outline" 
+        formControlName="telephone" 
+        required>
+    </ion-input>
+
     <ion-input label="Mot de passe" labelPlacement="stacked" placeholder="Entrez votre mot de passe" type="text" fill="outline" formControlName="password" required ></ion-input>
 
     <!-- Bouton pour s'inscrire -->
