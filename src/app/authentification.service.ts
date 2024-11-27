@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, Auth, User } from 'firebase/auth';
-import { getFirestore, doc, setDoc, Firestore } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, Firestore, getDoc } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
@@ -70,21 +70,40 @@ export class AuthentificationService {
 
   async registerUserWithGoogle(user: any) {
     const userRef = doc(this.firestore, `users/${user.uid}`);
+  
+    // Récupérer les données existantes si elles existent
+    const existingUserDoc = await getDoc(userRef);
+    const existingData = existingUserDoc.exists() ? existingUserDoc.data() : {};
+  
+    // Préparer les nouvelles données à enregistrer
     const userData = {
       uid: user.uid,
       email: user.email,
-      prénom: user.prénom || '',
-      nom: user.nom || '',
-      telephone: user.telephone || '',
-      genre: user.genre || '',
-      photoURL: user.photoURL || '',
-      createdAt: user.createdAt || new Date().toISOString(),
-      role: user.role || 'user'
+      prénom: user.prénom || existingData['prénom'] || '',
+      nom: user.nom || existingData['nom'] || '',
+      telephone: user.telephone || existingData['telephone'] || '',
+      genre: user.genre || existingData['genre'] || '',
+      photoURL: user.photoURL || existingData['photoURL'] || '',
+      createdAt: existingData['createdAt'] || user.createdAt || new Date().toISOString(),
+      role: existingData['role'] || user.role || 'user',
+      emailVerified: user.emailVerified
     };
-    
-    console.log('Registering user with data:', userData);
+  
+    console.log('Registering or updating user with data:', userData);
+  
+    // Enregistrer ou mettre à jour le document avec fusion
     return await setDoc(userRef, userData, { merge: true });
-  } 
+  }
+  
 
+  async userExists(uid: string): Promise<boolean> {
+    const userDoc = await getDoc(doc(this.firestore, 'users', uid));
+    return userDoc.exists();
+  }  
 
 }
+
+
+
+
+

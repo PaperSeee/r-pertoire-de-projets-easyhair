@@ -115,20 +115,23 @@ export class InscriptionPage implements OnInit {
   async signUpWithGoogle() {
     const loading = await this.loadingCtrl.create();
     await loading.present();
-
+  
     try {
       const googleUser = await GoogleAuth.signIn();
       console.log('Google user:', googleUser);
-
+  
       if (!googleUser.authentication.idToken) {
         throw new Error('Informations utilisateur manquantes');
       }
-
+  
       // Créer les credentials Firebase
       const credential = GoogleAuthProvider.credential(googleUser.authentication.idToken);
       const userCredential = await signInWithCredential(this.auth, credential);
-
-      // Préparer les données utilisateur pour Firestore
+  
+      // Vérifier si l'utilisateur existe déjà dans Firestore
+      const userExists = await this.authService.userExists(userCredential.user.uid);
+  
+      // Préparer les données utilisateur
       const userData = {
         uid: userCredential.user.uid,
         email: userCredential.user.email,
@@ -136,22 +139,25 @@ export class InscriptionPage implements OnInit {
         nom: googleUser.familyName || '',
         telephone: '',
         genre: '',
-        createdAt: new Date().toISOString(),
+        photoURL: userCredential.user.photoURL || '',
+        createdAt: userExists ? undefined : new Date().toISOString(), // N'ajouter cette date que pour un nouvel utilisateur
         role: 'user',
-        emailVerified: userCredential.user.emailVerified,
-        photoURL: userCredential.user.photoURL
+        emailVerified: userCredential.user.emailVerified
       };
-
-      // Sauvegarder dans Firestore
+  
+      // Enregistrer ou mettre à jour les données utilisateur dans Firestore
       await this.authService.registerUserWithGoogle(userData);
-
+  
       await loading.dismiss();
       this.router.navigate(['/tabs/accueil']);
-
     } catch (error) {
       await loading.dismiss();
       console.error('Google sign-up error:', error);
       this.presentToast('Erreur lors de l\'inscription avec Google');
     }
   }
+  
 }
+
+
+
