@@ -10,17 +10,17 @@ const routes: Routes = [
       {
         path: 'accueil',
         loadChildren: () =>
-          import('../Pages/Accueil/accueil.module').then((m) => m.AccueilPageModule),
+          import('../Pages/Client/Accueil/accueil.module').then((m) => m.AccueilPageModule),
       },
       {
         path: 'favoris',
         loadChildren: () =>
-          import('../Pages/Favoris/favoris.module').then((m) => m.FavorisPageModule),
+          import('../Pages/Client/Favoris/favoris.module').then((m) => m.FavorisPageModule),
       },
       {
         path: 'profil',
         loadChildren: () =>
-          import('../Pages/Profil/profil.module').then((m) => m.ProfilPageModule),
+          import('../Pages/Client/Profil/profil.module').then((m) => m.ProfilPageModule),
       },
       {
         path: '',

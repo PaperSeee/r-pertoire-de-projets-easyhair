@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-accueil',
-  templateUrl: 'accueil.page.html',
-  styleUrls: ['accueil.page.scss']
+  selector: 'app-favoris',
+  templateUrl: 'favoris.page.html',
+  styleUrls: ['favoris.page.scss'],
 })
-export class AccueilPage {
+export class FavorisPage {
   barbers = [];
   currentPage = 1;
 
@@ -22,8 +22,8 @@ export class AccueilPage {
         type: 'Barber professionel',
         price: '20€-30€',
         rating: 4.5,
-        image: '../../../assets/icon/image 4.png',
-        profile: '../../../assets/icon/pp.png'
+        image: '../../../../assets/icon/image 4.png',
+        profile: '../../../../assets/icon/image 4.png',
       });
     }
 
@@ -32,8 +32,8 @@ export class AccueilPage {
     }
   }
 
-  loadMore(event) {
-    this.currentPage++;
-    this.loadBarbers(event);
-  }
+  // loadMore(event) {
+  //   this.currentPage++;
+  //   this.loadBarbers(event);
+  // }
 }
