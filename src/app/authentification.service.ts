@@ -97,7 +97,40 @@ export class AuthentificationService {
     return userDoc.exists();
   }  
 
+  // inscription d'un professionnel
+  
+  async registerProfessional(email: string, password: string, userData: any) {
+    try {
+      // 1. Créer l'utilisateur dans Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth, 
+        email, 
+        password
+      );
+
+      // 2. Créer le document dans la collection Coiffeurs
+      const coiffeurRef = doc(this.firestore, 'Coiffeurs', userCredential.user.uid);
+      
+      // 3. Ajouter toutes les données + quelques champs supplémentaires
+      await setDoc(coiffeurRef, {
+        ...userData,
+        uid: userCredential.user.uid,
+        email: email, // S'assurer que l'email est bien inclus
+        createdAt: new Date().toISOString(),
+        status: 'active'
+      });
+
+      return userCredential.user;
+    } catch (error) {
+      console.error("Erreur d'enregistrement:", error);
+      throw error;
+    }
+  }
+
 }
+
+
+
 
 
 

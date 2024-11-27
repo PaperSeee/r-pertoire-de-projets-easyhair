@@ -42,6 +42,10 @@ const routes: Routes = [
     path: 'mes-informations',
     loadChildren: () => import('./Pages/Client/mes-informations/mes-informations.module').then( m => m.MesInformationsPageModule)
   },
+  {
+    path: 'inscription-professionnels',
+    loadChildren: () => import('./Pages/inscription-professionnels/inscription-professionnels.module').then( m => m.InscriptionProfessionnelsPageModule)
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,39 @@
+// src/app/Pages/inscription-professionnels/inscription-professionnels.page.scss
+ion-content {
+  --ion-background-color: #f4f4f4;
+}
+
+.yow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+#logo {
+  max-width: 200px;
+}
+
+form {
+  margin-top: 20px;
+}
+
+ion-input, ion-select {
+  margin-bottom: 16px;
+}
+
+.black-button {
+  --background: #333;
+  margin-top: 20px;
+}
+
+.enbasla {
+  margin-top: 20px;
+  text-align: center;
+  
+  a {
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+  }
+}
