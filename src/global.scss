@@ -42,3 +42,31 @@
 * {
     font-family: Poppins, Arial, Helvetica, sans-serif;
 }
+
+.gold-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    --background: linear-gradient(to bottom, #FFC268, #AA7019);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: --background 0.3s ease;
+}
+
+.black-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    --background: linear-gradient(to bottom, #3F3F3F, #2A2626);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: --background 0.3s ease;
+}
