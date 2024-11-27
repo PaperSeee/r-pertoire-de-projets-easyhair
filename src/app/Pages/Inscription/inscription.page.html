@@ -5,11 +5,25 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content [fullscreen]="true" class="ion-padding"> 
 
   <div class="yow">
   <img src="../../../assets/icon/font-logo.png" alt="logo easyhair" id="logo">
   </div>
+
+  <!-- Bouton Google -->
+  <ion-button expand="block" fill="outline" shape="default">
+    <ion-icon slot="start" name="logo-google" style="padding-right: 8px;"></ion-icon>
+    <ion-text>Continuer avec Google</ion-text>
+  </ion-button>
+
+  <!-- Séparateur -->
+  <div class="separator-container">
+    <div class="line"></div>
+    <span class="separator-text">OU</span>
+    <div class="line"></div>
+  </div>
+  
   <!-- Formulaire d'inscription -->
   <form [formGroup]="regForm" novalidate >
 
