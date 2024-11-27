@@ -82,6 +82,7 @@ export class ConnexionPage implements OnInit {
       this.showErrorToast('Formulaire invalide');
     }
   }
+  
 
   async showErrorToast(message: string) {
     const toast = await this.toastCtrl.create({
@@ -93,26 +94,62 @@ export class ConnexionPage implements OnInit {
     toast.present();
   }
 
-  async signInWithGoogle() {
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      color: 'danger'
+    });
+    toast.present();
+  }
+
+
+  async signUpWithGoogle() {
+    const loading = await this.loadingCtrl.create();
+    await loading.present();
+  
     try {
       const googleUser = await GoogleAuth.signIn();
-      console.log('user :', googleUser);
-
-      // Vérifiez que toutes les propriétés nécessaires sont présentes
+      console.log('Google user:', googleUser);
+  
       if (!googleUser.authentication.idToken) {
         throw new Error('Informations utilisateur manquantes');
       }
-
-      // Enregistrer l'utilisateur dans Firebase Authentication
+  
+      // Créer les credentials Firebase
       const credential = GoogleAuthProvider.credential(googleUser.authentication.idToken);
       const userCredential = await signInWithCredential(this.auth, credential);
-
-      console.log('userCredential :', userCredential);
-
+  
+      // Vérifier si l'utilisateur existe déjà dans Firestore
+      const userExists = await this.authService.userExists(userCredential.user.uid);
+  
+      if (!userExists) {
+        // Préparer les données utilisateur uniquement si c'est un nouvel utilisateur
+        const userData = {
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          prénom: googleUser.givenName || '',
+          nom: googleUser.familyName || '',
+          telephone: '',
+          genre: '',
+          photoURL: userCredential.user.photoURL || '',
+          createdAt: new Date().toISOString(),
+          role: 'user',
+          emailVerified: userCredential.user.emailVerified
+        };
+  
+        // Enregistrer dans Firestore uniquement pour un nouvel utilisateur
+        await this.authService.registerUserWithGoogle(userData);
+      }
+  
+      await loading.dismiss();
       this.router.navigate(['/tabs/accueil']);
     } catch (error) {
-      console.log('Google sign-in error:', error);
+      await loading.dismiss();
+      console.error('Google sign-up error:', error);
+      this.presentToast('Erreur lors de l\'inscription avec Google');
     }
   }
+
 }
 
