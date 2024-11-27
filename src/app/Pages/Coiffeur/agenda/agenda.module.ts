@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-
 import { AgendaPageRoutingModule } from './agenda-routing.module';
-
 import { AgendaPage } from './agenda.page';
+import GoogleCalendarService from '../../../services/google-calendar.service';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AgendaPageRoutingModule
+    AgendaPageRoutingModule,
+    ReactiveFormsModule
   ],
-  declarations: [AgendaPage]
+  declarations: [AgendaPage],
+  providers: [GoogleCalendarService]
 })
-export class AgendaPageModule {}
+export class AgendaPageModule { }
