@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoadingController, isPlatform } from '@ionic/angular';
+import { LoadingController, isPlatform, ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
@@ -27,6 +27,7 @@ export class ConnexionPage implements OnInit {
     public router: Router,
     public formBuilder: FormBuilder,
     public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
     public authService: AuthentificationService
   ) {
     if (!isPlatform('capacitor')) {
@@ -63,20 +64,33 @@ export class ConnexionPage implements OnInit {
     await loading.present();
 
     if (this.loginForm?.valid) {
-      const user = await this.authService
-        .loginUser(this.loginForm.value.email, this.loginForm.value.password)
-        .catch((error) => {
-          console.log(error);
-          loading.dismiss();
-        });
-
-      if (user) {
+      try {
+        const user = await this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password);
+        if (user) {
+          this.router.navigate(['/tabs/accueil']);
+        } else {
+          this.showErrorToast('Adresse email ou mot de passe incorrect');
+        }
+      } catch (error) {
+        console.log(error);
+        this.showErrorToast('Adresse email ou mot de passe incorrect');
+      } finally {
         loading.dismiss();
-        this.router.navigate(['/tabs/accueil']);
-      } else {
-        console.log('Veuillez entrer des valeurs correctes');
       }
+    } else {
+      loading.dismiss();
+      this.showErrorToast('Formulaire invalide');
     }
+  }
+
+  async showErrorToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      color: 'danger',
+      position: 'top'
+    });
+    toast.present();
   }
 
   async signInWithGoogle() {

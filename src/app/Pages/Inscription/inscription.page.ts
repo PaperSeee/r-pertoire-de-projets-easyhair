@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 
 @Component({
@@ -14,47 +14,51 @@ export class InscriptionPage implements OnInit {
   // déclaration du formulaire d'inscription
   regForm: FormGroup;
 
-  constructor(public formBuilder:FormBuilder, public loadingCtrl: LoadingController, public authService:AuthentificationService, public router: Router) { }
+  constructor(
+    public formBuilder: FormBuilder,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    public authService: AuthentificationService,
+    public router: Router
+  ) { }
 
   ngOnInit() {
     this.regForm = this.formBuilder.group({
-
-      // déclaration des patterns de l'username, l'email et le password
       prénom: ['', [Validators.required]],
       nom: ['', [Validators.required]],
       genre: ['', [Validators.required]],
-
-
-    
       email: ['', [
         Validators.required,
         Validators.email,
         Validators.pattern("[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$")
       ]],
-
       telephone: ['', [
-        Validators.required, 
-        Validators.pattern('^[0-9]{10}$')
-      ]], // Nouveau contrôle
-
-  
+        Validators.pattern('^[0-9]{9,13}$')
+      ]],
       password: ['', [
         Validators.required,
         Validators.pattern("(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}")
       ]]
-
-    })
+    });
   }
 
   get errorControl() {
     return this.regForm?.controls;
   }
 
-  // fonction pour s'inscrire
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      color: 'danger'
+    });
+    toast.present();
+  }
+
   async signUp() {
     const loading = await this.loadingCtrl.create();
     await loading.present();
-    
+
     if (this.regForm?.valid) {
       try {
         const user = await this.authService.registerUser(
@@ -67,15 +71,25 @@ export class InscriptionPage implements OnInit {
         );
 
         if (user) {
-          loading.dismiss();
           this.router.navigate(['/tabs/accueil']);
         }
       } catch (error) {
         console.log(error);
+        this.presentToast('Une erreur est survenue lors de l\'inscription.');
+      } finally {
         loading.dismiss();
+      }
+    } else {
+      loading.dismiss();
+      if (this.errorControl['email'].errors) {
+        this.presentToast('Email invalide.');
+      }
+      if (this.errorControl['password'].errors) {
+        this.presentToast('Mot de passe invalide. Il doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.');
+      }
+      if (this.errorControl['telephone'].errors) {
+        this.presentToast('Numéro de téléphone invalide. Il doit contenir 10 chiffres.');
       }
     }
   }
-  
-
 }

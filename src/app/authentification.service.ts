@@ -12,7 +12,7 @@ export class AuthentificationService {
   private auth: Auth = getAuth(this.firebaseApp);
   private firestore: Firestore = getFirestore(this.firebaseApp);
 
-  // Modifions la fonction d'inscription pour sauvegarder dans Firestore
+  // Fonction d'inscription
   async registerUser(email: string, password: string, prénom: string, nom: string, genre: string, telephone: string) {
     try {
       // Créer l'utilisateur dans Firebase Auth
