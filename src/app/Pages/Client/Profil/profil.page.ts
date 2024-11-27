@@ -27,9 +27,13 @@ export class ProfilPage implements OnInit {
 
   async logout() {
     this.authService.signOut().then(() => {
-      this.router.navigate(['/connexion'])
+      this.router.navigate(['/connexion']);
     }).catch((error) => {
       console.log(error);
-    })
+    });
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
   }
 }

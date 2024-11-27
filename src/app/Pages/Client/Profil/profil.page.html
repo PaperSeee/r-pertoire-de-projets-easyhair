@@ -6,28 +6,40 @@
 
 <ion-content class="ion-padding">
 
-  <h2 class="ion-padding">Mes rendez-vous</h2>
-  <p>Vous n'avez pas de rendez-vous pour le moment.</p>
+  <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
 
-  <h2 class="ion-padding">Général</h2>
-  <div class="clickable-items">
-    <a href="#" class="clickable-item">
-      <ion-icon name="person-outline" slot="start"></ion-icon>
-      <span>Mon compte</span>
-    </a>
-    <a href="#" class="clickable-item">
-      <ion-icon name="git-commit-outline" slot="start"></ion-icon>
-      <span>Historique des rendez-vous</span>
-    </a>
-  </div>
+    <h2 class="ion-padding">Mes rendez-vous</h2>
+    <p class="ion-padding" style="margin: 0%;">Vous n'avez pas de rendez-vous pour le moment.</p>
 
-  <h2 class="ion-padding">Plus</h2>
-  <div class="clickable-items">
-    <a routerLink="/contact" class="clickable-item">
-      <ion-icon name="mail-outline" slot="start"></ion-icon>
-      <span>Nous contacter</span>
-    </a>
-  </div>
+    <h2 class="ion-padding">Général</h2>
+    <div class="clickable-items">
+      <a routerLink="/mes-informations" class="clickable-item">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <span>Mes informations</span>
+      </a>
+      <a class="clickable-item">
+        <ion-icon name="git-commit-outline" slot="start"></ion-icon>
+        <span>Historique des rendez-vous</span>
+      </a>
+    </div>
 
-  <ion-button (click)="logout()" routerLink="/connexion" class="ion-text-white" expand="block">Se déconnecter</ion-button>
+    <h2 class="ion-padding">Plus</h2>
+    <div class="clickable-items">
+      <a routerLink="/contact" class="clickable-item">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <span>Nous contacter</span>
+      </a>
+    </div>
+
+    <ion-button (click)="logout()" routerLink="/connexion" class="ion-text-white" expand="block">Se déconnecter</ion-button>
+
+  </ng-container>
+
+  <ng-template #notLoggedIn>
+
+    <p>Vous n'êtes pas connecté.</p>
+    <ion-button routerLink="/connexion" expand="block">Se connecter</ion-button>
+    
+  </ng-template>
+
 </ion-content>

@@ -3,6 +3,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, Auth, User } from 'firebase/auth';
 import { getFirestore, doc, setDoc, Firestore } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ export class AuthentificationService {
   private firebaseApp = initializeApp(environment.firebaseConfig);
   private auth: Auth = getAuth(this.firebaseApp);
   private firestore: Firestore = getFirestore(this.firebaseApp);
+
+  constructor(private router: Router) { }
 
   // Fonction d'inscription
   async registerUser(email: string, password: string, prénom: string, nom: string, genre: string, telephone: string) {
@@ -59,6 +62,10 @@ export class AuthentificationService {
     return this.auth.currentUser;
   }
 
+  isAuthenticated(): boolean {
+    return !!this.auth.currentUser;
+  }
+
   // Enregistrer un utilisateur avec Google
   async registerUserWithGoogle(user: any) {
     const userRef = doc(this.firestore, `users/${user.uid}`);
@@ -72,4 +79,5 @@ export class AuthentificationService {
     console.log('Registering user with data:', userData); // Pour débogage
     return await setDoc(userRef, userData, { merge: true });
   }
+
 }

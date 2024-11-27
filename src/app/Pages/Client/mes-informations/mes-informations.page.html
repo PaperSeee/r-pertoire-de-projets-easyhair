@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="chevron-back" slot="start" style="margin-left: 12px;" routerLink="/tabs/profil"></ion-icon>
+    <ion-title>Mes informations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="userForm" *ngIf="userForm">
+    <!-- Prénom -->
+    <ion-input 
+      label="Prénom" 
+      labelPlacement="stacked" 
+      formControlName="prénom" 
+      fill="outline">
+    </ion-input>
+
+    <!-- Nom -->
+    <ion-input 
+      label="Nom"
+      labelPlacement="stacked" 
+      formControlName="nom"
+      fill="outline">
+    </ion-input>
+
+    <!-- Email -->
+    <ion-input 
+      label="Email"
+      labelPlacement="stacked" 
+      type="email"
+      formControlName="email"
+      fill="outline"
+      readonly>
+    </ion-input>
+
+    <!-- Téléphone -->
+    <ion-input 
+      label="Téléphone"
+      labelPlacement="stacked" 
+      type="tel"
+      formControlName="telephone"
+      fill="outline">
+    </ion-input>
+
+    <!-- Genre -->
+    <ion-select 
+      label="Genre" 
+      labelPlacement="stacked"
+      formControlName="genre"
+      fill="outline">
+      <ion-select-option value="homme">Homme</ion-select-option>
+      <ion-select-option value="femme">Femme</ion-select-option>
+      <ion-select-option value="x">Ne pas préciser</ion-select-option>
+    </ion-select>
+
+    <ion-button expand="block" (click)="updateProfile()" class="ion-margin-top">
+      Mettre à jour
+    </ion-button>
+  </form>
+</ion-content>
