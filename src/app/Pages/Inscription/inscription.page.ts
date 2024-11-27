@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LoadingController, isPlatform, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { initializeApp } from 'firebase/app';
+import { getAuth, GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
+import { environment } from 'src/environments/environment';
 import { AuthentificationService } from 'src/app/authentification.service';
 
 @Component({
@@ -13,6 +17,8 @@ export class InscriptionPage implements OnInit {
 
   // déclaration du formulaire d'inscription
   regForm: FormGroup;
+  private firebaseApp = initializeApp(environment.firebaseConfig);
+  private auth = getAuth(this.firebaseApp);
 
   constructor(
     public formBuilder: FormBuilder,
@@ -20,7 +26,20 @@ export class InscriptionPage implements OnInit {
     public toastCtrl: ToastController,
     public authService: AuthentificationService,
     public router: Router
-  ) { }
+  ) {
+    // Déplacer l'initialisation dans un try-catch
+    try {
+      if (!isPlatform('capacitor')) {
+        GoogleAuth.initialize({
+          clientId: environment.googleClientId,
+          scopes: ['profile', 'email'],
+          grantOfflineAccess: true
+        });
+      }
+    } catch (error) {
+      console.error('Erreur lors de l\'initialisation de Google Auth:', error);
+    }
+  }
 
   ngOnInit() {
     this.regForm = this.formBuilder.group({
@@ -90,6 +109,49 @@ export class InscriptionPage implements OnInit {
       if (this.errorControl['telephone'].errors) {
         this.presentToast('Numéro de téléphone invalide. Il doit contenir 10 chiffres.');
       }
+    }
+  }
+
+  async signUpWithGoogle() {
+    const loading = await this.loadingCtrl.create();
+    await loading.present();
+
+    try {
+      const googleUser = await GoogleAuth.signIn();
+      console.log('Google user:', googleUser);
+
+      if (!googleUser.authentication.idToken) {
+        throw new Error('Informations utilisateur manquantes');
+      }
+
+      // Créer les credentials Firebase
+      const credential = GoogleAuthProvider.credential(googleUser.authentication.idToken);
+      const userCredential = await signInWithCredential(this.auth, credential);
+
+      // Préparer les données utilisateur pour Firestore
+      const userData = {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        prénom: googleUser.givenName || '',
+        nom: googleUser.familyName || '',
+        telephone: '',
+        genre: '',
+        createdAt: new Date().toISOString(),
+        role: 'user',
+        emailVerified: userCredential.user.emailVerified,
+        photoURL: userCredential.user.photoURL
+      };
+
+      // Sauvegarder dans Firestore
+      await this.authService.registerUserWithGoogle(userData);
+
+      await loading.dismiss();
+      this.router.navigate(['/tabs/accueil']);
+
+    } catch (error) {
+      await loading.dismiss();
+      console.error('Google sign-up error:', error);
+      this.presentToast('Erreur lors de l\'inscription avec Google');
     }
   }
 }

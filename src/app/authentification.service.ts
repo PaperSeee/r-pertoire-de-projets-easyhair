@@ -67,17 +67,24 @@ export class AuthentificationService {
   }
 
   // Enregistrer un utilisateur avec Google
+
   async registerUserWithGoogle(user: any) {
     const userRef = doc(this.firestore, `users/${user.uid}`);
     const userData = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
+      prénom: user.prénom || '',
+      nom: user.nom || '',
+      telephone: user.telephone || '',
+      genre: user.genre || '',
+      photoURL: user.photoURL || '',
+      createdAt: user.createdAt || new Date().toISOString(),
+      role: user.role || 'user'
     };
-    console.log('Registering user with data:', userData); // Pour débogage
+    
+    console.log('Registering user with data:', userData);
     return await setDoc(userRef, userData, { merge: true });
-  }
+  } 
+
 
 }
