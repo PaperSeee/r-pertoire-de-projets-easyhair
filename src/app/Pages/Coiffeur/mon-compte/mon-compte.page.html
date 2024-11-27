@@ -1,17 +1,34 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Mon Compte</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <div class="ion-text-center ion-padding">
+    <h1>Mon compte</h1>
+  </div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Mon compte</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <a href="#" class="clickable-item">
+    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    <span>Booster mon profil</span>
+  </a>
 
-
+  <h2 class="ion-padding">Informations de rendez-vous</h2>
+  <div class="clickable-items">
+    <a href="#" class="clickable-item">
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <span>Mes communes</span>
+      <ion-note slot="end">Etterbeek, Bruxelles, ...</ion-note>
+    </a>
+    <a href="#" class="clickable-item">
+      <ion-icon name="time-outline" slot="start"></ion-icon>
+      <span>Mes horaires</span>
+      <ion-note slot="end">9h00-18h00, toutes les heures</ion-note>
+    </a>
+    <a href="#" class="clickable-item">
+      <ion-icon name="cut-outline" slot="start"></ion-icon>
+      <span>Mes coupes</span>
+    </a>
+    <a href="#" class="clickable-item">
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <span>Mon profil coiffeur</span>
+    </a>
+  </div>
 
   <h2 class="ion-padding">Général</h2>
   <div class="clickable-items">
