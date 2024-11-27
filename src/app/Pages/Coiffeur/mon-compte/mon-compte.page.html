@@ -1,13 +1,37 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>MonCompte</ion-title>
+    <ion-title>Mon Compte</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">MonCompte</ion-title>
+      <ion-title size="large">Mon compte</ion-title>
     </ion-toolbar>
   </ion-header>
+
+
+
+  <h2 class="ion-padding">Général</h2>
+  <div class="clickable-items">
+    <a href="#" class="clickable-item">
+      <ion-icon name="person-outline" slot="start"></ion-icon>
+      <span>Mon compte</span>
+    </a>
+    <a href="#" class="clickable-item">
+      <ion-icon name="git-commit-outline" slot="start"></ion-icon>
+      <span>Historique des rendez-vous</span>
+    </a>
+  </div>
+
+  <h2 class="ion-padding">Plus</h2>
+  <div class="clickable-items">
+    <a routerLink="/contact" class="clickable-item">
+      <ion-icon name="mail-outline" slot="start"></ion-icon>
+      <span>Nous contacter</span>
+    </a>
+  </div>
+
+  <ion-button (click)="logout()" routerLink="/connexion" class="ion-text-white" expand="block">Se déconnecter</ion-button>
 </ion-content>

@@ -12,4 +12,9 @@ export class MonComptePage implements OnInit {
   ngOnInit() {
   }
 
+  logout() {
+    // Add your logout logic here
+    console.log('User logged out');
+  }
+
 }
