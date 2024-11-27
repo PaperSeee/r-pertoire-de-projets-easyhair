@@ -26,6 +26,18 @@ const routes: Routes = [
     path: 'contact',
     loadChildren: () => import('./Pages/Client/Contact/contact.module').then(m => m.ContactPageModule)
   },
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./Pages/Coiffeur/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+  },
+  {
+    path: 'agenda',
+    loadChildren: () => import('./Pages/Coiffeur/agenda/agenda.module').then( m => m.AgendaPageModule)
+  },
+  {
+    path: 'mon-compte',
+    loadChildren: () => import('./Pages/Coiffeur/mon-compte/mon-compte.module').then( m => m.MonComptePageModule)
+  },
 ];
 
 @NgModule({
