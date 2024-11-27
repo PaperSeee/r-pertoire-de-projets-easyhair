@@ -131,22 +131,24 @@ export class InscriptionPage implements OnInit {
       // Vérifier si l'utilisateur existe déjà dans Firestore
       const userExists = await this.authService.userExists(userCredential.user.uid);
   
-      // Préparer les données utilisateur
-      const userData = {
-        uid: userCredential.user.uid,
-        email: userCredential.user.email,
-        prénom: googleUser.givenName || '',
-        nom: googleUser.familyName || '',
-        telephone: '',
-        genre: '',
-        photoURL: userCredential.user.photoURL || '',
-        createdAt: userExists ? undefined : new Date().toISOString(), // N'ajouter cette date que pour un nouvel utilisateur
-        role: 'user',
-        emailVerified: userCredential.user.emailVerified
-      };
+      if (!userExists) {
+        // Préparer les données utilisateur uniquement si c'est un nouvel utilisateur
+        const userData = {
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          prénom: googleUser.givenName || '',
+          nom: googleUser.familyName || '',
+          telephone: '',
+          genre: '',
+          photoURL: userCredential.user.photoURL || '',
+          createdAt: new Date().toISOString(),
+          role: 'user',
+          emailVerified: userCredential.user.emailVerified
+        };
   
-      // Enregistrer ou mettre à jour les données utilisateur dans Firestore
-      await this.authService.registerUserWithGoogle(userData);
+        // Enregistrer dans Firestore uniquement pour un nouvel utilisateur
+        await this.authService.registerUserWithGoogle(userData);
+      }
   
       await loading.dismiss();
       this.router.navigate(['/tabs/accueil']);
@@ -156,6 +158,7 @@ export class InscriptionPage implements OnInit {
       this.presentToast('Erreur lors de l\'inscription avec Google');
     }
   }
+  
   
 }
 

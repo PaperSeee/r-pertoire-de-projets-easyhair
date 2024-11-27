@@ -71,29 +71,25 @@ export class AuthentificationService {
   async registerUserWithGoogle(user: any) {
     const userRef = doc(this.firestore, `users/${user.uid}`);
   
-    // Récupérer les données existantes si elles existent
-    const existingUserDoc = await getDoc(userRef);
-    const existingData = existingUserDoc.exists() ? existingUserDoc.data() : {};
-  
-    // Préparer les nouvelles données à enregistrer
+    // Préparer les données utilisateur pour un nouvel enregistrement
     const userData = {
       uid: user.uid,
       email: user.email,
-      prénom: user.prénom || existingData['prénom'] || '',
-      nom: user.nom || existingData['nom'] || '',
-      telephone: user.telephone || existingData['telephone'] || '',
-      genre: user.genre || existingData['genre'] || '',
-      photoURL: user.photoURL || existingData['photoURL'] || '',
-      createdAt: existingData['createdAt'] || user.createdAt || new Date().toISOString(),
-      role: existingData['role'] || user.role || 'user',
-      emailVerified: user.emailVerified
+      prénom: user.prénom || '',
+      nom: user.nom || '',
+      telephone: user.telephone || '',
+      genre: user.genre || '',
+      photoURL: user.photoURL || '',
+      createdAt: user.createdAt || new Date().toISOString(),
+      role: user.role || 'user'
     };
   
-    console.log('Registering or updating user with data:', userData);
+    console.log('Registering new user with data:', userData);
   
-    // Enregistrer ou mettre à jour le document avec fusion
-    return await setDoc(userRef, userData, { merge: true });
+    // Enregistrer uniquement si c'est un nouvel utilisateur
+    return await setDoc(userRef, userData);
   }
+  
   
 
   async userExists(uid: string): Promise<boolean> {
