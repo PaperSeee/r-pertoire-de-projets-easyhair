@@ -4,10 +4,62 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Agenda</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="ion-text-center ion-padding">
+    <h1>Réserver un rendez-vous</h1>
+  </div>
+
+  <!-- Calendrier Google intégré -->
+  <div class="calendar-container">
+    <ng-container *ngIf="availableSlots.length > 0; else noSlots">
+      <div class="available-slots">
+        <div *ngFor="let slot of availableSlots" class="slot-item" 
+             [class.selected]="selectedSlot === slot"
+             (click)="selectSlot(slot)">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>{{ slot.date | date:'dd/MM/yyyy' }} - {{ slot.time }}</span>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noSlots>
+      <div class="no-slots-message">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <p>Aucun créneau disponible actuellement</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+    <div class="booking-selectors ion-padding">
+      <ion-item>
+        <ion-label>Date</ion-label>
+        <ion-datetime 
+          formControlName="selectedDate"
+          presentation="date"
+          [min]="minDate"
+          [max]="maxDate"
+          (ionChange)="onDateSelected($event)">
+        </ion-datetime>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Heure</ion-label>
+        <ion-select 
+          formControlName="selectedTime"
+          placeholder="Sélectionnez un horaire">
+          <ion-select-option 
+            *ngFor="let time of availableTimes" 
+            [value]="time">
+            {{ time }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+    <div class="ion-text-center ion-padding">
+      <ion-button class="black-button" type="submit" [disabled]="!bookingForm.valid">
+        Confirmer ma réservation
+      </ion-button>
+    </div>
+  </form>
 </ion-content>
