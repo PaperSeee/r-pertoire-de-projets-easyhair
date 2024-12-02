@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, isPlatform, ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 // Import Firebase Modular SDK
 import { initializeApp } from 'firebase/app';
@@ -28,7 +29,8 @@ export class ConnexionPage implements OnInit {
     public formBuilder: FormBuilder,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public authService: AuthentificationService
+    public authService: AuthentificationService,
+    private firestore: AngularFirestore
   ) {
     if (!isPlatform('capacitor')) {
       GoogleAuth.initialize();
@@ -65,9 +67,37 @@ export class ConnexionPage implements OnInit {
 
     if (this.loginForm?.valid) {
       try {
-        const user = await this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password);
+        const user = await this.authService.loginUser(
+          this.loginForm.value.email, 
+          this.loginForm.value.password
+        );
+        
         if (user) {
-          this.router.navigate(['/tabs/accueil']);
+          // Vérifier d'abord dans la collection users
+          const userDoc = await this.firestore
+            .collection('users')
+            .doc(user.user.uid)
+            .get()
+            .toPromise();
+
+          if (userDoc?.exists) {
+            // C'est un utilisateur normal
+            this.router.navigate(['/tabs/accueil']);
+          } else {
+            // Vérifier dans la collection coiffeurs
+            const coiffeurDoc = await this.firestore
+              .collection('Coiffeurs')
+              .doc(user.user.uid)
+              .get()
+              .toPromise();
+
+            if (coiffeurDoc?.exists) {
+              // C'est un professionnel
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.showErrorToast('Utilisateur non trouvé dans la base de données');
+            }
+          }
         } else {
           this.showErrorToast('Adresse email ou mot de passe incorrect');
         }
