@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar class="headerchiant">
-    <ion-title>Bienvenue, $name</ion-title>
+    <img src="../../../../assets/icon/logo+txt.png" alt="logo easyhair" class="logo" slot="start">
+    <ion-icon name="search" slot="end" style="margin-right: 16px;"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +13,7 @@
     <ion-chip [outline]="true">Barbers</ion-chip>
     <ion-chip [outline]="true">Coupe homme</ion-chip>
     <ion-chip [outline]="true">Coupe femme</ion-chip>
-    <ion-chip [outline]="true"><ion-icon name="filter-circle-outline" slot="start" ></ion-icon> Filtrer</ion-chip>
+    <ion-chip [outline]="true"><ion-icon name="filter-circle-outline"></ion-icon></ion-chip>
   </div>
 
   <ion-card *ngFor="let barber of barbers">

@@ -38,6 +38,14 @@ const routes: Routes = [
     path: 'mon-compte',
     loadChildren: () => import('./Pages/Coiffeur/mon-compte/mon-compte.module').then( m => m.MonComptePageModule)
   },
+  {
+    path: 'mes-informations',
+    loadChildren: () => import('./Pages/Client/mes-informations/mes-informations.module').then( m => m.MesInformationsPageModule)
+  },
+  {
+    path: 'inscription-professionnels',
+    loadChildren: () => import('./Pages/inscription-professionnels/inscription-professionnels.module').then( m => m.InscriptionProfessionnelsPageModule)
+  },
 ];
 
 @NgModule({

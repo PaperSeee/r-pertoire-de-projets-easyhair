@@ -64,9 +64,24 @@
     font-size: 16px;
     font-weight: 600;
     color: #ffffff;
-    --background: linear-gradient(to bottom, #3F3F3F, #2A2626);
+    --background: linear-gradient(to bottom, #555555, #2A2626);
     border: none;
     outline: none;
     cursor: pointer;
     transition: --background 0.3s ease;
+}
+
+.grey-background {
+    color: #ffffff;
+    --background: linear-gradient(to bottom, #555555, #2A2626);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: --background 0.3s ease;
+}
+
+a {
+    text-decoration: none;
+    font-weight: 500;
+    color: #1543A7;
 }

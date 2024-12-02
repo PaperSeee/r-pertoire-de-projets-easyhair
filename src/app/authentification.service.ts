@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, Auth, User } from 'firebase/auth';
-import { getFirestore, doc, setDoc, Firestore } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, Firestore, getDoc } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,8 @@ export class AuthentificationService {
   private firebaseApp = initializeApp(environment.firebaseConfig);
   private auth: Auth = getAuth(this.firebaseApp);
   private firestore: Firestore = getFirestore(this.firebaseApp);
+
+  constructor(private router: Router) { }
 
   // Fonction d'inscription
   async registerUser(email: string, password: string, prénom: string, nom: string, genre: string, telephone: string) {
@@ -59,17 +62,77 @@ export class AuthentificationService {
     return this.auth.currentUser;
   }
 
+  isAuthenticated(): boolean {
+    return !!this.auth.currentUser;
+  }
+
   // Enregistrer un utilisateur avec Google
+
   async registerUserWithGoogle(user: any) {
     const userRef = doc(this.firestore, `users/${user.uid}`);
+  
+    // Préparer les données utilisateur pour un nouvel enregistrement
     const userData = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
-      emailVerified: user.emailVerified,
+      prénom: user.prénom || '',
+      nom: user.nom || '',
+      telephone: user.telephone || '',
+      genre: user.genre || '',
+      photoURL: user.photoURL || '',
+      createdAt: user.createdAt || new Date().toISOString(),
+      role: user.role || 'user'
     };
-    console.log('Registering user with data:', userData); // Pour débogage
-    return await setDoc(userRef, userData, { merge: true });
+  
+    console.log('Registering new user with data:', userData);
+  
+    // Enregistrer uniquement si c'est un nouvel utilisateur
+    return await setDoc(userRef, userData);
   }
+  
+  
+
+  async userExists(uid: string): Promise<boolean> {
+    const userDoc = await getDoc(doc(this.firestore, 'users', uid));
+    return userDoc.exists();
+  }  
+
+  // inscription d'un professionnel
+  
+  async registerProfessional(email: string, password: string, userData: any) {
+    try {
+      // 1. Créer l'utilisateur dans Authentication
+      const userCredential = await createUserWithEmailAndPassword(
+        this.auth, 
+        email, 
+        password
+      );
+
+      // 2. Créer le document dans la collection Coiffeurs
+      const coiffeurRef = doc(this.firestore, 'Coiffeurs', userCredential.user.uid);
+      
+      // 3. Ajouter toutes les données + quelques champs supplémentaires
+      await setDoc(coiffeurRef, {
+        ...userData,
+        uid: userCredential.user.uid,
+        email: email, // S'assurer que l'email est bien inclus
+        createdAt: new Date().toISOString(),
+        status: 'active'
+      });
+
+      return userCredential.user;
+    } catch (error) {
+      console.error("Erreur d'enregistrement:", error);
+      throw error;
+    }
+  }
+
 }
+
+
+
+
+
+
+
+

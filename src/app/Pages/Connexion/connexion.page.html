@@ -14,7 +14,7 @@
 
   <div class="loginform">
     <!-- Bouton Google -->
-    <ion-button expand="block" fill="outline" shape="default" class="butbut" (click)="signInWithGoogle()">
+    <ion-button expand="block" fill="outline" shape="default" (click)="signUpWithGoogle()">
       <ion-icon slot="start" name="logo-google" style="padding-right: 8px;"></ion-icon>
       <ion-text>Continuer avec Google</ion-text>
     </ion-button>
@@ -32,12 +32,13 @@
       
       <ion-input placeholder="Entrez votre email" label="Email" labelPlacement="stacked" type="email" formControlName="email" fill="outline"></ion-input>
       <ion-input placeholder="Entrez votre mot de passe" label="Mot de passe" labelPlacement="stacked" formControlName="password" type="password" fill="outline"></ion-input>
-
-      <ion-button (click)="login()" expand="block" class="login-button" style="margin-top: 15px;" class="butbut">Se connecter</ion-button>
-
-      <div class="texty">
+      
+      <div class="texty2">
         <a routerLink="/reset-password">Mot de passe oublié ?</a>
       </div>
+
+      <ion-button (click)="login()" expand="block" class="black-button" style="margin-top: 15px;">Se connecter</ion-button>
+
     </form>
   </div>
 

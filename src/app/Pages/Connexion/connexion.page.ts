@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoadingController, isPlatform, ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 // Import Firebase Modular SDK
 import { initializeApp } from 'firebase/app';
@@ -28,7 +29,8 @@ export class ConnexionPage implements OnInit {
     public formBuilder: FormBuilder,
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
-    public authService: AuthentificationService
+    public authService: AuthentificationService,
+    private firestore: AngularFirestore
   ) {
     if (!isPlatform('capacitor')) {
       GoogleAuth.initialize();
@@ -65,9 +67,37 @@ export class ConnexionPage implements OnInit {
 
     if (this.loginForm?.valid) {
       try {
-        const user = await this.authService.loginUser(this.loginForm.value.email, this.loginForm.value.password);
+        const user = await this.authService.loginUser(
+          this.loginForm.value.email, 
+          this.loginForm.value.password
+        );
+        
         if (user) {
-          this.router.navigate(['/tabs/accueil']);
+          // Vérifier d'abord dans la collection users
+          const userDoc = await this.firestore
+            .collection('users')
+            .doc(user.user.uid)
+            .get()
+            .toPromise();
+
+          if (userDoc?.exists) {
+            // C'est un utilisateur normal
+            this.router.navigate(['/tabs/accueil']);
+          } else {
+            // Vérifier dans la collection coiffeurs
+            const coiffeurDoc = await this.firestore
+              .collection('Coiffeurs')
+              .doc(user.user.uid)
+              .get()
+              .toPromise();
+
+            if (coiffeurDoc?.exists) {
+              // C'est un professionnel
+              this.router.navigate(['/dashboard']);
+            } else {
+              this.showErrorToast('Utilisateur non trouvé dans la base de données');
+            }
+          }
         } else {
           this.showErrorToast('Adresse email ou mot de passe incorrect');
         }
@@ -82,6 +112,7 @@ export class ConnexionPage implements OnInit {
       this.showErrorToast('Formulaire invalide');
     }
   }
+  
 
   async showErrorToast(message: string) {
     const toast = await this.toastCtrl.create({
@@ -93,25 +124,62 @@ export class ConnexionPage implements OnInit {
     toast.present();
   }
 
-  async signInWithGoogle() {
+  async presentToast(message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 2000,
+      color: 'danger'
+    });
+    toast.present();
+  }
+
+
+  async signUpWithGoogle() {
+    const loading = await this.loadingCtrl.create();
+    await loading.present();
+  
     try {
       const googleUser = await GoogleAuth.signIn();
-      console.log('user :', googleUser);
-
-      // Vérifiez que toutes les propriétés nécessaires sont présentes
+      console.log('Google user:', googleUser);
+  
       if (!googleUser.authentication.idToken) {
         throw new Error('Informations utilisateur manquantes');
       }
-
-      // Enregistrer l'utilisateur dans Firebase Authentication
+  
+      // Créer les credentials Firebase
       const credential = GoogleAuthProvider.credential(googleUser.authentication.idToken);
       const userCredential = await signInWithCredential(this.auth, credential);
-
-      console.log('userCredential :', userCredential);
-
+  
+      // Vérifier si l'utilisateur existe déjà dans Firestore
+      const userExists = await this.authService.userExists(userCredential.user.uid);
+  
+      if (!userExists) {
+        // Préparer les données utilisateur uniquement si c'est un nouvel utilisateur
+        const userData = {
+          uid: userCredential.user.uid,
+          email: userCredential.user.email,
+          prénom: googleUser.givenName || '',
+          nom: googleUser.familyName || '',
+          telephone: '',
+          genre: '',
+          photoURL: userCredential.user.photoURL || '',
+          createdAt: new Date().toISOString(),
+          role: 'user',
+          emailVerified: userCredential.user.emailVerified
+        };
+  
+        // Enregistrer dans Firestore uniquement pour un nouvel utilisateur
+        await this.authService.registerUserWithGoogle(userData);
+      }
+  
+      await loading.dismiss();
       this.router.navigate(['/tabs/accueil']);
     } catch (error) {
-      console.log('Google sign-in error:', error);
+      await loading.dismiss();
+      console.error('Google sign-up error:', error);
+      this.presentToast('Erreur lors de l\'inscription avec Google');
     }
   }
+
 }
+

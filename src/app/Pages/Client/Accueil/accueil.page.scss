@@ -3,9 +3,14 @@ ion-content {
   --background: #F1F1F1;
 }
 
+.logo {
+  height: 24px;
+  margin-left: 16px;
+}
+
 .search{
-  --border-radius: 30px;
-  margin: 0px;
+--border-radius: 8px;
+  margin-bottom: 12px;
   padding: 0px;
 }
 
@@ -13,6 +18,13 @@ ion-content {
   display: flex;
   justify-content: space-between;
   padding: 0px;
+
+  ion-chip{
+    padding-right: 10px;
+    font-size: 12px;
+    text-align: center;
+    padding-inline-start: 10px;
+   }
 }
 
 // Style de base pour la card
