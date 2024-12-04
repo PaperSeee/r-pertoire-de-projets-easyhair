@@ -21,6 +21,7 @@ export class AccueilPage implements OnInit {
     // Simuler le chargement de 10 coiffeurs à la fois
     for (let i = 0; i < 10; i++) {
       this.barbers.push({
+        id: this.barbers.length + 1,
         name: 'Hairmomo ' + (this.barbers.length + 1),
         type: 'Barber professionel',
         price: '20€-30€',
@@ -38,11 +39,5 @@ export class AccueilPage implements OnInit {
   loadMore(event) {
     this.currentPage++;
     this.loadBarbers(event);
-  }
-
-  goToBarberDetails(barber) {
-    this.router.navigate(['/detail-barber'], {
-      state: { data: barber }
-    });
   }
 }

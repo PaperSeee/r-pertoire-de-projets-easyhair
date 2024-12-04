@@ -16,7 +16,7 @@
     <ion-chip [outline]="true">↑↓</ion-chip>
   </div>
 
-  <ion-card *ngFor="let barber of barbers" (click)="goToBarberDetails(barber)">
+  <ion-card *ngFor="let barber of barbers" [routerLink]="['/detail-barber']" [state]="{ data: barber }">
     <div class="cuts" style="display: inline;">
       <img class="barbercuts" alt="coupe" [src]="barber.image" />
     </div>  x 
