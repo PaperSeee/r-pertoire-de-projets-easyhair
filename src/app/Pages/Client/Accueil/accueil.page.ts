@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-accueil',
-  templateUrl: 'accueil.page.html',
-  styleUrls: ['accueil.page.scss']
+  templateUrl: './accueil.page.html',
+  styleUrls: ['./accueil.page.scss']
 })
-export class AccueilPage {
+export class AccueilPage implements OnInit {
   barbers = [];
   currentPage = 1;
 
-  constructor() {
+  constructor(private router: Router) { }
+
+  ngOnInit() {
     // Charger les données initiales
     this.loadBarbers();
   }
@@ -35,5 +38,11 @@ export class AccueilPage {
   loadMore(event) {
     this.currentPage++;
     this.loadBarbers(event);
+  }
+
+  goToBarberDetails(barber) {
+    this.router.navigate(['/detail-barber'], {
+      state: { data: barber }
+    });
   }
 }

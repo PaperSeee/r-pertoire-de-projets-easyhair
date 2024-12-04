@@ -46,6 +46,11 @@ const routes: Routes = [
     path: 'inscription-professionnels',
     loadChildren: () => import('./Pages/inscription-professionnels/inscription-professionnels.module').then( m => m.InscriptionProfessionnelsPageModule)
   },
+  {
+    path: 'detail-barber',
+    loadChildren: () => import('./Pages/Client/detail-barber/detail-barber.module').then( m => m.DetailBarberPageModule)
+  },
+
 ];
 
 @NgModule({
