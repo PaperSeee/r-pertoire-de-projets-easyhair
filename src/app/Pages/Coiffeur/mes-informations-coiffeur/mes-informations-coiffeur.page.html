@@ -1,19 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="chevron-back" slot="start" style="margin-left: 12px;" routerLink="/tabs/profil"></ion-icon>
+    <ion-icon name="chevron-back" slot="start" style="margin-left: 12px;" routerLink="/coiffeur-tabs/mon-compte"></ion-icon>
     <ion-title>Mes informations</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <form [formGroup]="userForm" *ngIf="userForm">
+
+  <form [formGroup]="userForm">
+
+    <!-- Id coiffeur -->
+    <ion-input 
+      label="Nom du salon/entreprise"
+      labelPlacement="stacked" 
+      formControlName="nomCoiffeur"
+      fill="outline"
+      class="top-input">
+    </ion-input>
+
     <!-- Prénom -->
     <ion-input 
       label="Prénom" 
       labelPlacement="stacked" 
       formControlName="prénom" 
-      fill="outline"
-      class="top-input">
+      fill="outline">
     </ion-input>
 
     <!-- Nom -->
@@ -58,4 +68,5 @@
       Mettre à jour
     </ion-button>
   </form>
+
 </ion-content>

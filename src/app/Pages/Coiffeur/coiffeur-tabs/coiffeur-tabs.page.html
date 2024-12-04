@@ -1,0 +1,32 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+
+    <!-- Dashboard -->
+    <ion-tab-button tab="dashboard" (click)="selectTab('dashboard')">
+      <ion-icon
+        [name]="selectedTab === 'dashboard' ? 'grid' : 'grid-outline'"
+        aria-hidden="true"
+      ></ion-icon>
+      <ion-label>Dashboard</ion-label>
+    </ion-tab-button>
+
+    <!-- Agenda -->
+    <ion-tab-button tab="agenda" (click)="selectTab('agenda')">
+      <ion-icon
+        [name]="selectedTab === 'agenda' ? 'calendar' : 'calendar-outline'"
+        aria-hidden="true"
+      ></ion-icon>
+      <ion-label>Agenda</ion-label>
+    </ion-tab-button>
+
+    <!-- Compte -->
+    <ion-tab-button tab="mon-compte" (click)="selectTab('mon-compte')">
+      <ion-icon
+        [name]="selectedTab === 'mon-compte' ? 'person' : 'person-outline'"
+        aria-hidden="true"
+      ></ion-icon>
+      <ion-label>Compte</ion-label>
+    </ion-tab-button>
+    
+  </ion-tab-bar>
+</ion-tabs>

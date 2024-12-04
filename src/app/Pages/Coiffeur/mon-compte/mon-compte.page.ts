@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthentificationService } from 'src/app/authentification.service';
 
 @Component({
   selector: 'app-mon-compte',
@@ -7,14 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MonComptePage implements OnInit {
 
-  constructor() { }
+  constructor(
+    public authService: AuthentificationService, 
+    public router: Router
+  ) { }
 
   ngOnInit() {
   }
 
-  logout() {
-    // Add your logout logic here
-    console.log('User logged out');
+  async logout() {
+    this.authService.signOut().then(() => {
+      this.router.navigate(['/connexion']);
+    }).catch((error) => {
+      console.log(error);
+    });
   }
 
 }

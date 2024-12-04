@@ -47,10 +47,17 @@ const routes: Routes = [
     loadChildren: () => import('./Pages/inscription-professionnels/inscription-professionnels.module').then( m => m.InscriptionProfessionnelsPageModule)
   },
   {
+    path: 'coiffeur-tabs',
+    loadChildren: () => import('./Pages/Coiffeur/coiffeur-tabs/coiffeur-tabs.module').then( m => m.CoiffeurTabsPageModule)
+  },
+  {
+    path: 'mes-informations-coiffeur',
+    loadChildren: () => import('./Pages/Coiffeur/mes-informations-coiffeur/mes-informations-coiffeur.module').then( m => m.MesInformationsCoiffeurPageModule)
+  },
+  {
     path: 'detail-barber',
     loadChildren: () => import('./Pages/Client/detail-barber/detail-barber.module').then( m => m.DetailBarberPageModule)
   },
-
 ];
 
 @NgModule({

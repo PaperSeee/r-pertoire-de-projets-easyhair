@@ -1,16 +1,29 @@
-<form (ngSubmit)="submitForm()">
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="chevron-back" slot="start" style="margin-left: 12px;" routerLink="/coiffeur-tabs/mon-compte"></ion-icon>
+    <ion-title>Nous contacter</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <form (ngSubmit)="submitForm()">
+
     <div class="form-group">
       <label for="prenom">Prénom</label>
       <input type="text" class="form-control" id="prenom" placeholder="Entrez votre prénom" [(ngModel)]="prenom" name="prenom">
     </div>
+
     <div class="form-group">
       <label for="nom">Nom</label>
       <input type="text" class="form-control" id="nom" placeholder="Entrez votre nom" [(ngModel)]="nom" name="nom">
     </div>
+
     <div class="form-group">
       <label for="email">E-mail</label>
       <input type="email" class="form-control" id="email" placeholder="Entrez votre e-mail" [(ngModel)]="email" name="email">
     </div>
+
     <div class="form-group">
       <label for="type-probleme">Type de problème</label>
       <select class="form-control" id="type-probleme" [(ngModel)]="typeProbleme" name="typeProbleme">
@@ -20,13 +33,17 @@
         <option>Problème avec un utilisateur</option>
       </select>
     </div>
+
     <div class="form-group">
       <label for="adresse-intervention">Adresse d'utilisateur</label>
       <textarea class="form-control" id="adresse-intervention" rows="3" placeholder="Entrez l'adresse d'intervention" [(ngModel)]="adresseIntervention" name="adresseIntervention"></textarea>
     </div>
+
     <div class="form-group">
       <label for="probleme">Décrivez votre problème...</label>
       <textarea class="form-control" id="probleme" rows="5" placeholder="Décrivez votre problème en détail" [(ngModel)]="message" name="message"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Envoyer</button>
+
+    <ion-button type="submit" class="black-button">Envoyer</ion-button>
   </form>
+</ion-content>
