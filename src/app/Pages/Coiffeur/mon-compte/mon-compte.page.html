@@ -1,45 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mon compte</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content class="ion-padding">
-  <div class="ion-text-center ion-padding">
-    <h1>Mon compte</h1>
-  </div>
 
-  <ion-button class="gold-button" expand="block" routerLink="">Booster mon profil</ion-button>
-
-  <h2 class="ion-padding">Informations de rendez-vous</h2>
+  <ion-button class="gold-button" expand="block" routerLink="/coiffeur-tabs/mon-compte">
+    <ion-icon name="trending-up-outline" slot="start"></ion-icon>
+    Booster mon profil
+  </ion-button>
+  
+  <h2 id="haut" >Informations de rendez-vous</h2>
   <div class="clickable-items">
-    <a href="#" class="clickable-item">
+    <a class="clickable-item">
       <ion-icon name="location-outline" slot="start"></ion-icon>
       <span>Mes communes</span>
       <ion-note slot="end">Etterbeek, Bruxelles, ...</ion-note>
     </a>
-    <a href="#" class="clickable-item">
+    <a class="clickable-item">
       <ion-icon name="time-outline" slot="start"></ion-icon>
       <span>Mes horaires</span>
       <ion-note slot="end">9h00-18h00, toutes les heures</ion-note>
     </a>
-    <a href="#" class="clickable-item">
+    <a class="clickable-item">
       <ion-icon name="cut-outline" slot="start"></ion-icon>
       <span>Mes coupes</span>
     </a>
-    <a href="#" class="clickable-item">
+    <a class="clickable-item">
       <ion-icon name="person-outline" slot="start"></ion-icon>
       <span>Mon profil coiffeur</span>
     </a>
   </div>
 
-  <h2 class="ion-padding">Général</h2>
+  <h2>Général</h2>
   <div class="clickable-items">
-    <a href="#" class="clickable-item">
+    <a class="clickable-item">
       <ion-icon name="person-outline" slot="start"></ion-icon>
       <span>Mon compte</span>
     </a>
-    <a href="#" class="clickable-item">
+    <a class="clickable-item">
       <ion-icon name="git-commit-outline" slot="start"></ion-icon>
       <span>Historique des rendez-vous</span>
     </a>
   </div>
 
-  <h2 class="ion-padding">Plus</h2>
+  <h2>Plus</h2>
   <div class="clickable-items">
     <a routerLink="/contact" class="clickable-item">
       <ion-icon name="mail-outline" slot="start"></ion-icon>
@@ -47,5 +53,5 @@
     </a>
   </div>
 
-  <ion-button (click)="logout()" routerLink="/connexion" class="ion-text-white" expand="block">Se déconnecter</ion-button>
+  <ion-button (click)="logout()" routerLink="/connexion" class="black-button" expand="block">Se déconnecter</ion-button>
 </ion-content>

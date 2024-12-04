@@ -93,7 +93,7 @@ export class ConnexionPage implements OnInit {
 
             if (coiffeurDoc?.exists) {
               // C'est un professionnel
-              this.router.navigate(['/dashboard']);
+              this.router.navigate(['/coiffeur-tabs/dashboard']); // Au lieu de '/coiffeur-tabs/dashboard'
             } else {
               this.showErrorToast('Utilisateur non trouvé dans la base de données');
             }
