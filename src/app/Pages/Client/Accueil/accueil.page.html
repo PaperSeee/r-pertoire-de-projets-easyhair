@@ -16,10 +16,10 @@
     <ion-chip [outline]="true">↑↓</ion-chip>
   </div>
 
-  <ion-card *ngFor="let barber of barbers">
+  <ion-card *ngFor="let barber of barbers" (click)="goToBarberDetails(barber)">
     <div class="cuts" style="display: inline;">
       <img class="barbercuts" alt="coupe" [src]="barber.image" />
-    </div>
+    </div>  x 
 
     <ion-card-content> 
       <img class="barberprofilepicture" alt="profil" [src]="barber.profile"/>

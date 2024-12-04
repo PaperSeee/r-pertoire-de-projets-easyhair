@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import GoogleCalendarService from '../../../services/google-calendar.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agenda',
@@ -20,7 +21,8 @@ export class AgendaPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private googleCalendarService: GoogleCalendarService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private router: Router
   ) {
     this.bookingForm = this.fb.group({
       selectedDate: ['', Validators.required],
@@ -67,9 +69,18 @@ export class AgendaPage implements OnInit {
           },
           {
             text: 'Confirmer',
-            handler: () => {
+            handler: async () => {
               console.log('Booking confirmed:', this.bookingForm.value);
-              // Implement your booking logic here
+              const confirmationAlert = await this.alertController.create({
+                header: 'Réservation Confirmée',
+                message: 'Votre rendez-vous est bien confirmé',
+                buttons: ['OK']
+              });
+
+              await confirmationAlert.present();
+              confirmationAlert.onDidDismiss().then(() => {
+                this.router.navigate(['/detail-barber']);
+              });
             }
           }
         ]
