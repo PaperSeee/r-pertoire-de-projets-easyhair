@@ -1,0 +1,97 @@
+/* Styles similaires à l'image partagée */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 375px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #2c3e50;
+    color: white;
+    padding: 10px;
+}
+.header h1 {
+    font-size: 18px;
+    margin: 0;
+}
+.header a {
+    color: white;
+    text-decoration: none;
+}
+.barber-info {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 20px;
+    padding: 20px;
+}
+.barber-image {
+    position: relative;
+    width: 100%;
+    height: 260px;
+}
+.barbercuts {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.barberprofilepicture {
+    position: absolute;
+    bottom: -30px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+.barber-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+.service-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.cta-button {
+    display: block;
+    width: 100%;
+    background-color: #e74c3c;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 12px 0;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.favorite-button {
+    display: block;
+    width: 100%;
+    background-color: #f1c40f;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 12px 0;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.reviews {
+    margin-top: 20px;
+}
+.review-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.review-item p {
+    margin: 5px 0;
+}
