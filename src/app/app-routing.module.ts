@@ -49,6 +49,10 @@ const routes: Routes = [
   {
     path: 'coiffeur-tabs',
     loadChildren: () => import('./Pages/Coiffeur/coiffeur-tabs/coiffeur-tabs.module').then( m => m.CoiffeurTabsPageModule)
+  },
+  {
+    path: 'mes-informations-coiffeur',
+    loadChildren: () => import('./Pages/Coiffeur/mes-informations-coiffeur/mes-informations-coiffeur.module').then( m => m.MesInformationsCoiffeurPageModule)
   }
 ];
 
