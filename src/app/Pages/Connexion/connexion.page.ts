@@ -73,30 +73,19 @@ export class ConnexionPage implements OnInit {
         );
         
         if (user) {
-          // Vérifier d'abord dans la collection users
-          const userDoc = await this.firestore
-            .collection('users')
+          // Vérifier uniquement dans la collection coiffeurs
+          const coiffeurDoc = await this.firestore
+            .collection('Coiffeurs')
             .doc(user.user.uid)
             .get()
             .toPromise();
 
-          if (userDoc?.exists) {
+          if (coiffeurDoc?.exists) {
+            // C'est un professionnel
+            this.router.navigate(['/coiffeur-tabs/dashboard']);
+          } else {
             // C'est un utilisateur normal
             this.router.navigate(['/tabs/accueil']);
-          } else {
-            // Vérifier dans la collection coiffeurs
-            const coiffeurDoc = await this.firestore
-              .collection('Coiffeurs')
-              .doc(user.user.uid)
-              .get()
-              .toPromise();
-
-            if (coiffeurDoc?.exists) {
-              // C'est un professionnel
-              this.router.navigate(['/coiffeur-tabs/dashboard']); // Au lieu de '/coiffeur-tabs/dashboard'
-            } else {
-              this.showErrorToast('Utilisateur non trouvé dans la base de données');
-            }
           }
         } else {
           this.showErrorToast('Adresse email ou mot de passe incorrect');
