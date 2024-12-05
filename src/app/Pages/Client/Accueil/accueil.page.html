@@ -19,7 +19,7 @@
   <ion-card *ngFor="let barber of barbers" [routerLink]="['/detail-barber']" [state]="{ data: barber }">
     <div class="cuts" style="display: inline;">
       <img class="barbercuts" alt="coupe" [src]="barber.image" />
-    </div>  x 
+    </div>
 
     <ion-card-content> 
       <img class="barberprofilepicture" alt="profil" [src]="barber.profile"/>
