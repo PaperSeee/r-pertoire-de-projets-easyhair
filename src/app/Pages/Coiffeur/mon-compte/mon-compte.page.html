@@ -13,11 +13,22 @@
   
   <h2 id="haut" >Informations de rendez-vous</h2>
   <div class="clickable-items">
-    <a class="clickable-item">
-      <ion-icon name="location-outline" slot="start"></ion-icon>
-      <span>Mes communes</span>
-      <ion-note slot="end">Etterbeek, Bruxelles, ...</ion-note>
-    </a>
+    
+    <ion-select 
+        label="Mes communes"
+        labelPlacement="stacked"
+        placeholder="Sélectionnez vos communes"
+        fill="outline"
+        [multiple]="true"
+        [(ngModel)]="selectedCommunes"
+        (ionChange)="updateCommunes()"
+        id="selectcommunes"
+      >
+        <ion-select-option *ngFor="let commune of communes" [value]="commune">
+          {{commune}}
+        </ion-select-option>
+    </ion-select>
+
     <a class="clickable-item">
       <ion-icon name="time-outline" slot="start"></ion-icon>
       <span>Mes horaires</span>
