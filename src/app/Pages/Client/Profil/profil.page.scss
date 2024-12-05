@@ -4,6 +4,9 @@ ion-content {
 
 h2 {
   margin-bottom: 0px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
 }
 
 .clickable-items {
@@ -43,10 +46,4 @@ a.ion-text-white {
   border-radius: 10px;
   text-decoration: none;
   margin: 16px;
-}
-
-h2 {
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
 }
