@@ -58,6 +58,10 @@ const routes: Routes = [
     path: 'detail-barber',
     loadChildren: () => import('./Pages/Client/detail-barber/detail-barber.module').then( m => m.DetailBarberPageModule)
   },
+  {
+    path: 'mon-profil-coiffeur',
+    loadChildren: () => import('./Pages/Coiffeur/mon-profil-coiffeur/mon-profil-coiffeur.module').then( m => m.MonProfilCoiffeurPageModule)
+  },
 ];
 
 @NgModule({
