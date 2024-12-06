@@ -14,7 +14,10 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-card>
+  <ion-card
+    (click)="toggleCard('standard')"
+    [class.expanded]="expandedCards.standard"
+  >
     <ion-card-header>
       <ion-card-title>Forfait Standard</ion-card-title>
     </ion-card-header>
@@ -30,10 +33,16 @@
           <ion-label>Profil professionnel</ion-label>
         </ion-item>
       </ion-list>
+      <div class="expanded-content" *ngIf="expandedCards.standard">
+        <ion-button expand="block">Souscrire au forfait Standard</ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
 
-  <ion-card>
+  <ion-card
+    (click)="toggleCard('premium')"
+    [class.expanded]="expandedCards.premium"
+  >
     <ion-card-header>
       <ion-card-title>Forfait Premium</ion-card-title>
     </ion-card-header>
@@ -53,6 +62,11 @@
           <ion-label>Support prioritaire</ion-label>
         </ion-item>
       </ion-list>
+      <div class="expanded-content" *ngIf="expandedCards.premium">
+        <ion-button expand="block" color="primary"
+          >Souscrire au forfait Premium</ion-button
+        >
+      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>
