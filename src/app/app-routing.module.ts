@@ -59,6 +59,10 @@ const routes: Routes = [
     loadChildren: () => import('./Pages/Client/detail-barber/detail-barber.module').then( m => m.DetailBarberPageModule)
   },
   {
+    path: 'detail-barber/:id',
+    loadChildren: () => import('./Pages/Client/detail-barber/detail-barber.module').then(m => m.DetailBarberPageModule)
+  },
+  {
     path: 'mon-profil-coiffeur',
     loadChildren: () => import('./Pages/Coiffeur/mon-profil-coiffeur/mon-profil-coiffeur.module').then( m => m.MonProfilCoiffeurPageModule)
   },

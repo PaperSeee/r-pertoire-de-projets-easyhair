@@ -1,43 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { initializeApp } from 'firebase/app';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.page.html',
-  styleUrls: ['./accueil.page.scss']
+  styleUrls: ['./accueil.page.scss'],
 })
 export class AccueilPage implements OnInit {
-  barbers = [];
-  currentPage = 1;
+  coiffeurs: any[] = [];
+  private firebaseApp = initializeApp(environment.firebaseConfig);
+  private firestore = getFirestore(this.firebaseApp);
 
-  constructor(private router: Router) { }
+  constructor() {}
 
   ngOnInit() {
-    // Charger les données initiales
-    this.loadBarbers();
+    this.loadCoiffeurs();
   }
 
-  loadBarbers(event?) {
-    // Simuler le chargement de 10 coiffeurs à la fois
-    for (let i = 0; i < 10; i++) {
-      this.barbers.push({
-        id: this.barbers.length + 1,
-        name: 'Hairmomo ' + (this.barbers.length + 1),
-        type: 'Barber professionel',
-        price: '20€-30€',
-        rating: 4.5,
-        image: '../../../../assets/icon/image 4.png',
-        profile: '../../../../assets/icon/pp.png'
-      });
-    }
-
-    if (event) {
-      event.target.complete();
+  async loadCoiffeurs() {
+    try {
+      const querySnapshot = await getDocs(collection(this.firestore, 'Coiffeurs'));
+      this.coiffeurs = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Erreur lors du chargement des coiffeurs:', error);
     }
   }
 
-  loadMore(event) {
-    this.currentPage++;
-    this.loadBarbers(event);
+  // Helper pour extraire le prix des tarifs
+  getPrix(tarif: string): string {
+    const match = tarif.match(/\((.*?)\)/);
+    return match ? match[1] : '';
   }
 }

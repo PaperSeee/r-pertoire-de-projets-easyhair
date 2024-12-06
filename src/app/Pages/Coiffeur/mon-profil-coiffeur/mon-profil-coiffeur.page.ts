@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
-import { getStorage, ref, uploadString, getDownloadURL } from 'firebase/storage';
+import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from 'firebase/storage';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 import { UploadService } from 'src/app/services/upload.service';
@@ -18,6 +18,13 @@ export class MonProfilCoiffeurPage implements OnInit {
   nouveauTarif: string = '';
   private firestore = getFirestore();
   private storage = getStorage();
+
+  typeCoiffeur = [
+    "Barber",
+    "Coiffeur homme",
+    "Coiffeur femme"
+  ];
+  selectedTypes: string[] = [];
 
   constructor(
     private authService: AuthentificationService,
@@ -60,9 +67,26 @@ export class MonProfilCoiffeurPage implements OnInit {
     }
   }
 
+  private async loadTypes() {
+    try {
+      const user = await this.authService.getProfile();
+      if (user) {
+        const docRef = doc(this.firestore, 'Coiffeurs', user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          this.selectedTypes = docSnap.data()?.['typeCoiffeur'] || [];
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement des types:', error);
+      this.presentToast('Erreur lors du chargement des types');
+    }
+  }
+
   // Ajouter ionViewWillEnter pour recharger les données quand on revient sur la page
   async ionViewWillEnter() {
     await this.loadProfileData();
+    await this.loadTypes();
   }
 
   async ajouterPhoto(type: 'profile' | 'hairstyle') {
@@ -144,6 +168,67 @@ export class MonProfilCoiffeurPage implements OnInit {
     } catch (error) {
       console.error('Erreur:', error);
       this.presentToast('Erreur lors de la suppression du tarif');
+    }
+  }
+
+  async supprimerPhotoCoupe(index: number, photoUrl: string) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Suppression...'
+    });
+    await loading.present();
+
+    try {
+      const user = await this.authService.getProfile();
+      if (!user) throw new Error('Utilisateur non connecté');
+
+      // Debug logs
+      console.log('Original photoUrl:', photoUrl);
+      
+      // Decode the URL first to handle any URL encoding
+      const decodedUrl = decodeURIComponent(photoUrl);
+      console.log('Decoded URL:', decodedUrl);
+      
+      // Extract just the filename without the full path
+      const fileName = decodedUrl.split('/').pop()?.split('?')[0];
+      console.log('Extracted fileName:', fileName);
+      
+      // Build the clean storage path
+      const storagePath = `hairstyles/${user.uid}/${fileName}`;
+      console.log('Final storage path:', storagePath);
+      
+      // Create storage reference and delete
+      const photoRef = ref(this.storage, storagePath);
+      await deleteObject(photoRef);
+
+      // Update Firestore
+      const userRef = doc(this.firestore, 'Coiffeurs', user.uid);
+      this.photosCoupes.splice(index, 1);
+      await updateDoc(userRef, {
+        photosCoupes: this.photosCoupes
+      });
+
+      this.presentToast('Photo supprimée avec succès');
+    } catch (error) {
+      console.error('Erreur détaillée:', error);
+      this.presentToast('Erreur lors de la suppression de la photo');
+    } finally {
+      loading.dismiss();
+    }
+  }
+
+  async updateTypes() {
+    try {
+      const user = await this.authService.getProfile();
+      if (user) {
+        const userRef = doc(this.firestore, 'Coiffeurs', user.uid);
+        await updateDoc(userRef, {
+          typeCoiffeur: this.selectedTypes
+        });
+        this.presentToast('Types de coiffeur mis à jour avec succès');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour des types:', error);
+      this.presentToast('Erreur lors de la mise à jour des types');
     }
   }
 

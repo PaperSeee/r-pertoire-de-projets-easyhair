@@ -95,3 +95,33 @@ body {
 .review-item p {
     margin: 5px 0;
 }
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  padding: 0px 16px;
+  gap: 16px;
+}
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  ion-card-title {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  ion-card-subtitle {
+    margin: 0;
+    color: #666;
+  }
+}

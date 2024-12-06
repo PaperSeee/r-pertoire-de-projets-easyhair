@@ -37,7 +37,13 @@
       <ion-select-option *ngFor="let commune of communes" [value]="commune">{{commune}}</ion-select-option>
     </ion-select>
 
-    <ion-button (click)="signUp()" expand="block" class="black-button">S'inscrire</ion-button>
+    <ion-button 
+      (click)="signUp()" 
+      expand="block" 
+      class="black-button"
+      [disabled]="!regForm.valid">
+      S'inscrire
+    </ion-button>
   </form>
 
 </ion-content>
