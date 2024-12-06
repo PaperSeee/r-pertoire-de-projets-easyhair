@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { AgendaPageRoutingModule } from './agenda-routing.module';
 import { AgendaPage } from './agenda.page';
-import GoogleCalendarService from '../../../services/google-calendar.service';
+// import GoogleCalendarService from '../../../services/google-calendar.service';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import GoogleCalendarService from '../../../services/google-calendar.service';
     ReactiveFormsModule
   ],
   declarations: [AgendaPage],
-  providers: [GoogleCalendarService]
+  // providers: [GoogleCalendarService]
 })
 export class AgendaPageModule { }
