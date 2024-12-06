@@ -5,28 +5,26 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
-  <ion-button class="gold-button" expand="block" routerLink="/coiffeur-tabs/mon-compte">
+  <ion-button class="gold-button" expand="block" routerLink="/forfait">
     <ion-icon name="trending-up-outline" slot="start"></ion-icon>
     Booster mon profil
   </ion-button>
-  
-  <h2 id="haut" >Informations de rendez-vous</h2>
+
+  <h2 id="haut">Informations de rendez-vous</h2>
   <div class="clickable-items">
-    
-    <ion-select 
-        label="Mes communes"
-        labelPlacement="stacked"
-        placeholder="Sélectionnez vos communes"
-        fill="outline"
-        [multiple]="true"
-        [(ngModel)]="selectedCommunes"
-        (ionChange)="updateCommunes()"
-        id="selectcommunes"
-      >
-        <ion-select-option *ngFor="let commune of communes" [value]="commune">
-          {{commune}}
-        </ion-select-option>
+    <ion-select
+      label="Mes communes"
+      labelPlacement="stacked"
+      placeholder="Sélectionnez vos communes"
+      fill="outline"
+      [multiple]="true"
+      [(ngModel)]="selectedCommunes"
+      (ionChange)="updateCommunes()"
+      id="selectcommunes"
+    >
+      <ion-select-option *ngFor="let commune of communes" [value]="commune">
+        {{commune}}
+      </ion-select-option>
     </ion-select>
 
     <a class="clickable-item">
@@ -64,5 +62,11 @@
     </a>
   </div>
 
-  <ion-button (click)="logout()" routerLink="/connexion" class="black-button" expand="block">Se déconnecter</ion-button>
+  <ion-button
+    (click)="logout()"
+    routerLink="/connexion"
+    class="black-button"
+    expand="block"
+    >Se déconnecter</ion-button
+  >
 </ion-content>
