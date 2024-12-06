@@ -16,55 +16,101 @@ const routes: Routes = [
   },
   {
     path: 'inscription',
-    loadChildren: () => import('./Pages/Inscription/inscription.module').then( m => m.InscriptionPageModule)
+    loadChildren: () =>
+      import('./Pages/Inscription/inscription.module').then(
+        (m) => m.InscriptionPageModule
+      ),
   },
   {
     path: 'reset-password',
-    loadChildren: () => import('./Pages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+    loadChildren: () =>
+      import('./Pages/reset-password/reset-password.module').then(
+        (m) => m.ResetPasswordPageModule
+      ),
   },
   {
     path: 'contact',
-    loadChildren: () => import('./Pages/Client/Contact/contact.module').then(m => m.ContactPageModule)
+    loadChildren: () =>
+      import('./Pages/Client/Contact/contact.module').then(
+        (m) => m.ContactPageModule
+      ),
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./Pages/Coiffeur/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+    loadChildren: () =>
+      import('./Pages/Coiffeur/dashboard/dashboard.module').then(
+        (m) => m.DashboardPageModule
+      ),
   },
   {
     path: 'agenda',
-    loadChildren: () => import('./Pages/Coiffeur/agenda/agenda.module').then( m => m.AgendaPageModule)
+    loadChildren: () =>
+      import('./Pages/Coiffeur/agenda/agenda.module').then(
+        (m) => m.AgendaPageModule
+      ),
   },
   {
     path: 'mon-compte',
-    loadChildren: () => import('./Pages/Coiffeur/mon-compte/mon-compte.module').then( m => m.MonComptePageModule)
+    loadChildren: () =>
+      import('./Pages/Coiffeur/mon-compte/mon-compte.module').then(
+        (m) => m.MonComptePageModule
+      ),
   },
   {
     path: 'mes-informations',
-    loadChildren: () => import('./Pages/Client/mes-informations/mes-informations.module').then( m => m.MesInformationsPageModule)
+    loadChildren: () =>
+      import('./Pages/Client/mes-informations/mes-informations.module').then(
+        (m) => m.MesInformationsPageModule
+      ),
   },
   {
     path: 'inscription-professionnels',
-    loadChildren: () => import('./Pages/inscription-professionnels/inscription-professionnels.module').then( m => m.InscriptionProfessionnelsPageModule)
+    loadChildren: () =>
+      import(
+        './Pages/inscription-professionnels/inscription-professionnels.module'
+      ).then((m) => m.InscriptionProfessionnelsPageModule),
   },
   {
     path: 'coiffeur-tabs',
-    loadChildren: () => import('./Pages/Coiffeur/coiffeur-tabs/coiffeur-tabs.module').then( m => m.CoiffeurTabsPageModule)
+    loadChildren: () =>
+      import('./Pages/Coiffeur/coiffeur-tabs/coiffeur-tabs.module').then(
+        (m) => m.CoiffeurTabsPageModule
+      ),
   },
   {
     path: 'mes-informations-coiffeur',
-    loadChildren: () => import('./Pages/Coiffeur/mes-informations-coiffeur/mes-informations-coiffeur.module').then( m => m.MesInformationsCoiffeurPageModule)
+    loadChildren: () =>
+      import(
+        './Pages/Coiffeur/mes-informations-coiffeur/mes-informations-coiffeur.module'
+      ).then((m) => m.MesInformationsCoiffeurPageModule),
   },
   {
     path: 'detail-barber',
-    loadChildren: () => import('./Pages/Client/detail-barber/detail-barber.module').then( m => m.DetailBarberPageModule)
+    loadChildren: () =>
+      import('./Pages/Client/detail-barber/detail-barber.module').then(
+        (m) => m.DetailBarberPageModule
+      ),
   },
   {
     path: 'mon-profil-coiffeur',
-    loadChildren: () => import('./Pages/Coiffeur/mon-profil-coiffeur/mon-profil-coiffeur.module').then( m => m.MonProfilCoiffeurPageModule)
+    loadChildren: () =>
+      import(
+        './Pages/Coiffeur/mon-profil-coiffeur/mon-profil-coiffeur.module'
+      ).then((m) => m.MonProfilCoiffeurPageModule),
   },
   {
     path: 'prendre-rdv',
-    loadChildren: () => import('./Pages/Client/prendre-rdv/prendre-rdv.module').then( m => m.PrendreRdvPageModule)
+    loadChildren: () =>
+      import('./Pages/Client/prendre-rdv/prendre-rdv.module').then(
+        (m) => m.PrendreRdvPageModule
+      ),
+  },
+  {
+    path: 'forfait',
+    loadChildren: () =>
+      import('./Pages/Coiffeur/forfait/forfait.module').then(
+        (m) => m.ForfaitPageModule
+      ),
   },
 ];
 
