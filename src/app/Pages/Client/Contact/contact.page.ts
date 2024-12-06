@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-contact',
@@ -14,7 +15,7 @@ export class ContactPage {
   typeProbleme: string = '';
   adresseIntervention: string = '';
 
-  constructor() {}
+  constructor(private location: Location) {}
 
   onSubmit() {
     // Handle form submission
@@ -43,5 +44,9 @@ Message :
 ${this.message}`;
 
     window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

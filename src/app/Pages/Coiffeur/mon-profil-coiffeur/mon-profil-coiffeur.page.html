@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-icon name="chevron-back" slot="start" style="margin-left: 12px;" routerLink="/coiffeur-tabs/mon-compte"></ion-icon>
+    <ion-title>Mon profil coiffeur</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Photo de profil -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Photo de profil</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-img [src]="photoProfil" *ngIf="photoProfil" class="photo-profil"></ion-img>
+      <ion-button expand="block" (click)="ajouterPhoto('profile')" class="ion-margin-top">
+        <ion-icon name="camera" slot="start"></ion-icon>
+        {{ photoProfil ? 'Modifier' : 'Ajouter' }} la photo de profil
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Photos des coupes -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Photos de mes coupes</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let photo of photosCoupes">
+            <ion-img [src]="photo"></ion-img>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-button expand="block" (click)="ajouterPhoto('hairstyle')">
+        <ion-icon name="add" slot="start"></ion-icon>
+        Ajouter une photo
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Tarifs -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mes tarifs</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item *ngFor="let tarif of tarifs; let i = index">
+          <ion-label>{{ tarif }}</ion-label>
+          <ion-button slot="end" fill="clear" color="danger" (click)="supprimerTarif(i)">
+            <ion-icon name="trash"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-list>
+
+      <div class="ion-margin-top">
+        <ion-item>
+          <ion-input 
+            label="Nouveau tarif"
+            labelPlacement="stacked"
+            placeholder="Ex: Coupe homme (20,00€)"
+            [(ngModel)]="nouveauTarif">
+          </ion-input>
+        </ion-item>
+        <ion-button expand="block" (click)="ajouterTarif()" class="ion-margin-top">
+          <ion-icon name="add" slot="start"></ion-icon>
+          Ajouter un tarif
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

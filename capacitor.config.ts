@@ -9,6 +9,9 @@ const config: CapacitorConfig = {
       scopes: ['profile', 'email'],
       serverClientId: '104915930078-r6oq1tjevodtaahg84jdffe2t7m0gu2g.apps.googleusercontent.com',
       forceCodeForRefreshToken: true
+    },
+    Camera: {
+      permissions: true
     }
   }
 
