@@ -62,6 +62,10 @@ const routes: Routes = [
     path: 'mon-profil-coiffeur',
     loadChildren: () => import('./Pages/Coiffeur/mon-profil-coiffeur/mon-profil-coiffeur.module').then( m => m.MonProfilCoiffeurPageModule)
   },
+  {
+    path: 'prendre-rdv',
+    loadChildren: () => import('./Pages/Client/prendre-rdv/prendre-rdv.module').then( m => m.PrendreRdvPageModule)
+  },
 ];
 
 @NgModule({
