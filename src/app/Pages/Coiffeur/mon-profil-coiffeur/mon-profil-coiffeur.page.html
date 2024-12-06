@@ -45,6 +45,25 @@
     </ion-card-content>
   </ion-card>
 
+  <!-- Type de coiffeur -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Type de coiffeur</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-select
+        label="Type de coiffeur" 
+        labelPlacement="stacked"
+        placeholder="Sélectionnez vos spécialités"
+        fill="outline"
+        [(ngModel)]="selectedTypes"
+        (ionChange)="updateTypes()"
+        [multiple]="true">
+        <ion-select-option *ngFor="let type of typeCoiffeur" [value]="type">{{type}}</ion-select-option>
+      </ion-select>
+    </ion-card-content>
+  </ion-card>
+
   <!-- Tarifs -->
   <ion-card>
     <ion-card-header>

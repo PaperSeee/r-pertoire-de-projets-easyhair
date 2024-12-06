@@ -19,6 +19,13 @@ export class MonProfilCoiffeurPage implements OnInit {
   private firestore = getFirestore();
   private storage = getStorage();
 
+  typeCoiffeur = [
+    "Barber",
+    "Coiffeur homme",
+    "Coiffeur femme"
+  ];
+  selectedTypes: string[] = [];
+
   constructor(
     private authService: AuthentificationService,
     private uploadService: UploadService,
@@ -60,9 +67,26 @@ export class MonProfilCoiffeurPage implements OnInit {
     }
   }
 
+  private async loadTypes() {
+    try {
+      const user = await this.authService.getProfile();
+      if (user) {
+        const docRef = doc(this.firestore, 'Coiffeurs', user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          this.selectedTypes = docSnap.data()?.['typeCoiffeur'] || [];
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement des types:', error);
+      this.presentToast('Erreur lors du chargement des types');
+    }
+  }
+
   // Ajouter ionViewWillEnter pour recharger les données quand on revient sur la page
   async ionViewWillEnter() {
     await this.loadProfileData();
+    await this.loadTypes();
   }
 
   async ajouterPhoto(type: 'profile' | 'hairstyle') {
@@ -189,6 +213,22 @@ export class MonProfilCoiffeurPage implements OnInit {
       this.presentToast('Erreur lors de la suppression de la photo');
     } finally {
       loading.dismiss();
+    }
+  }
+
+  async updateTypes() {
+    try {
+      const user = await this.authService.getProfile();
+      if (user) {
+        const userRef = doc(this.firestore, 'Coiffeurs', user.uid);
+        await updateDoc(userRef, {
+          typeCoiffeur: this.selectedTypes
+        });
+        this.presentToast('Types de coiffeur mis à jour avec succès');
+      }
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour des types:', error);
+      this.presentToast('Erreur lors de la mise à jour des types');
     }
   }
 
