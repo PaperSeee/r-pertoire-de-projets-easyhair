@@ -3,47 +3,39 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{barber?.name || 'Détails du Barbier'}}</ion-title>
+    <ion-title>{{barber?.nomCoiffeur || 'Détails du Barbier'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div class="barber-image">
-    <img class="barbercuts" alt="coupe" [src]="barber?.image || 'assets/default-cut.png'" />
-    <img [src]="barber?.profile || 'assets/default-profile.png'" [alt]="barber?.name || 'Default Name'" class="barberprofilepicture"/>
-  </div>
+
 
   <ion-card>
     <ion-card-header>
-      <img class="barberprofilepicture" alt="profil" [src]="barber?.profile || 'assets/default-profile.png'"/>
-      <ion-card-title>{{barber?.name}}</ion-card-title>
-      <ion-card-subtitle>{{barber?.type}}</ion-card-subtitle>
+      <div class="barber-image">
+        <img class="barbercuts" alt="coupe" [src]="barber?.photosCoupes?.[0] || 'assets/default-cut.png'" />
+      </div>
+      <div class="profile-section">
+        <img class="profile-image" alt="profil" [src]="barber?.photoURL || 'assets/default-profile.png'"/>
+        <div class="profile-info">
+          <ion-card-title>{{barber?.nomCoiffeur}}</ion-card-title>
+          <ion-card-subtitle>{{barber?.typeCoiffeur?.join(', ')}}</ion-card-subtitle>
+        </div>
+      </div>
     </ion-card-header>
 
     <ion-card-content>
       <ion-list>
-        <ion-item>
-          <ion-label>Coupe Homme</ion-label>
-          <ion-note slot="end">{{barber?.price}}</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>Coupe + Barbe</ion-label>
-          <ion-note slot="end">25,99€</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>Coupe + Soin</ion-label>
-          <ion-note slot="end">30,99€</ion-note>
-        </ion-item>
-        <ion-item>
-          <ion-label>Rasage Traditionnel</ion-label>
-          <ion-note slot="end">15,99€</ion-note>
+        <ion-item *ngFor="let tarif of barber?.tarifs">
+          <ion-label>{{tarif.split('(')[0]}}</ion-label>
+          <ion-note slot="end">{{tarif.split('(')[1]?.replace(')', '')}}</ion-note>
         </ion-item>
       </ion-list>
 
-      <ion-button expand="block" color="primary" class="ion-margin-top" [routerLink]="['/prendre-rdv']">
+      <ion-button expand="block" class="black-button" [routerLink]="['/prendre-rdv']">
         Prendre rendez-vous
       </ion-button>
-      <ion-button expand="block" color="warning" class="ion-margin-top" (click)="toggleFavorite()">
+      <ion-button expand="block" class="gold-button" (click)="toggleFavorite()">
         {{ isFavorite ? 'Retirer des favoris' : 'Mettre en favori' }}
       </ion-button>
     </ion-card-content>

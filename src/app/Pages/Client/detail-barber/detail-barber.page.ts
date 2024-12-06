@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FavoritesService } from '../../../services/favorites.service';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 @Component({
   selector: 'app-detail-barber',
@@ -10,19 +11,28 @@ import { FavoritesService } from '../../../services/favorites.service';
 export class DetailBarberPage implements OnInit {
   barber: any = {};
   isFavorite = false;
+  private firestore = getFirestore();
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private favoritesService: FavoritesService
-  ) {
-    const navigation = this.router.getCurrentNavigation();
-    if (navigation?.extras?.state) {
-      this.barber = navigation.extras.state['data'];
-    }
-  }
+  ) {}
 
-  ngOnInit() {
-    if (!this.barber) {
+  async ngOnInit() {
+    try {
+      const barberId = this.route.snapshot.paramMap.get('id');
+      if (barberId) {
+        const barberDoc = await getDoc(doc(this.firestore, 'Coiffeurs', barberId));
+        if (barberDoc.exists()) {
+          this.barber = {
+            id: barberDoc.id,
+            ...barberDoc.data()
+          };
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement du barbier:', error);
       this.router.navigate(['/']);
     }
     this.checkIfFavorite();
