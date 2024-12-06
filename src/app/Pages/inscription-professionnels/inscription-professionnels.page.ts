@@ -92,7 +92,7 @@ export class InscriptionProfessionnelsPage implements OnInit {
         console.log('Utilisateur créé:', user); // Log de débogage
 
         if (user) {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/coiffeur-tabs/dashboard']);
         }
       } catch (error) {
         console.error('Erreur détaillée:', error); // Log d'erreur amélioré
