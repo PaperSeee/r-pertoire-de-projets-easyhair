@@ -34,6 +34,23 @@
         </ion-item>
       </ion-list>
       <div class="expanded-content" *ngIf="expandedCards.standard">
+        <h3>Détails de l'offre</h3>
+        <ion-list>
+          <ion-item lines="none">
+            <ion-icon name="pricetag-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h4>Prix mensuel</h4>
+              <p>49,99 €/mois</p>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h4>Engagement minimum</h4>
+              <p>1 mois</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
         <ion-button expand="block">Souscrire au forfait Standard</ion-button>
       </div>
     </ion-card-content>
@@ -63,6 +80,30 @@
         </ion-item>
       </ion-list>
       <div class="expanded-content" *ngIf="expandedCards.premium">
+        <h3>Détails de l'offre</h3>
+        <ion-list>
+          <ion-item lines="none">
+            <ion-icon name="pricetag-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h4>Prix mensuel</h4>
+              <p>89,99 €/mois</p>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="calendar-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h4>Engagement minimum</h4>
+              <p>1 mois</p>
+            </ion-label>
+          </ion-item>
+          <ion-item lines="none">
+            <ion-icon name="gift-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h4>Avantages exclusifs</h4>
+              <p>Support prioritaire 7j/7</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
         <ion-button expand="block" color="primary"
           >Souscrire au forfait Premium</ion-button
         >
