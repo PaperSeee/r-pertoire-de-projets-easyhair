@@ -13,10 +13,10 @@
   <ion-card>
     <ion-card-header>
       <div class="barber-image">
-        <img class="barbercuts" alt="coupe" [src]="barber?.photosCoupes?.[0] || 'assets/default-cut.png'" />
+        <img class="barbercuts" alt="coupe" [src]="barber?.photosCoupes?.[0] || 'assets/default.jpg'" />
       </div>
       <div class="profile-section">
-        <img class="profile-image" alt="profil" [src]="barber?.photoURL || 'assets/default-profile.png'"/>
+        <img class="profile-image" alt="profil" [src]="barber?.photoURL || 'assets/default.jpg'"/>
         <div class="profile-info">
           <ion-card-title>{{barber?.nomCoiffeur}}</ion-card-title>
           <ion-card-subtitle>{{barber?.typeCoiffeur?.join(', ')}}</ion-card-subtitle>
