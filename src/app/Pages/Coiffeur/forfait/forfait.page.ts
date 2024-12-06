@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 
 interface ExpandedCards {
   standard: boolean;
@@ -16,7 +16,21 @@ export class ForfaitPage {
     premium: false,
   };
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   public toggleCard(cardName: 'standard' | 'premium'): void {
-    this.expandedCards[cardName] = !this.expandedCards[cardName];
+    const isCurrentlyExpanded = this.expandedCards[cardName];
+
+    // Ferme toutes les cartes
+    Object.keys(this.expandedCards).forEach((key) => {
+      this.expandedCards[key as keyof ExpandedCards] = false;
+    });
+
+    // Si la carte n'était pas déjà ouverte, on l'ouvre
+    if (!isCurrentlyExpanded) {
+      this.expandedCards[cardName] = true;
+    }
+
+    this.cdr.detectChanges();
   }
 }
