@@ -36,7 +36,8 @@
         Prendre rendez-vous
       </ion-button>
       <ion-button expand="block" class="gold-button" (click)="toggleFavorite()">
-        {{ isFavorite ? 'Retirer des favoris' : 'Mettre en favori' }}
+        <ion-icon name="heart-outline" slot="start"></ion-icon>
+        {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
       </ion-button>
     </ion-card-content>
   </ion-card>
