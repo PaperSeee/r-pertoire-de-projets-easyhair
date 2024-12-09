@@ -35,10 +35,12 @@
       <ion-button expand="block" class="black-button" [routerLink]="['/prendre-rdv']">
         Prendre rendez-vous
       </ion-button>
+
       <ion-button expand="block" class="gold-button" (click)="toggleFavorite()">
         <ion-icon name="heart-outline" slot="start"></ion-icon>
         {{ isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
       </ion-button>
+      
     </ion-card-content>
   </ion-card>
 

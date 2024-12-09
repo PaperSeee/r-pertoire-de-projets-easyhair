@@ -61,28 +61,6 @@ body {
     justify-content: space-between;
     margin-bottom: 10px;
 }
-.cta-button {
-    display: block;
-    width: 100%;
-    background-color: #e74c3c;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    padding: 12px 0;
-    border-radius: 5px;
-    margin-top: 20px;
-}
-.favorite-button {
-    display: block;
-    width: 100%;
-    background-color: #f1c40f;
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    padding: 12px 0;
-    border-radius: 5px;
-    margin-top: 10px;
-}
 .reviews {
     margin-top: 20px;
 }
@@ -123,5 +101,13 @@ body {
   ion-card-subtitle {
     margin: 0;
     color: #666;
+  }
+}
+
+ion-card-content {
+  padding: 0px 16px 16px 16px;
+
+  ion-button {
+    margin-top: 12px;
   }
 }
