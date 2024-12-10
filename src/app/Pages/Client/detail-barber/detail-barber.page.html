@@ -1,8 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
+    <ion-icon name="chevron-back" slot="start" routerLink="/tabs/accueil" style="padding-left: 12px;"></ion-icon>
     <ion-title>{{barber?.nomCoiffeur || 'Détails du Barbier'}}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -32,7 +30,7 @@
         </ion-item>
       </ion-list>
 
-      <ion-button expand="block" class="black-button" [routerLink]="['/prendre-rdv']">
+      <ion-button expand="block" class="black-button" (click)="onBookingClick()">
         Prendre rendez-vous
       </ion-button>
 
