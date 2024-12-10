@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="chevron-back" slot="start" style="margin-left: 12px;" routerLink="/tabs/profil"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>Mes informations</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -69,29 +71,18 @@
         fill="outline">
       </ion-input>
 
-      <div class="postal-city-container">
-        <!-- Code postal -->
-        <ion-input 
-          label="Code postal"
-          labelPlacement="stacked" 
-          type="text"
-          placeholder="Ex: 1000"
-          formControlName="codePostal"
-          class="postal-code"
-          fill="outline">
-        </ion-input>
-
-        <!-- Ville -->
-        <ion-input 
-          label="Ville"
-          labelPlacement="stacked" 
-          type="text"
-          placeholder="Ex: Bruxelles"
-          formControlName="ville"
-          class="city"
-          fill="outline">
-        </ion-input>
-      </div>
+      <!-- Remplacer la div postal-city-container par le select des communes -->
+      <ion-select
+        label="Commune"
+        labelPlacement="stacked"
+        placeholder="Sélectionnez votre commune"
+        fill="outline"
+        formControlName="commune"
+        class="address-input">
+        <ion-select-option *ngFor="let commune of communes" [value]="commune">
+          {{commune}}
+        </ion-select-option>
+      </ion-select>
     </div>
 
     <ion-button expand="block" (click)="updateProfile()" class="black-button">

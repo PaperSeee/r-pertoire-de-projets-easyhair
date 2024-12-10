@@ -13,6 +13,17 @@ export class MesInformationsPage implements OnInit {
   userForm: FormGroup;
   private firestore = getFirestore();
   
+  // Ajouter la liste des communes
+  communes = [
+    "Anderlecht (1070)", "Auderghem (1160)", "Berchem-Sainte-Agathe (1082)",
+    "Bruxelles (1000)", "Etterbeek (1040)", "Evere (1140)", 
+    "Forest (1190)", "Ganshoren (1083)", "Ixelles (1050)",
+    "Jette (1090)", "Koekelberg (1081)", "Molenbeek-Saint-Jean (1080)",
+    "Saint-Gilles (1060)", "Saint-Josse-ten-Noode (1210)", 
+    "Schaerbeek (1030)", "Uccle (1180)", "Watermael-Boitsfort (1170)",
+    "Woluwe-Saint-Lambert (1200)", "Woluwe-Saint-Pierre (1150)"
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthentificationService,
@@ -32,10 +43,8 @@ export class MesInformationsPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.pattern('^[0-9]{9,13}$')],
       genre: ['', Validators.required],
-      // Nouveaux champs pour l'adresse
       rue: [''],
-      codePostal: [''],
-      ville: ['']
+      commune: [''] // Remplacer codePostal et ville par commune
     });
   }
 
@@ -53,8 +62,7 @@ export class MesInformationsPage implements OnInit {
           const formData = {
             ...userData,
             rue: userData['adresse']?.rue || '',
-            codePostal: userData['adresse']?.codePostal || '',
-            ville: userData['adresse']?.ville || ''
+            commune: userData['adresse']?.commune || ''
           };
           this.userForm.patchValue(formData);
         }
@@ -83,15 +91,13 @@ export class MesInformationsPage implements OnInit {
             ...formData,
             adresse: {
               rue: formData.rue || '',
-              codePostal: formData.codePostal || '',
-              ville: formData.ville || ''
+              commune: formData.commune || ''
             }
           };
           
           // Supprimer les champs individuels de l'adresse
           delete userData.rue;
-          delete userData.codePostal;
-          delete userData.ville;
+          delete userData.commune;
           
           await updateDoc(userRef, userData);
           this.presentToast('Profil mis à jour avec succès');
