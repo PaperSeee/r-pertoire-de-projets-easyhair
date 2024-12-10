@@ -15,7 +15,7 @@
         <img *ngIf="coiffeur.photoURL" class="barberprofilepicture" [src]="coiffeur.photoURL" alt="profil" />
         <ion-card-title class="barbername">{{coiffeur.nomCoiffeur}}</ion-card-title>
         <ion-card-title class="prices" *ngIf="coiffeur.tarifs?.length > 0">
-          {{coiffeur.tarifs[0]}}
+          {{getPrix(coiffeur.tarifs[0])}}
         </ion-card-title>
 
         <ion-card-subtitle class="barbertype">{{coiffeur.typeCoiffeur?.join(', ')}}</ion-card-subtitle>
@@ -23,6 +23,7 @@
       </ion-card-content>
     </ion-card>
   </div>
+  
   <ng-template #noFavorites>
     <p class="ion-text-center">Aucun favori pour le moment</p>
   </ng-template>
