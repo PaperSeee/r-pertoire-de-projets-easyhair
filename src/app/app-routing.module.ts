@@ -116,6 +116,10 @@ const routes: Routes = [
         (m) => m.ForfaitPageModule
       ),
   },
+  {
+    path: 'delete-account',
+    loadChildren: () => import('./Pages/delete-account/delete-account.module').then( m => m.DeleteAccountPageModule)
+  },
 ];
 
 @NgModule({

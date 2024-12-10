@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Supprimer mon compte</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="warning-container">
+    <ion-icon name="warning" color="danger" size="large"></ion-icon>
+    <h2>Attention</h2>
+    <p>La suppression de votre compte est une action irréversible. Toutes vos données seront définitivement effacées.</p>
+    
+    <ion-button expand="block" color="danger" (click)="confirmDelete()">
+      Supprimer mon compte
+    </ion-button>
+  </div>
+</ion-content>
