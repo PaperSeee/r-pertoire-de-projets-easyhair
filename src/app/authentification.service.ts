@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, Auth, User } from 'firebase/auth';
-import { getFirestore, doc, setDoc, Firestore, getDoc } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, Auth, User, deleteUser } from 'firebase/auth';
+import { getFirestore, doc, setDoc, Firestore, getDoc, deleteDoc } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 
@@ -123,6 +123,35 @@ export class AuthentificationService {
       return userCredential.user;
     } catch (error) {
       console.error("Erreur d'enregistrement:", error);
+      throw error;
+    }
+  }
+
+  async deleteAccount(): Promise<void> {
+    try {
+      const user = await this.getProfile();
+      if (user) {
+        // Vérifier d'abord dans la collection 'users'
+        const userDoc = doc(this.firestore, 'users', user.uid);
+        const userSnap = await getDoc(userDoc);
+        
+        // Vérifier dans la collection 'Coiffeurs'
+        const coiffeurDoc = doc(this.firestore, 'Coiffeurs', user.uid);
+        const coiffeurSnap = await getDoc(coiffeurDoc);
+
+        // Supprimer le document approprié
+        if (userSnap.exists()) {
+          await deleteDoc(userDoc);
+        }
+        if (coiffeurSnap.exists()) {
+          await deleteDoc(coiffeurDoc);
+        }
+
+        // Supprimer le compte Firebase Auth en dernier
+        await deleteUser(user);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la suppression du compte:', error);
       throw error;
     }
   }

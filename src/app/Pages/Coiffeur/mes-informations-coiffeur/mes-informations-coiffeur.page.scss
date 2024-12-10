@@ -5,3 +5,15 @@ ion-input {
 .top-input {
     margin-top: 18px;
 }
+
+/* Ajouter dans les fichiers SCSS correspondants */
+.delete-account-link {
+  margin-top: 24px;
+  text-align: center;
+}
+
+.danger-link {
+  color: var(--ion-color-danger);
+  text-decoration: none;
+  font-size: 14px;
+}
