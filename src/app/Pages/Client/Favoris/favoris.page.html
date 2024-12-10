@@ -6,14 +6,20 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div *ngIf="favoriteBarbers.length > 0; else noFavorites">
-    <ion-card *ngFor="let barber of favoriteBarbers">
-      <ion-card-header>
-        <img class="barberprofilepicture" [src]="barber.profile" [alt]="barber.name"/>
-        <ion-card-title>{{barber.name}}</ion-card-title>
-        <ion-card-subtitle>{{barber.type}}</ion-card-subtitle>
-      </ion-card-header>
+    <ion-card *ngFor="let coiffeur of favoriteBarbers" [routerLink]="['/detail-barber', coiffeur.id]">
+      <div class="cuts" style="display: inline;" *ngIf="coiffeur.photosCoupes?.length > 0">
+        <img class="barbercuts" [src]="coiffeur.photosCoupes[0]" alt="coupe" />
+      </div>
+
       <ion-card-content>
-        <p>Prix: {{barber.price}}</p>
+        <img *ngIf="coiffeur.photoURL" class="barberprofilepicture" [src]="coiffeur.photoURL" alt="profil" />
+        <ion-card-title class="barbername">{{coiffeur.nomCoiffeur}}</ion-card-title>
+        <ion-card-title class="prices" *ngIf="coiffeur.tarifs?.length > 0">
+          {{coiffeur.tarifs[0]}}
+        </ion-card-title>
+
+        <ion-card-subtitle class="barbertype">{{coiffeur.typeCoiffeur?.join(', ')}}</ion-card-subtitle>
+        <ion-card-subtitle class="barberrate">0.0<ion-icon name="star"></ion-icon></ion-card-subtitle>
       </ion-card-content>
     </ion-card>
   </div>
