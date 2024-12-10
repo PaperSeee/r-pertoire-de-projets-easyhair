@@ -1,5 +1,39 @@
-ion-input {
+.address-section {
+  margin: 20px 0;
+  
+  h3 {
+    margin-bottom: 16px;
+    color: #333;
+    font-size: 18px;
+    margin-left: 6px;
+  }
+
+  .address-input {
     margin-bottom: 12px;
+  }
+
+  .postal-city-container {
+    display: flex;
+    gap: 12px;
+    
+    .postal-code {
+      flex: 0 0 30%;
+    }
+    
+    .city {
+      flex: 0 0 65%;
+    }
+  }
+}
+
+ion-input {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  margin-bottom: 8px;
+  
+  &.ion-invalid.ion-touched {
+    --border-color: var(--ion-color-danger);
+  }
 }
 
 .top-input {

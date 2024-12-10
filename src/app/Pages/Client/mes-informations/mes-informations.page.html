@@ -54,6 +54,46 @@
       <ion-select-option value="x">Ne pas préciser</ion-select-option>
     </ion-select>
 
+    <!-- Adresse -->
+    <div class="address-section">
+      <h3>Votre adresse</h3>
+      
+      <!-- Rue et numéro -->
+      <ion-input 
+        label="Rue et numéro"
+        labelPlacement="stacked" 
+        type="text"
+        placeholder="Ex: Rue de la Loi 16"
+        formControlName="rue"
+        class="address-input"
+        fill="outline">
+      </ion-input>
+
+      <div class="postal-city-container">
+        <!-- Code postal -->
+        <ion-input 
+          label="Code postal"
+          labelPlacement="stacked" 
+          type="text"
+          placeholder="Ex: 1000"
+          formControlName="codePostal"
+          class="postal-code"
+          fill="outline">
+        </ion-input>
+
+        <!-- Ville -->
+        <ion-input 
+          label="Ville"
+          labelPlacement="stacked" 
+          type="text"
+          placeholder="Ex: Bruxelles"
+          formControlName="ville"
+          class="city"
+          fill="outline">
+        </ion-input>
+      </div>
+    </div>
+
     <ion-button expand="block" (click)="updateProfile()" class="black-button">
       Sauvegarder
     </ion-button>

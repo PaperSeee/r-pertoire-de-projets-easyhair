@@ -31,7 +31,11 @@ export class MesInformationsPage implements OnInit {
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.pattern('^[0-9]{9,13}$')],
-      genre: ['', Validators.required]
+      genre: ['', Validators.required],
+      // Nouveaux champs pour l'adresse
+      rue: [''],
+      codePostal: [''],
+      ville: ['']
     });
   }
 
@@ -45,7 +49,14 @@ export class MesInformationsPage implements OnInit {
         const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          this.userForm.patchValue(userData);
+          // Aplatir l'objet adresse pour le formulaire
+          const formData = {
+            ...userData,
+            rue: userData['adresse']?.rue || '',
+            codePostal: userData['adresse']?.codePostal || '',
+            ville: userData['adresse']?.ville || ''
+          };
+          this.userForm.patchValue(formData);
         }
       }
     } catch (error) {
@@ -65,7 +76,24 @@ export class MesInformationsPage implements OnInit {
         const user = await this.authService.getProfile();
         if (user) {
           const userRef = doc(this.firestore, 'users', user.uid);
-          await updateDoc(userRef, this.userForm.value);
+          const formData = this.userForm.value;
+          
+          // Créer l'objet adresse
+          const userData = {
+            ...formData,
+            adresse: {
+              rue: formData.rue || '',
+              codePostal: formData.codePostal || '',
+              ville: formData.ville || ''
+            }
+          };
+          
+          // Supprimer les champs individuels de l'adresse
+          delete userData.rue;
+          delete userData.codePostal;
+          delete userData.ville;
+          
+          await updateDoc(userRef, userData);
           this.presentToast('Profil mis à jour avec succès');
         }
       } catch (error) {
