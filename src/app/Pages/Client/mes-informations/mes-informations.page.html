@@ -1,6 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="chevron-back" slot="start" style="margin-left: 12px;" routerLink="/tabs/profil"></ion-icon>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>Mes informations</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -53,6 +55,35 @@
       <ion-select-option value="femme">Femme</ion-select-option>
       <ion-select-option value="x">Ne pas préciser</ion-select-option>
     </ion-select>
+
+    <!-- Adresse -->
+    <div class="address-section">
+      <h3>Votre adresse</h3>
+      
+      <!-- Rue et numéro -->
+      <ion-input 
+        label="Rue et numéro"
+        labelPlacement="stacked" 
+        type="text"
+        placeholder="Ex: Rue de la Loi 16"
+        formControlName="rue"
+        class="address-input"
+        fill="outline">
+      </ion-input>
+
+      <!-- Remplacer la div postal-city-container par le select des communes -->
+      <ion-select
+        label="Commune"
+        labelPlacement="stacked"
+        placeholder="Sélectionnez votre commune"
+        fill="outline"
+        formControlName="commune"
+        class="address-input">
+        <ion-select-option *ngFor="let commune of communes" [value]="commune">
+          {{commune}}
+        </ion-select-option>
+      </ion-select>
+    </div>
 
     <ion-button expand="block" (click)="updateProfile()" class="black-button">
       Sauvegarder

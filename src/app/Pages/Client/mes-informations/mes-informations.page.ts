@@ -13,6 +13,17 @@ export class MesInformationsPage implements OnInit {
   userForm: FormGroup;
   private firestore = getFirestore();
   
+  // Ajouter la liste des communes
+  communes = [
+    "Anderlecht (1070)", "Auderghem (1160)", "Berchem-Sainte-Agathe (1082)",
+    "Bruxelles (1000)", "Etterbeek (1040)", "Evere (1140)", 
+    "Forest (1190)", "Ganshoren (1083)", "Ixelles (1050)",
+    "Jette (1090)", "Koekelberg (1081)", "Molenbeek-Saint-Jean (1080)",
+    "Saint-Gilles (1060)", "Saint-Josse-ten-Noode (1210)", 
+    "Schaerbeek (1030)", "Uccle (1180)", "Watermael-Boitsfort (1170)",
+    "Woluwe-Saint-Lambert (1200)", "Woluwe-Saint-Pierre (1150)"
+  ];
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthentificationService,
@@ -31,7 +42,9 @@ export class MesInformationsPage implements OnInit {
       nom: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       telephone: ['', Validators.pattern('^[0-9]{9,13}$')],
-      genre: ['', Validators.required]
+      genre: ['', Validators.required],
+      rue: [''],
+      commune: [''] // Remplacer codePostal et ville par commune
     });
   }
 
@@ -45,7 +58,13 @@ export class MesInformationsPage implements OnInit {
         const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          this.userForm.patchValue(userData);
+          // Aplatir l'objet adresse pour le formulaire
+          const formData = {
+            ...userData,
+            rue: userData['adresse']?.rue || '',
+            commune: userData['adresse']?.commune || ''
+          };
+          this.userForm.patchValue(formData);
         }
       }
     } catch (error) {
@@ -65,7 +84,22 @@ export class MesInformationsPage implements OnInit {
         const user = await this.authService.getProfile();
         if (user) {
           const userRef = doc(this.firestore, 'users', user.uid);
-          await updateDoc(userRef, this.userForm.value);
+          const formData = this.userForm.value;
+          
+          // Créer l'objet adresse
+          const userData = {
+            ...formData,
+            adresse: {
+              rue: formData.rue || '',
+              commune: formData.commune || ''
+            }
+          };
+          
+          // Supprimer les champs individuels de l'adresse
+          delete userData.rue;
+          delete userData.commune;
+          
+          await updateDoc(userRef, userData);
           this.presentToast('Profil mis à jour avec succès');
         }
       } catch (error) {
