@@ -81,7 +81,7 @@ export class PrendreRdvPage implements OnInit {
 
               await confirmationAlert.present();
               confirmationAlert.onDidDismiss().then(() => {
-                this.router.navigate(['/detail-barber']);
+                this.router.navigate(['/tabs/profil']);
               });
             }
           }

@@ -1,82 +1,80 @@
 ion-content {
     --background: #F1F1F1;
-  }
-
+}
 
 // Style de base pour la card
 ion-card {
-    width: 100%;
-    margin: 16px 0;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+  width: 100%;
+  margin: 16px 0;
+  border-radius: 16px;
+}
   
-  .barbercuts {
-      height: 200px;
-      width: 100%;
-      flex-shrink: 0;
-      object-fit: cover; /* Assure que l'image remplit son conteneur */
-      scroll-snap-align: start;
-  }
+.barbercuts {
+  height: 200px;
+  width: 100%;
+  flex-shrink: 0;
+  object-fit: cover; /* Assure que l'image remplit son conteneur */
+  scroll-snap-align: start;
+}
+
+.cuts {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
   
-  .cuts {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-  }
+// Layout du contenu de la card
+ion-card-content {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas: 
+    "profile name price"
+    "profile type rate";
+  gap: 0px;
+  align-items: center;
+  padding: 16px;
+}
   
-  // Layout du contenu de la card
-  ion-card-content {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-template-areas: 
-      "profile name price"
-      "profile type rate";
-    gap: 0px;
-    align-items: center;
-    padding: 16px;
-  }
+.barberprofilepicture {
+  grid-area: profile;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover; /* Assure que la photo de profil remplit son conteneur */
+  margin-right: 12px;
+  margin-bottom: 10px;
+}
+
+.barbername {
+  grid-area: name;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
   
-  .barberprofilepicture {
-    grid-area: profile;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    object-fit: cover; /* Assure que la photo de profil remplit son conteneur */
-    margin-right: 12px;
-    margin-bottom: 10px;
-  }
+.barbertype {
+  grid-area: type;
+  color: #666;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.prices {
+  grid-area: price;
+  margin: 0;
+  color: #0000;
+  font-size: 18px;
+  font-weight: 600;
+}
   
-  .barbername {
-    grid-area: name;
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 5px;
-  }
-  
-  .barbertype {
-    grid-area: type;
-    color: #666;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  
-  .prices {
-    grid-area: price;
-    margin: 0;
-    color: #0000;
-    font-size: 18px;
-    font-weight: 600;
-  }
-  
-  .barberrate {
-    grid-area: rate;
-    margin: 0;
-    color: #000;
-    font-size: 0.9em;
-  }
-  
-  .barberrate ion-icon {
-    vertical-align: middle;
-    margin-left: 5px;
-  }
+.barberrate {
+  grid-area: rate;
+  margin: 0;
+  color: #000;
+  font-size: 0.9em;
+}
+
+.barberrate ion-icon {
+  vertical-align: middle;
+  margin-left: 5px;
+}

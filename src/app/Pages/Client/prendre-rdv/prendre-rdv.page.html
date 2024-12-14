@@ -10,29 +10,13 @@
   <h2>Réserver un rendez-vous</h2>
 
   <!-- Calendrier Google intégré -->
-  <div class="calendar-container">
-    <ng-container *ngIf="availableSlots.length > 0; else noSlots">
-      <div class="available-slots">
-        <div *ngFor="let slot of availableSlots" class="slot-item" 
-             [class.selected]="selectedSlot === slot"
-             (click)="selectSlot(slot)">
-          <ion-icon name="time-outline"></ion-icon>
-          <span>{{ slot.date | date:'dd/MM/yyyy' }} - {{ slot.time }}</span>
-        </div>
-      </div>
-    </ng-container>
-    <ng-template #noSlots>
-      <div class="no-slots-message">
-        <ion-icon name="calendar-outline"></ion-icon>
-        <p>Aucun créneau disponible actuellement</p>
-      </div>
-    </ng-template>
+  <div class="rdv-info">
+
   </div>
 
   <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
-    <div class="booking-selectors ion-padding">
+    <div class="booking-selectors">
       <ion-item>
-        <ion-label>Date</ion-label>
         <ion-datetime 
           formControlName="selectedDate"
           presentation="date"
@@ -42,7 +26,7 @@
         </ion-datetime>
       </ion-item>
 
-      <ion-item>
+      <ion-item class="select-hour">
         <ion-label>Heure</ion-label>
         <ion-select 
           formControlName="selectedTime"
@@ -56,7 +40,7 @@
       </ion-item>
     </div>
 
-    <div class="ion-text-center ion-padding">
+    <div class="ion-text-center">
       <ion-button expand="block" class="black-button" type="submit" [disabled]="!bookingForm.valid">
         Confirmer ma réservation
       </ion-button>
