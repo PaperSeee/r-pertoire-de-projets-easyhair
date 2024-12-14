@@ -4,7 +4,6 @@ import { AlertController } from '@ionic/angular';
 import GoogleCalendarService from '../../../services/google-calendar.service';
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-prendre-rdv',
   templateUrl: './prendre-rdv.page.html',
@@ -13,6 +12,7 @@ import { Router } from '@angular/router';
 })
 
 export class PrendreRdvPage implements OnInit {
+  coiffeur: any;
   bookingForm: FormGroup;
   availableSlots: any[] = [];
   availableTimes: string[] = [];
@@ -21,18 +21,24 @@ export class PrendreRdvPage implements OnInit {
   maxDate = new Date(new Date().setMonth(new Date().getMonth() + 2)).toISOString();
 
   constructor(
-    private fb: FormBuilder,
+    private router: Router,
+    private formBuilder: FormBuilder,
     private googleCalendarService: GoogleCalendarService,
     private alertController: AlertController,
-    private router: Router
   ) {
-    this.bookingForm = this.fb.group({
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.coiffeur = navigation.extras.state['coiffeur'];
+    }
+    
+    this.bookingForm = this.formBuilder.group({
+      selectedService: ['', Validators.required], // Ajout du contrôle pour le service
       selectedDate: ['', Validators.required],
       selectedTime: ['', Validators.required]
     });
    }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loadAvailableSlots();
   }
 

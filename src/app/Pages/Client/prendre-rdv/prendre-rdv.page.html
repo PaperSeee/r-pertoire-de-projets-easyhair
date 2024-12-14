@@ -7,15 +7,37 @@
 
 <ion-content class="ion-padding">
   
-  <h2>Réserver un rendez-vous</h2>
-
-  <!-- Calendrier Google intégré -->
-  <div class="rdv-info">
-
-  </div>
-
   <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
+
+      <!-- Calendrier Google intégré -->
+    <div class="rdv-info">
+      <ion-text *ngIf="coiffeur">
+        <p><strong>{{coiffeur.nomCoiffeur}}</strong></p>
+      </ion-text>
+
+      <div class="adresse-rdv">
+        <p>📍 "adresse de l'user connecté"</p>
+      </div>
+
+      <!-- Sélection du tarif -->
+      <ion-item class="select-hour">
+        <ion-select 
+          label="Prestation"
+          formControlName="selectedService"
+          placeholder="Sélectionnez une prestation">
+          <ion-select-option 
+            *ngFor="let tarif of coiffeur?.tarifs" 
+            [value]="tarif">
+            {{tarif}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+    </div>
+
     <div class="booking-selectors">
+
+      <!-- Date picker existant -->
       <ion-item>
         <ion-datetime 
           formControlName="selectedDate"
@@ -26,6 +48,7 @@
         </ion-datetime>
       </ion-item>
 
+      <!-- Time picker existant -->
       <ion-item class="select-hour">
         <ion-label>Heure</ion-label>
         <ion-select 
