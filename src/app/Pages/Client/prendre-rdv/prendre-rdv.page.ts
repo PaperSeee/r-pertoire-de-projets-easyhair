@@ -3,8 +3,18 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import GoogleCalendarService from '../../../services/google-calendar.service';
 import { Router } from '@angular/router';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, collection, addDoc } from 'firebase/firestore';
 import { AuthentificationService } from 'src/app/authentification.service';
+
+interface Appointment {
+  uidCoiffeur: string;
+  uidClient: string;
+  nomCoiffeur: string;
+  tarif: string; 
+  adresse: string;
+  date: string;
+  heure: string;
+}
 
 @Component({
   selector: 'app-prendre-rdv',
@@ -65,42 +75,47 @@ export class PrendreRdvPage implements OnInit {
 
   async confirmBooking() {
     if (this.bookingForm.valid) {
-      const date = new Date(this.bookingForm.value.selectedDate);
-      const formattedDate = date.toLocaleDateString('fr-FR', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
-      });
-      
-      const alert = await this.alertController.create({
-        header: 'Confirmation de réservation',
-        message: `Voulez-vous confirmer votre rendez-vous pour le ${formattedDate} à ${this.bookingForm.value.selectedTime} avec votre coiffeur ?`,
-        buttons: [
-          {
-            text: 'Annuler',
-            role: 'cancel'
-          },
-          {
-            text: 'Confirmer',
-            handler: async () => {
-              console.log('Booking confirmed:', this.bookingForm.value);
-              const confirmationAlert = await this.alertController.create({
-                header: 'Réservation Confirmée',
-                message: 'Votre rendez-vous est bien confirmé',
-                buttons: ['OK']
-              });
+      try {
+        const currentUser = await this.authService.getProfile();
+        if (!currentUser) throw new Error('Utilisateur non connecté');
 
-              await confirmationAlert.present();
-              confirmationAlert.onDidDismiss().then(() => {
-                this.router.navigate(['/tabs/profil']);
-              });
-            }
-          }
-        ]
-      });
+        // Get the date value and format it
+        const fullDate = this.bookingForm.get('selectedDate').value;
+        const dateOnly = fullDate.split('T')[0]; // This will get only '2024-12-16'
+        
+        const appointment: Appointment = {
+          uidCoiffeur: this.coiffeur.uid,
+          uidClient: currentUser.uid,
+          nomCoiffeur: this.coiffeur.nomCoiffeur,
+          tarif: this.bookingForm.get('selectedService').value,
+          adresse: this.userAddress,
+          date: dateOnly, // Using only the date part
+          heure: this.bookingForm.get('selectedTime').value
+        };
 
-      await alert.present();
+        const rdvRef = collection(this.firestore, 'RDV');
+        await addDoc(rdvRef, appointment);
+
+        // Afficher confirmation
+        const alert = await this.alertController.create({
+          header: 'Succès',
+          message: 'Votre rendez-vous a été confirmé',
+          buttons: ['OK']
+        });
+        await alert.present();
+
+        // Rediriger vers la page d'accueil
+        this.router.navigate(['/tabs/accueil']);
+
+      } catch (error) {
+        console.error('Erreur lors de la réservation:', error);
+        const alert = await this.alertController.create({
+          header: 'Erreur',
+          message: 'Une erreur est survenue lors de la réservation',
+          buttons: ['OK']
+        });
+        await alert.present();
+      }
     }
   }
 
