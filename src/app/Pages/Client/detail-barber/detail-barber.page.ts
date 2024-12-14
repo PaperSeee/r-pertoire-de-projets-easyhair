@@ -77,7 +77,9 @@ export class DetailBarberPage implements OnInit, OnDestroy {
 
   async onBookingClick() {
     if (await this.authService.isAuthenticated()) {
-      this.router.navigate(['/prendre-rdv']);
+      this.router.navigate(['/prendre-rdv'], {
+        state: { coiffeur: this.barber }
+      });
     } else {
       const toast = await this.toastCtrl.create({
         message: 'Veuillez vous connecter ou créer un compte pour prendre rendez-vous.',

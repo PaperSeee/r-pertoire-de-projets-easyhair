@@ -8,11 +8,35 @@
 
   <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
 
-    <h2 class="ion-padding">Mes rendez-vous</h2>
+    <h2 class="ion-padding2">Mes rendez-vous</h2>
 
-    <ion-card class="ion-padding" style="margin: 0%; background-color: white;">
-      <p style="margin: 0%;">Vous n'avez pas de rendez-vous pour le moment.</p>
-    </ion-card>
+    <ng-container *ngIf="appointments.length > 0; else noAppointments">
+      <ng-container *ngFor="let rdv of appointments">
+        <ion-card class="ion-padding" *ngIf="rdv.statut !== 'finished'">
+          <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
+          <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
+          <p>💵 {{rdv.tarif}}</p>
+          <p>📍 {{rdv.adresse}}</p>
+          <div style="display: flex; justify-content: space-around;">
+            <ion-button class="black-button" style="width: 100%;" (click)="goToBarberDetail(rdv.uidCoiffeur)">{{rdv.nomCoiffeur}}</ion-button>
+            <ion-button 
+              class="finish" 
+              style="width: 100%;" 
+              [disabled]="!isAppointmentPassed(rdv)"
+              (click)="markAsFinished(rdv)"
+              color="success">
+              Terminé
+            </ion-button>
+          </div>
+        </ion-card>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #noAppointments>
+      <ion-card class="ion-padding">
+        <p>Vous n'avez pas de rendez-vous prévus prochainement.</p>
+      </ion-card>
+    </ng-template>
 
     <h2 class="ion-padding">Général</h2>
 

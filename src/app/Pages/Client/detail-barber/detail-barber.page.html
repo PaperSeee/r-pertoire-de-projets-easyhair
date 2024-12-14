@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-icon name="chevron-back" slot="start" routerLink="/tabs/accueil" style="padding-left: 12px;"></ion-icon>
+    <!--ion-icon name="chevron-back" slot="start" routerLink="/tabs/accueil" style="padding-left: 12px;"></ion-icon-->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
     <ion-title>{{barber?.nomCoiffeur || 'Détails du Barbier'}}</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +12,7 @@
 
 
   <ion-card>
-    <ion-card-header>
+    <ion-card-header class="headerphoto">
       <div class="barber-image">
         <img class="barbercuts" alt="coupe" [src]="barber?.photosCoupes?.[0] || 'assets/default.jpg'" />
       </div>
