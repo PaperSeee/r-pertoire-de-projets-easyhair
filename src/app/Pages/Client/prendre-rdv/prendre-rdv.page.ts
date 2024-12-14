@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController } from '@ionic/angular';
 import GoogleCalendarService from '../../../services/google-calendar.service';
 import { Router } from '@angular/router';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { AuthentificationService } from 'src/app/authentification.service';
 
 @Component({
   selector: 'app-prendre-rdv',
@@ -19,12 +21,15 @@ export class PrendreRdvPage implements OnInit {
   selectedSlot: any = null;
   minDate = new Date().toISOString();
   maxDate = new Date(new Date().setMonth(new Date().getMonth() + 2)).toISOString();
+  userAddress: string = '';
+  private firestore = getFirestore();
 
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
     private googleCalendarService: GoogleCalendarService,
     private alertController: AlertController,
+    private authService: AuthentificationService // Ajoutez le service d'authentification
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
@@ -40,6 +45,7 @@ export class PrendreRdvPage implements OnInit {
 
   async ngOnInit() {
     this.loadAvailableSlots();
+    await this.loadUserAddress();
   }
 
   loadAvailableSlots() {
@@ -95,6 +101,23 @@ export class PrendreRdvPage implements OnInit {
       });
 
       await alert.present();
+    }
+  }
+
+  async loadUserAddress() {
+    try {
+      const user = await this.authService.getProfile();
+      if (user) {
+        const userDoc = await getDoc(doc(this.firestore, 'users', user.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          if (userData?.['adresse']) {
+            this.userAddress = `${userData['adresse'].rue}, ${userData['adresse'].commune}`;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement de l\'adresse:', error);
     }
   }
 
