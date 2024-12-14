@@ -16,7 +16,6 @@ import { AuthentificationService } from 'src/app/authentification.service';
 export class PrendreRdvPage implements OnInit {
   coiffeur: any;
   bookingForm: FormGroup;
-  availableSlots: any[] = [];
   availableTimes: string[] = [];
   selectedSlot: any = null;
   minDate = new Date().toISOString();
@@ -44,23 +43,24 @@ export class PrendreRdvPage implements OnInit {
    }
 
   async ngOnInit() {
-    this.loadAvailableSlots();
     await this.loadUserAddress();
   }
 
-  loadAvailableSlots() {
-    this.googleCalendarService.getAvailableSlots().subscribe(slots => {
-      this.availableSlots = slots;
-    });
-  }
-
-  selectSlot(slot: any) {
-    this.selectedSlot = slot;
-  }
-
   onDateSelected(event: any) {
+    if (this.bookingForm.get('selectedTime')?.value) {
+      this.bookingForm.patchValue({ selectedTime: '' });
+    }
     const selectedDate = event.detail.value;
     this.availableTimes = this.googleCalendarService.getAvailableTimes(selectedDate);
+    
+    // Si aucun horaire n'est disponible
+    if (this.availableTimes.length === 0) {
+      this.alertController.create({
+        header: 'Information',
+        message: 'Aucun horaire n\'est disponible pour aujourd\'hui. Veuillez sélectionner une autre date.',
+        buttons: ['OK']
+      }).then(alert => alert.present());
+    }
   }
 
   async confirmBooking() {
