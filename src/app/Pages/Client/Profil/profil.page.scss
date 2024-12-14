@@ -69,3 +69,10 @@ a.ion-text-white {
   text-decoration: none;
   margin: 16px;
 }
+
+// Dans profil.page.scss, ajouter du style pour le bouton désactivé
+.finish {
+  &[disabled] {
+    opacity: 0.5;
+  }
+}

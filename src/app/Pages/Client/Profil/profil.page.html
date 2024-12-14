@@ -11,12 +11,25 @@
     <h2 class="ion-padding2">Mes rendez-vous</h2>
 
     <ng-container *ngIf="appointments.length > 0; else noAppointments">
-      <ion-card class="ion-padding" *ngFor="let rdv of appointments">
-        <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
-        <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
-        <p>💵 {{rdv.tarif}}</p>
-        <p>📍 {{rdv.adresse}}</p>
-      </ion-card>
+      <ng-container *ngFor="let rdv of appointments">
+        <ion-card class="ion-padding" *ngIf="rdv.statut !== 'finished'">
+          <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
+          <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
+          <p>💵 {{rdv.tarif}}</p>
+          <p>📍 {{rdv.adresse}}</p>
+          <div style="display: flex; justify-content: space-around;">
+            <ion-button style="width: 100%;" (click)="goToBarberDetail(rdv.uidCoiffeur)">{{rdv.nomCoiffeur}}</ion-button>
+            <ion-button 
+              class="finish" 
+              style="width: 100%;" 
+              [disabled]="!isAppointmentPassed(rdv)"
+              (click)="markAsFinished(rdv)"
+              color="success">
+              Terminé
+            </ion-button>
+          </div>
+        </ion-card>
+      </ng-container>
     </ng-container>
 
     <ng-template #noAppointments>

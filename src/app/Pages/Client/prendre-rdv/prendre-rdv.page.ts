@@ -14,6 +14,7 @@ interface Appointment {
   adresse: string;
   date: string;
   heure: string;
+  statut: string; // New field
 }
 
 @Component({
@@ -48,7 +49,8 @@ export class PrendreRdvPage implements OnInit {
     this.bookingForm = this.formBuilder.group({
       selectedService: ['', Validators.required], // Ajout du contrôle pour le service
       selectedDate: ['', Validators.required],
-      selectedTime: ['', Validators.required]
+      selectedTime: ['', Validators.required],
+      statut: ['active'] // Add with default value
     });
    }
 
@@ -90,7 +92,8 @@ export class PrendreRdvPage implements OnInit {
           tarif: this.bookingForm.get('selectedService').value,
           adresse: this.userAddress,
           date: dateOnly, // Using only the date part
-          heure: this.bookingForm.get('selectedTime').value
+          heure: this.bookingForm.get('selectedTime').value,
+          statut: 'active' // Include status
         };
 
         const rdvRef = collection(this.firestore, 'RDV');

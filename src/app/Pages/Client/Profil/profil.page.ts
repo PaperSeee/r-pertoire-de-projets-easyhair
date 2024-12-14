@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc} from 'firebase/firestore';
 
 interface Appointment {
   id: string;
@@ -26,7 +27,8 @@ export class ProfilPage implements OnInit {
 
   constructor(
     private authService: AuthentificationService,
-    private router: Router
+    private router: Router,
+    private toastController: ToastController
   ) {}
 
   ngOnInit() {
@@ -118,5 +120,52 @@ export class ProfilPage implements OnInit {
       month: 'long'
     });
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  }
+
+  // Dans profil.page.ts, ajouter cette fonction
+  goToBarberDetail(uidCoiffeur: string) {
+    this.router.navigate(['/detail-barber', uidCoiffeur]);
+  }
+
+  // Vérifier si le rendez-vous est passé
+  isAppointmentPassed(rdv: Appointment): boolean {
+    const today = new Date();
+    const rdvDate = new Date(rdv.date);
+    const rdvTime = rdv.heure.split(':');
+    rdvDate.setHours(parseInt(rdvTime[0]), parseInt(rdvTime[1]));
+    
+    return rdvDate < today;
+  }
+
+  // Marquer comme terminé
+  async markAsFinished(rdv: Appointment) {
+    try {
+      // Mise à jour du statut dans Firestore avec la bonne collection et le bon champ
+      const rdvDoc = doc(this.firestore, 'RDV', rdv.id);
+      await updateDoc(rdvDoc, {
+        statut: 'finished'
+      });
+
+      // Message de confirmation
+      const toast = await this.toastController.create({
+        message: 'Rendez-vous marqué comme terminé',
+        duration: 2000,
+        position: 'bottom',
+        color: 'success'
+      });
+      toast.present();
+
+      // Rafraîchir la liste des rendez-vous
+      this.loadAppointments();
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour:', error);
+      const toast = await this.toastController.create({
+        message: 'Erreur lors de la mise à jour',
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger'
+      });
+      toast.present();
+    }
   }
 }
