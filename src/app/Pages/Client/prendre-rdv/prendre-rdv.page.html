@@ -9,14 +9,15 @@
   
   <form [formGroup]="bookingForm" (ngSubmit)="confirmBooking()">
 
+    <h2>Résumé</h2>
       <!-- Calendrier Google intégré -->
     <div class="rdv-info">
       <ion-text *ngIf="coiffeur">
-        <p><strong>{{coiffeur.nomCoiffeur}}</strong></p>
+        <p><strong>💇‍♂️ {{coiffeur.nomCoiffeur}}</strong></p>
       </ion-text>
 
       <div class="adresse-rdv">
-        <p><strong>Votre domicile :</strong> {{userAddress || 'Adresse non disponible'}}</p>
+        <p>🏠 {{userAddress || 'Adresse non disponible'}}</p>
       </div>
 
       <!-- Sélection du tarif -->
