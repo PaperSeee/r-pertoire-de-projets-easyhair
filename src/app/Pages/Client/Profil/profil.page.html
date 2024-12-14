@@ -20,11 +20,10 @@
           <div style="display: flex; justify-content: space-around;">
             <ion-button class="black-button" style="width: 100%;" (click)="goToBarberDetail(rdv.uidCoiffeur)">{{rdv.nomCoiffeur}}</ion-button>
             <ion-button 
-              class="finish" 
+              class="finish gold-button" 
               style="width: 100%;" 
               [disabled]="!isAppointmentPassed(rdv)"
-              (click)="markAsFinished(rdv)"
-              color="success">
+              (click)="markAsFinished(rdv)">
               Terminé
             </ion-button>
           </div>
@@ -56,6 +55,10 @@
       <a routerLink="/contact" class="clickable-item">
         <ion-icon name="mail-outline" slot="start"></ion-icon>
         <span>Nous contacter</span>
+      </a>
+      <a class="clickable-item">
+        <ion-icon name="reader-outline" slot="start"></ion-icon>
+        <span>Mentions légales</span>
       </a>
     </div>
 
