@@ -8,18 +8,19 @@
 
   <ng-container *ngIf="isLoggedIn(); else notLoggedIn">
 
-    <h2 class="ion-padding">Mes rendez-vous</h2>
+    <h2 class="ion-padding2">Mes rendez-vous</h2>
 
     <ng-container *ngIf="appointments.length > 0; else noAppointments">
-      <ion-card class="ion-padding" style="margin: 0%; background-color: white;" *ngFor="let rdv of appointments">
-        <h2>{{rdv.date}}, {{rdv.heure}}</h2>
-        <p>{{rdv.nomCoiffeur}}, {{rdv.tarif}}</p>
+      <ion-card class="ion-padding" *ngFor="let rdv of appointments">
+        <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
+        <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
+        <p>💵 {{rdv.tarif}}</p>
         <p>📍 {{rdv.adresse}}</p>
       </ion-card>
     </ng-container>
 
     <ng-template #noAppointments>
-      <ion-card class="ion-padding" style="margin: 0%; background-color: white;">
+      <ion-card class="ion-padding">
         <p>Vous n'avez pas de rendez-vous prévus prochainement.</p>
       </ion-card>
     </ng-template>

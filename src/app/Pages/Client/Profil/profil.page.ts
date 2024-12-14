@@ -108,4 +108,15 @@ export class ProfilPage implements OnInit {
       this.appointments = [];
     }
   }
+
+  // Dans profil.page.ts, ajoutez cette fonction
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const formatted = date.toLocaleDateString('fr-FR', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long'
+    });
+    return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  }
 }
