@@ -10,9 +10,19 @@
 
     <h2 class="ion-padding">Mes rendez-vous</h2>
 
-    <ion-card class="ion-padding" style="margin: 0%; background-color: white;">
-      <p style="margin: 0%;">Vous n'avez pas de rendez-vous pour le moment.</p>
-    </ion-card>
+    <ng-container *ngIf="appointments.length > 0; else noAppointments">
+      <ion-card class="ion-padding" style="margin: 0%; background-color: white;" *ngFor="let rdv of appointments">
+        <h2>{{rdv.date}}, {{rdv.heure}}</h2>
+        <p>{{rdv.nomCoiffeur}}, {{rdv.tarif}}</p>
+        <p>📍 {{rdv.adresse}}</p>
+      </ion-card>
+    </ng-container>
+
+    <ng-template #noAppointments>
+      <ion-card class="ion-padding" style="margin: 0%; background-color: white;">
+        <p>Vous n'avez pas de rendez-vous prévus prochainement.</p>
+      </ion-card>
+    </ng-template>
 
     <h2 class="ion-padding">Général</h2>
 
