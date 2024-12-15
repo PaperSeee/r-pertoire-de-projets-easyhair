@@ -12,9 +12,9 @@
 
     <ng-container *ngIf="appointments.length > 0; else noAppointments">
       <ng-container *ngFor="let rdv of appointments">
-        <ion-card class="ion-padding" *ngIf="rdv.statut !== 'finished'">
+        <ion-card class="nextrdv ion-padding" *ngIf="rdv.statut !== 'finished'">
           <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
-          <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
+          <p style="font-weight: 500;">💇‍♂️ {{rdv.nomCoiffeur}}</p>
           <p>💵 {{rdv.tarif}}</p>
           <p>📍 {{rdv.adresse}}</p>
           <div style="display: flex; justify-content: space-around;">
@@ -72,7 +72,7 @@
             <ng-container *ngFor="let rdv of appointments">
               <ion-card class="ion-padding" *ngIf="rdv.statut == 'finished'">
                 <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
-                <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
+                <p style="font-weight: 500;">💇‍♂️ {{rdv.nomCoiffeur}}</p>
                 <p>💵 {{rdv.tarif}}</p>
                 <p>📍 {{rdv.adresse}}</p>
                 <div style="display: flex; justify-content: space-around;">
