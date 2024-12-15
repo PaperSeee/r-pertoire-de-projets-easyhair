@@ -10,6 +10,9 @@ import { environment } from 'src/environments/environment';
 })
 export class AccueilPage implements OnInit {
   coiffeurs: any[] = [];
+  filteredCoiffeurs: any[] = [];
+  activeFilter: string | null = null;
+  sortByPriceAsc: boolean = true;
   private firebaseApp = initializeApp(environment.firebaseConfig);
   private firestore = getFirestore(this.firebaseApp);
   isSearchbarOpen: boolean = false;
@@ -48,6 +51,27 @@ export class AccueilPage implements OnInit {
     } catch (error) {
       console.error('Erreur lors du chargement des coiffeurs:', error);
     }
+  }
+
+  filterByType(type: string) {
+    if (this.activeFilter === type) {
+      this.activeFilter = null;
+      this.filteredCoiffeurs = [...this.coiffeurs];
+    } else {
+      this.activeFilter = type;
+      this.filteredCoiffeurs = this.coiffeurs.filter(coiffeur => 
+        coiffeur.typeCoiffeur?.includes(type)
+      );
+    }
+  }
+
+  toggleSortByPrice() {
+    this.sortByPriceAsc = !this.sortByPriceAsc;
+    this.filteredCoiffeurs.sort((a, b) => {
+      const prixA = parseFloat(this.getPrix(a.tarifs?.[0] || '0').replace('€', ''));
+      const prixB = parseFloat(this.getPrix(b.tarifs?.[0] || '0').replace('€', ''));
+      return this.sortByPriceAsc ? prixA - prixB : prixB - prixA;
+    });
   }
 
   // Helper pour extraire le prix des tarifs

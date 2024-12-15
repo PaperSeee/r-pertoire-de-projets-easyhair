@@ -15,10 +15,19 @@
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <div class="filters">
-    <ion-chip [outline]="true">Barbers</ion-chip>
-    <ion-chip [outline]="true">Coupe homme</ion-chip>
-    <ion-chip [outline]="true">Coupe femme</ion-chip>
-    <ion-chip [outline]="true">↑↓</ion-chip>
+    <ion-chip [outline]="true" [class.active]="activeFilter === 'Barber'" (click)="filterByType('Barber')">
+      Barbers
+    </ion-chip>
+    <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur homme'" (click)="filterByType('Coiffeur homme')">
+      Coupe homme
+    </ion-chip>
+    <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur femme'" (click)="filterByType('Coiffeur femme')">
+      Coupe femme
+    </ion-chip>
+    <ion-chip [outline]="true" (click)="toggleSortByPrice()">
+      <ion-icon [name]="sortByPriceAsc ? 'arrow-up' : 'arrow-down'"></ion-icon>
+      Prix
+    </ion-chip>
   </div>
 
   <ion-card *ngFor="let coiffeur of filteredCoiffeurs" [routerLink]="['/detail-barber', coiffeur.id]">
