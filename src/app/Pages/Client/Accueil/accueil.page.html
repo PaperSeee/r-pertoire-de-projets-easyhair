@@ -1,7 +1,14 @@
 <ion-header>
   <ion-toolbar class="headerchiant">
     <img src="../../../../assets/icon/logo+txt.png" alt="logo easyhair" class="logo" slot="start">
-    <ion-icon name="search" slot="end" style="margin-right: 16px;"></ion-icon>
+    <ion-icon name="search" slot="end" style="margin-right: 16px;" (click)="toggleSearchbar()"></ion-icon>
+  </ion-toolbar>
+  
+  <ion-toolbar *ngIf="isSearchbarOpen">
+    <ion-searchbar placeholder="Rechercher un coiffeur" 
+                   (ionInput)="handleSearch($event)"
+                   [value]="searchTerm">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
@@ -14,7 +21,7 @@
     <ion-chip [outline]="true">↑↓</ion-chip>
   </div>
 
-  <ion-card *ngFor="let coiffeur of coiffeurs" [routerLink]="['/detail-barber', coiffeur.id]">
+  <ion-card *ngFor="let coiffeur of filteredCoiffeurs" [routerLink]="['/detail-barber', coiffeur.id]">
     <div class="cuts" style="display: inline;" *ngIf="coiffeur.photosCoupes?.length > 0">
       <img class="barbercuts" [src]="coiffeur.photosCoupes[0]" alt="coupe" />
     </div>

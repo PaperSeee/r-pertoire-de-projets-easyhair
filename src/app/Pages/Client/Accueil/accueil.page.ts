@@ -12,11 +12,29 @@ export class AccueilPage implements OnInit {
   coiffeurs: any[] = [];
   private firebaseApp = initializeApp(environment.firebaseConfig);
   private firestore = getFirestore(this.firebaseApp);
+  isSearchbarOpen: boolean = false;
+  searchTerm: string = '';
+  filteredCoiffeurs: any[] = [];
 
   constructor() {}
 
   ngOnInit() {
     this.loadCoiffeurs();
+  }
+
+  toggleSearchbar() {
+    this.isSearchbarOpen = !this.isSearchbarOpen;
+    if (!this.isSearchbarOpen) {
+      this.searchTerm = '';
+      this.filteredCoiffeurs = [...this.coiffeurs];
+    }
+  }
+
+  handleSearch(event: any) {
+    this.searchTerm = event.target.value.toLowerCase();
+    this.filteredCoiffeurs = this.coiffeurs.filter(coiffeur => 
+      coiffeur.nomCoiffeur.toLowerCase().includes(this.searchTerm)
+    );
   }
 
   async loadCoiffeurs() {
@@ -26,6 +44,7 @@ export class AccueilPage implements OnInit {
         id: doc.id,
         ...doc.data()
       }));
+      this.filteredCoiffeurs = [...this.coiffeurs];
     } catch (error) {
       console.error('Erreur lors du chargement des coiffeurs:', error);
     }
