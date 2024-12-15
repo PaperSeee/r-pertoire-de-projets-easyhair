@@ -72,12 +72,10 @@ export class ProfilPage implements OnInit {
 
       const rdvRef = collection(this.firestore, 'RDV');
       
-      // Créer la requête avec le filtrage par uidClient
+      // Requête simplifiée sans filtre de date
       const q = query(
         rdvRef,
-        where('uidClient', '==', user.uid),
-        // Optionnel: Ajouter un tri par date
-        where('date', '>=', new Date().toISOString().split('T')[0]) // Ne prendre que les RDV à venir
+        where('uidClient', '==', user.uid)
       );
 
       const querySnapshot = await getDocs(q);
@@ -88,13 +86,12 @@ export class ProfilPage implements OnInit {
         return;
       }
 
-      // Mapper les documents en objets typés
       this.appointments = querySnapshot.docs.map(doc => ({
         id: doc.id,
         ...doc.data()
       } as Appointment));
 
-      // Trier les rendez-vous par date et heure
+      // Tri par date et heure
       this.appointments.sort((a, b) => {
         const dateComparison = new Date(a.date).getTime() - new Date(b.date).getTime();
         if (dateComparison === 0) {
@@ -106,7 +103,6 @@ export class ProfilPage implements OnInit {
       console.log('Rendez-vous chargés:', this.appointments);
     } catch (error) {
       console.error('Erreur lors du chargement des rendez-vous:', error);
-      // Optionnel: Afficher un message d'erreur à l'utilisateur
       this.appointments = [];
     }
   }

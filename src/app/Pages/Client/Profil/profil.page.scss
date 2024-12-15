@@ -76,3 +76,14 @@ a.ion-text-white {
     opacity: 0.5;
   }
 }
+
+.block {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  padding: 16px;
+}
+
+ion-modal {
+  --height: auto;
+}
