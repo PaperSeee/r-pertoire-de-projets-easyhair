@@ -17,7 +17,6 @@ export class AccueilPage implements OnInit {
   private firestore = getFirestore(this.firebaseApp);
   isSearchbarOpen: boolean = false;
   searchTerm: string = '';
-  filteredCoiffeurs: any[] = [];
 
   constructor() {}
 
