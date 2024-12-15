@@ -1,4 +1,3 @@
-
 ion-content {
   --background: #F1F1F1;
 }
@@ -92,4 +91,11 @@ ion-card-content {
 .barberrate {
   grid-area: rate;
   margin: 0;
+}
+
+ion-chip {
+  &.active {
+    --background: var(--ion-color-primary);
+    --color: white;
+  }
 }
