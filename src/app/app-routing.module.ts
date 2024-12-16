@@ -120,6 +120,10 @@ const routes: Routes = [
     path: 'delete-account',
     loadChildren: () => import('./Pages/delete-account/delete-account.module').then( m => m.DeleteAccountPageModule)
   },
+  {
+    path: 'mes-horaires',
+    loadChildren: () => import('./Pages/Coiffeur/mes-horaires/mes-horaires.module').then( m => m.MesHorairesPageModule)
+  },
 ];
 
 @NgModule({
