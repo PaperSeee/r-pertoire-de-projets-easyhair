@@ -13,6 +13,7 @@ interface Appointment {
   tarif: string;
   uidClient: string;
   uidCoiffeur: string;
+  statut?: string;
 }
 
 @Component({
@@ -157,6 +158,45 @@ export class ProfilPage implements OnInit {
       console.error('Erreur lors de la mise à jour:', error);
       const toast = await this.toastController.create({
         message: 'Erreur lors de la mise à jour',
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger'
+      });
+      toast.present();
+    }
+  }
+
+  // Vérifier si l'annulation est possible (24h avant)
+  canCancelAppointment(rdv: Appointment): boolean {
+    const now = new Date();
+    const rdvDate = new Date(rdv.date);
+    const rdvTime = rdv.heure.split(':');
+    rdvDate.setHours(parseInt(rdvTime[0]), parseInt(rdvTime[1]));
+    
+    const diffHours = (rdvDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+    return diffHours >= 24;
+  }
+
+  async cancelAppointment(rdv: Appointment) {
+    try {
+      const rdvDoc = doc(this.firestore, 'RDV', rdv.id);
+      await updateDoc(rdvDoc, {
+        statut: 'canceled'
+      });
+
+      const toast = await this.toastController.create({
+        message: 'Rendez-vous annulé avec succès',
+        duration: 2000,
+        position: 'bottom',
+        color: 'success'
+      });
+      toast.present();
+
+      this.loadAppointments();
+    } catch (error) {
+      console.error('Erreur lors de l\'annulation:', error);
+      const toast = await this.toastController.create({
+        message: 'Erreur lors de l\'annulation du rendez-vous',
         duration: 2000,
         position: 'bottom',
         color: 'danger'

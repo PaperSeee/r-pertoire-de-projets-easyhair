@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/coiffeur-tabs/mon-compte"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mes horaires</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item-group *ngFor="let day of orderedDays">
+      <ion-item>
+        <ion-label>{{day}}</ion-label>
+        <ion-toggle [(ngModel)]="weekSchedule[day].enabled"></ion-toggle>
+      </ion-item>
+      
+      <ion-item *ngIf="weekSchedule[day].enabled">
+        <ion-select [(ngModel)]="weekSchedule[day].hours" 
+                   multiple="true"
+                   placeholder="Sélectionnez vos heures">
+          <ion-select-option *ngFor="let hour of availableHours" [value]="hour">
+            {{hour}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-button expand="block" 
+              class="ion-margin-top"
+              (click)="saveSchedule()"
+              class="black-button">
+    Sauvegarder mes horaires
+  </ion-button>
+</ion-content>

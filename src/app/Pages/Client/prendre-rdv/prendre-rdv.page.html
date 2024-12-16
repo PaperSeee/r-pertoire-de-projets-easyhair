@@ -20,7 +20,15 @@
       </ion-text>
 
       <div class="adresse-rdv">
-        <p>🏠 {{userAddress || 'Adresse non disponible'}}</p>
+        <p>
+          🏠 {{userAddress || 'Adresse non disponible'}}
+          <ion-button *ngIf="!userAddress" 
+                      size="small" 
+                      fill="outline"
+                      routerLink="/mes-informations">
+            Configurer
+          </ion-button>
+        </p>
       </div>
 
       <!-- Sélection du tarif -->

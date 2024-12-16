@@ -3,8 +3,174 @@ ion-content {
 }
 
 h2 {
+  margin-top: 0px;
   margin-bottom: 0px;
   font-size: 18px;
   font-weight: 600;
   color: #333;
+}
+
+ion-card {
+  margin: 0px 0px 12px 0px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.date {
+  background: linear-gradient(to bottom, #FFC268, #AA7019);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.canceled-text {
+  color: var(--ion-color-danger);
+  font-weight: bold;
+}
+
+.stats-card {
+  padding: 12px;
+  display: flex;
+  flex-direction: row-reverse; // Reverse order to put chart on left
+  justify-content: space-between;
+  align-items: center;
+  height: 170px; // Smaller base height for mobile
+  max-height: 25vh; // Reduced viewport height
+  gap: 15px; // Smaller gap for mobile
+}
+
+.stats-grid {
+  flex: 0 1 170px; // Take 20% of space
+  height: 170px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px; // Reduced gap
+  padding-right: 10px;
+}
+
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+  }
+}
+
+.stat-number {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.chart-container {
+  flex: 0 0 100px; // Take 55% of space
+  height: 100px;
+  position: relative; // Important for chart rendering
+  
+  
+  canvas {
+    width: 200px !important;
+    height: 200px !important;
+    position: absolute;
+    left: -20px;
+    top: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-card {
+    flex-direction: row-reverse;
+    height: auto;
+    justify-content: center;
+  }
+  
+  .stats-grid {
+    width: 100%;
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+  
+  .chart-container {
+    flex: 1;
+    width: 100%;
+    min-height: 250px;
+    margin-left: 0;
+  }
+}
+
+.black {
+  font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+    --background: linear-gradient(to bottom, #555555, #2A2626);
+    border: none;
+    outline: none;
+}
+
+.setup-card {
+  margin-bottom: 20px;
+  
+  ion-card-header {
+    padding-bottom: 8px;
+  }
+
+  .progress-bar {
+    width: 100%;
+    height: 4px;
+    background-color: #f0f0f0;
+    border-radius: 2px;
+    margin: 16px 0;
+    overflow: hidden;
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(to right, #FFC268, #AA7019);
+      transition: width 0.3s ease;
+    }
+  }
+
+  ion-item {
+    --padding-start: 4px;
+    cursor: pointer;
+    --border-color: #FFF;
+    --border-radius: 8px;
+    margin-bottom: 4px;
+
+    &:hover {
+      --background: #f9f9f9;
+    }
+
+    ion-icon {
+      font-size: 24px;
+      margin-right: 16px;
+    }
+
+    p {
+      margin-top: 4px;
+      color: #666;
+    }
+  }
 }

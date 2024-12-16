@@ -6,6 +6,15 @@ import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 
+interface User {
+  uid: string;
+  email: string;
+  adresse?: {
+    rue?: string;
+    commune?: string;
+  };
+}
+
 @Component({
   selector: 'app-detail-barber',
   templateUrl: './detail-barber.page.html',

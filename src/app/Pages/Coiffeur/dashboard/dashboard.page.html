@@ -5,17 +5,103 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <!-- Carte de configuration -->
+  <ion-card *ngIf="getConfigCount() < 2" class="setup-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="alert-circle-outline" color="warning"></ion-icon>
+        Configuration requise
+      </ion-card-title>
+      <ion-card-subtitle>
+        Progression : {{getConfigCount()}}/2
+      </ion-card-subtitle>
+    </ion-card-header>
 
-  <h2 class="ion-padding">Futurs rendez-vous</h2>
+    <ion-card-content>
+      <div class="progress-bar">
+        <div class="progress" [style.width]="(getConfigCount() / 2 * 100) + '%'"></div>
+      </div>
 
-  <ion-card class="ion-padding" style="margin: 0%; background-color: white;">
-    <p style="margin: 0%;">Vous n'avez pas de rendez-vous pour le moment.</p>
+      
+      <ion-item [routerLink]="['/mon-profil-coiffeur']" detail="true">
+        <ion-icon [name]="configProgress.profile ? 'checkmark-circle' : 'alert-circle'" 
+                  [color]="configProgress.profile ? 'success' : 'warning'"
+                  slot="start"></ion-icon>
+        <ion-label>
+          Configurer mon profil
+          <p>Ajoutez une photo et vos tarifs</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item [routerLink]="['/mes-horaires']" detail="true">
+        <ion-icon [name]="configProgress.schedule ? 'checkmark-circle' : 'alert-circle'" 
+                  [color]="configProgress.schedule ? 'success' : 'warning'"
+                  slot="start"></ion-icon>
+        <ion-label>
+          Configurer mes horaires
+          <p>Définissez vos disponibilités</p>
+        </ion-label>
+      </ion-item>
+      
+    </ion-card-content>
   </ion-card>
 
-  <h2 class="ion-padding">Rendez-vous à confirmer</h2>
+  <h2 class="ion-padding">📊 Activité</h2>
 
-  <ion-card class="ion-padding" style="margin: 0%; background-color: white;">
-    <p style="margin: 0%;">Vous n'avez pas de rendez-vous pour le moment.</p>
+  <ion-card class="ion-padding stats-card">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h3>Total RDV</h3>
+        <p class="stat-number">{{stats.total}}</p>
+      </div>
+      <div class="stat-item">
+        <h3>Terminés</h3>
+        <p class="stat-number success">{{stats.finished}}</p>
+      </div>
+      <div class="stat-item">
+        <h3>Annulés</h3>
+        <p class="stat-number danger">{{stats.canceled}}</p>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="pieChart"></canvas>
+    </div>
   </ion-card>
+
+  <h2 class="ion-padding">📆 Futurs rendez-vous</h2>
+
+  <!-- Modifier la condition pour utiliser les rendez-vous actifs -->
+  <ng-container *ngIf="getActiveAppointments().length > 0; else noAppointments">
+    <ng-container *ngFor="let rdv of appointments">
+      <ion-card class="ion-padding nxtrdv" *ngIf="rdv.statut !== 'finished'">
+        <h2>{{rdv.nomCompletClient}}</h2>
+        <p>💵 {{rdv.tarif}}</p>
+        <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
+        
+        <ng-container *ngIf="rdv.statut === 'canceled'; else showAddress">
+          <h2 class="canceled-text" color="danger">Annulé</h2>
+          <ion-button class="black" (click)="deleteAppointment(rdv.id)">D'accord</ion-button>
+        </ng-container>
+        
+        <ng-template #showAddress>
+          <h2>📍 {{rdv.adresse}}</h2>
+          <ion-button 
+            *ngIf="isAppointmentPast(rdv.date, rdv.heure) && rdv.statut !== 'canceled'"
+            expand="block"
+            class="black-button"
+            (click)="markAsFinished(rdv.id)">
+            Terminé
+          </ion-button>
+        </ng-template>
+      </ion-card>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #noAppointments>
+    <ion-card class="ion-padding">
+      <p>Vous n'avez pas de rendez-vous pour le moment.</p>
+    </ion-card>
+  </ng-template>
 
 </ion-content>

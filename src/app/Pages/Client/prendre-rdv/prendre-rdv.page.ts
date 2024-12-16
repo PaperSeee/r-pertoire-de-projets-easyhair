@@ -58,18 +58,24 @@ export class PrendreRdvPage implements OnInit {
     await this.loadUserAddress();
   }
 
-  onDateSelected(event: any) {
+  async onDateSelected(event: any) {
     if (this.bookingForm.get('selectedTime')?.value) {
       this.bookingForm.patchValue({ selectedTime: '' });
     }
     const selectedDate = event.detail.value;
-    this.availableTimes = this.googleCalendarService.getAvailableTimes(selectedDate);
+    const dateOnly = selectedDate.split('T')[0];
     
+    // Récupérer uniquement les créneaux disponibles
+    this.availableTimes = await this.googleCalendarService.getAvailableTimesForDate(
+      this.coiffeur.uid,
+      dateOnly
+    );
+      
     // Si aucun horaire n'est disponible
     if (this.availableTimes.length === 0) {
       this.alertController.create({
         header: 'Information',
-        message: 'Aucun horaire n\'est disponible pour aujourd\'hui. Veuillez sélectionner une autre date.',
+        message: 'Aucun horaire n\'est disponible pour cette date. Veuillez sélectionner une autre date.',
         buttons: ['OK']
       }).then(alert => alert.present());
     }
@@ -81,10 +87,27 @@ export class PrendreRdvPage implements OnInit {
         const currentUser = await this.authService.getProfile();
         if (!currentUser) throw new Error('Utilisateur non connecté');
 
-        // Get the date value and format it
         const fullDate = this.bookingForm.get('selectedDate').value;
-        const dateOnly = fullDate.split('T')[0]; // This will get only '2024-12-16'
-        
+        const dateOnly = fullDate.split('T')[0];
+        const selectedTime = this.bookingForm.get('selectedTime').value;
+
+        // Vérifier si le créneau est disponible
+        const isAvailable = await this.googleCalendarService.isTimeSlotAvailable(
+          this.coiffeur.uid,
+          dateOnly,
+          selectedTime
+        );
+
+        if (!isAvailable) {
+          const alert = await this.alertController.create({
+            header: 'Créneau non disponible',
+            message: 'Le créneau sélectionné n\'est plus disponible. Veuillez en choisir un autre.',
+            buttons: ['OK']
+          });
+          await alert.present();
+          return;
+        }
+
         const appointment: Appointment = {
           uidCoiffeur: this.coiffeur.uid,
           uidClient: currentUser.uid,
@@ -92,7 +115,7 @@ export class PrendreRdvPage implements OnInit {
           tarif: this.bookingForm.get('selectedService').value,
           adresse: this.userAddress,
           date: dateOnly, // Using only the date part
-          heure: this.bookingForm.get('selectedTime').value,
+          heure: selectedTime,
           statut: 'active' // Include status
         };
 

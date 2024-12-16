@@ -57,3 +57,35 @@ h2 {
 #haut {
   margin-top: 32px;
 }
+
+.block {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  padding: 16px;
+}
+
+ion-modal {
+  --height: auto;
+}
+
+ion-card {
+  margin: 12px 0px 12px 0px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
+.ion-padding2 {
+  padding: 16px 16px 0px 16px;
+}
+
+.date {
+  margin-top: 0px;
+  margin-bottom: 4px;
+}
+
+p {
+  margin: 0px;
+}

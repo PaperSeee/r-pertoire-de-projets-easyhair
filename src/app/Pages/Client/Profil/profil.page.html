@@ -12,11 +12,38 @@
 
     <ng-container *ngIf="appointments.length > 0; else noAppointments">
       <ng-container *ngFor="let rdv of appointments">
-        <ion-card class="ion-padding" *ngIf="rdv.statut !== 'finished'">
-          <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
-          <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
+        <ion-card class="nextrdv ion-padding" *ngIf="rdv.statut !== 'finished' && rdv.statut !== 'canceled'">
+          <div style="display: flex; justify-content: space-between; align-items: start;">
+
+            <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
+
+            <ion-button fill="clear" 
+                      [id]="'trigger-button-' + rdv.id"
+                      style="margin-top: -10px; margin-right: -10px;">
+              <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+            </ion-button>
+
+            <ion-popover [trigger]="'trigger-button-' + rdv.id" triggerAction="click">
+              <ng-template>
+                <ion-content>
+                  <ion-button expand="block" 
+                            fill="clear"
+                            style="margin: 0%;" 
+                            color="danger"
+                            [disabled]="!canCancelAppointment(rdv)"
+                            (click)="cancelAppointment(rdv)">
+                    Annuler le rendez-vous
+                  </ion-button>
+                </ion-content>
+              </ng-template>
+            </ion-popover>
+
+          </div>
+
+          <p style="font-weight: 500;">💇‍♂️ {{rdv.nomCoiffeur}}</p>
           <p>💵 {{rdv.tarif}}</p>
           <p>📍 {{rdv.adresse}}</p>
+
           <div style="display: flex; justify-content: space-around;">
             <ion-button class="black-button" style="width: 100%;" (click)="goToBarberDetail(rdv.uidCoiffeur)">{{rdv.nomCoiffeur}}</ion-button>
             <ion-button 
@@ -27,6 +54,7 @@
               Terminé
             </ion-button>
           </div>
+          
         </ion-card>
       </ng-container>
     </ng-container>
@@ -45,7 +73,7 @@
         <span>Mes informations</span>
       </a>
       <a class="clickable-item" id="open-modal">
-        <ion-icon name="git-commit-outline" slot="start"></ion-icon>
+        <ion-icon name="file-tray-full-outline"></ion-icon>
         <span>Historique des rendez-vous</span>
       </a>
     </div>
@@ -72,7 +100,7 @@
             <ng-container *ngFor="let rdv of appointments">
               <ion-card class="ion-padding" *ngIf="rdv.statut == 'finished'">
                 <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
-                <p>💇‍♂️ {{rdv.nomCoiffeur}}</p>
+                <p style="font-weight: 500;">💇‍♂️ {{rdv.nomCoiffeur}}</p>
                 <p>💵 {{rdv.tarif}}</p>
                 <p>📍 {{rdv.adresse}}</p>
                 <div style="display: flex; justify-content: space-around;">
