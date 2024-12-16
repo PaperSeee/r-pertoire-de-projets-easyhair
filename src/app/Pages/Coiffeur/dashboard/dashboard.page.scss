@@ -153,8 +153,11 @@ p {
   }
 
   ion-item {
-    --padding-start: 0;
+    --padding-start: 4px;
     cursor: pointer;
+    --border-color: #FFF;
+    --border-radius: 8px;
+    margin-bottom: 4px;
 
     &:hover {
       --background: #f9f9f9;
