@@ -56,8 +56,16 @@ export class AgendaPage implements OnInit {
         return;
       }
 
+      // Créer la date du jour sans l'heure
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayString = today.toISOString().split('T')[0];
+
       const rdvRef = collection(this.firestore, 'RDV');
-      const q = query(rdvRef, where('uidCoiffeur', '==', user.uid));
+      const q = query(rdvRef, 
+        where('uidCoiffeur', '==', user.uid),
+        where('date', '>=', todayString)
+      );
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
