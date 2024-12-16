@@ -7,6 +7,30 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item-group *ngFor="let day of weekSchedule | keyvalue">
+      <ion-item>
+        <ion-label>{{day.key}}</ion-label>
+        <ion-toggle [(ngModel)]="day.value.enabled"></ion-toggle>
+      </ion-item>
+      
+      <ion-item *ngIf="day.value.enabled">
+        <ion-select [(ngModel)]="day.value.hours" 
+                   multiple="true"
+                   placeholder="Sélectionnez vos heures">
+          <ion-select-option *ngFor="let hour of availableHours" [value]="hour">
+            {{hour}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
 
+  <ion-button expand="block" 
+              class="ion-margin-top"
+              (click)="saveSchedule()"
+              class="black-button">
+    Sauvegarder mes horaires
+  </ion-button>
 </ion-content>

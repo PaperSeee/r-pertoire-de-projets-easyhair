@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, doc, getDoc } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +9,10 @@ export class GoogleCalendarService {
 
   constructor() { }
 
-  async isTimeSlotAvailable(coiffeurId: string, date: string, heure: string): Promise<boolean> {
+  async isTimeSlotAvailable(uid: string, date: string, heure: string): Promise<boolean> {
     const rdvRef = collection(this.firestore, 'RDV');
     const q = query(rdvRef, 
-      where('uidCoiffeur', '==', coiffeurId),
+      where('uidCoiffeur', '==', uid),
       where('date', '==', date),
       where('heure', '==', heure),
       where('statut', '!=', 'canceled')
@@ -49,18 +49,50 @@ export class GoogleCalendarService {
     });
   }
 
-  async getAvailableTimesForDate(coiffeurId: string, date: string): Promise<string[]> {
-    const allTimes = this.getAvailableTimes(date);
-    const availableTimes = [];
+  async getAvailableTimesForDate(uid: string, date: string): Promise<string[]> {
+    // 1. Récupérer le jour de la semaine
+    const selectedDate = new Date(date);
+    const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    const dayName = days[selectedDate.getDay()];
 
-    for (const time of allTimes) {
-      const isAvailable = await this.isTimeSlotAvailable(coiffeurId, date, time);
+    // 2. Récupérer les horaires du coiffeur
+    const coiffeurDoc = await getDoc(doc(this.firestore, 'Coiffeurs', uid));
+    if (!coiffeurDoc.exists()) return [];
+
+    const schedule = coiffeurDoc.data()?.['schedule'];
+    if (!schedule) return [];
+
+    // 3. Vérifier si le jour est activé et récupérer ses horaires
+    const daySchedule = schedule[dayName];
+    if (!daySchedule?.enabled || !daySchedule?.hours?.length) return [];
+
+    // 4. Filtrer les horaires déjà réservés
+    const availableHours = [];
+    for (const hour of daySchedule.hours) {
+      const isAvailable = await this.isTimeSlotAvailable(uid, date, hour);
       if (isAvailable) {
-        availableTimes.push(time);
+        availableHours.push(hour);
       }
     }
 
-    return availableTimes;
+    // 5. Filtrer les heures passées si c'est aujourd'hui
+    const now = new Date();
+    const isToday = selectedDate.toDateString() === now.toDateString();
+    
+    if (isToday) {
+      return availableHours.filter(time => {
+        const [hours, minutes] = time.split(':').map(Number);
+        if (hours > now.getHours()) {
+          return true;
+        }
+        if (hours === now.getHours()) {
+          return minutes > now.getMinutes();
+        }
+        return false;
+      });
+    }
+
+    return availableHours;
   }
 }
 
