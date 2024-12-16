@@ -5,7 +5,31 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2 class="ion-padding">Futurs rendez-vous</h2>
+
+  <h2 class="ion-padding">📊 Statistiques</h2>
+
+  <ion-card class="ion-padding stats-card">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <h3>Total RDV</h3>
+        <p class="stat-number">{{stats.total}}</p>
+      </div>
+      <div class="stat-item">
+        <h3>Terminés</h3>
+        <p class="stat-number success">{{stats.finished}}</p>
+      </div>
+      <div class="stat-item">
+        <h3>Annulés</h3>
+        <p class="stat-number danger">{{stats.canceled}}</p>
+      </div>
+    </div>
+    
+    <div class="chart-container">
+      <canvas id="pieChart"></canvas>
+    </div>
+  </ion-card>
+
+  <h2 class="ion-padding">📆 Futurs rendez-vous</h2>
 
   <ng-container *ngIf="appointments.length > 0; else noAppointments">
     <ng-container *ngFor="let rdv of appointments">

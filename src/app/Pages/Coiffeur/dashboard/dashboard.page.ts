@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { getFirestore, collection, query, where, getDocs, getDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { AuthentificationService } from 'src/app/authentification.service';
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
 
 interface Appointment {
   id: string;
@@ -21,6 +23,11 @@ interface Appointment {
 export class DashboardPage implements OnInit {
   appointments: Appointment[] = [];
   private firestore = getFirestore();
+  stats = {
+    total: 0,
+    finished: 0,
+    canceled: 0
+  };
 
   constructor(private authService: AuthentificationService) {}
 
@@ -77,6 +84,7 @@ export class DashboardPage implements OnInit {
       }
 
       this.appointments = appointments;
+      this.calculateStats(); // Add this line after appointments are loaded
 
       // Tri par date et heure
       this.appointments.sort((a, b) => {
@@ -90,6 +98,33 @@ export class DashboardPage implements OnInit {
     } catch (error) {
       console.error('Erreur lors du chargement des rendez-vous:', error);
       this.appointments = [];
+    }
+  }
+
+  private calculateStats() {
+    this.stats.total = this.appointments.length;
+    this.stats.finished = this.appointments.filter(rdv => rdv.statut === 'finished').length;
+    this.stats.canceled = this.appointments.filter(rdv => rdv.statut === 'canceled').length;
+    this.createCharts();
+  }
+
+  private createCharts() {
+    const pieCtx = document.getElementById('pieChart') as HTMLCanvasElement;
+    if (pieCtx) {
+      new Chart(pieCtx, {
+        type: 'pie',
+        data: {
+          labels: ['En cours', 'Terminés', 'Annulés'],
+          datasets: [{
+            data: [
+              this.stats.total - (this.stats.finished + this.stats.canceled),
+              this.stats.finished,
+              this.stats.canceled
+            ],
+            backgroundColor: ['#343434', '#8C8C8C', '#D9D9D9']
+          }]
+        }
+      });
     }
   }
 
