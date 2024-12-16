@@ -29,16 +29,22 @@ export class DashboardPage implements OnInit, OnDestroy {
     canceled: 0
   };
   private pieChart: Chart | null = null;
+  configProgress = {
+    profile: false,
+    schedule: false
+  };
 
   constructor(private authService: AuthentificationService) {}
 
   ngOnInit() {
     this.loadAppointments();
+    this.checkConfigStatus();
   }
 
   // Rafraîchir les données quand on revient sur la page
   ionViewWillEnter() {
     this.loadAppointments();
+    this.checkConfigStatus();
   }
 
   ngOnDestroy() {
@@ -195,5 +201,29 @@ export class DashboardPage implements OnInit, OnDestroy {
       month: 'long'
     });
     return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+  }
+
+  async checkConfigStatus() {
+    try {
+      const user = await this.authService.getProfile();
+      if (!user) return;
+
+      const docRef = doc(this.firestore, 'Coiffeurs', user.uid);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        // Vérifie si le profil est configuré (au moins une photo et un tarif)
+        this.configProgress.profile = !!(data['photoURL'] && data['tarifs']?.length > 0);
+        // Vérifie si les horaires sont configurés
+        this.configProgress.schedule = !!(data['schedule']);
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification de la configuration:', error);
+    }
+  }
+
+  getConfigCount(): number {
+    return Object.values(this.configProgress).filter(Boolean).length;
   }
 }

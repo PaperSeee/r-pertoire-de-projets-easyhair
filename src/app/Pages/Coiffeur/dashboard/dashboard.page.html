@@ -5,6 +5,46 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <!-- Carte de configuration -->
+  <ion-card *ngIf="getConfigCount() < 2" class="setup-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="alert-circle-outline" color="warning"></ion-icon>
+        Configuration requise
+      </ion-card-title>
+      <ion-card-subtitle>
+        Progression : {{getConfigCount()}}/2
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <div class="progress-bar">
+        <div class="progress" [style.width]="(getConfigCount() / 2 * 100) + '%'"></div>
+      </div>
+
+      <ion-list>
+        <ion-item [routerLink]="['/mon-profil-coiffeur']" detail="true">
+          <ion-icon [name]="configProgress.profile ? 'checkmark-circle' : 'alert-circle'" 
+                    [color]="configProgress.profile ? 'success' : 'warning'"
+                    slot="start"></ion-icon>
+          <ion-label>
+            Configurer mon profil
+            <p>Ajoutez une photo et vos tarifs</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item [routerLink]="['/mes-horaires']" detail="true">
+          <ion-icon [name]="configProgress.schedule ? 'checkmark-circle' : 'alert-circle'" 
+                    [color]="configProgress.schedule ? 'success' : 'warning'"
+                    slot="start"></ion-icon>
+          <ion-label>
+            Configurer mes horaires
+            <p>Définissez vos disponibilités</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 
   <h2 class="ion-padding">📊 Activité</h2>
 
