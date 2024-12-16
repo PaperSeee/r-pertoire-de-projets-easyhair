@@ -1,79 +1,35 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Calendrier
+      Agenda
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Monday's calendar -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Lundi 17 novembre 2024</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label>
-          <strong>Billy Kondo</strong><br />
-          Coupe Homme (20,99€)
-        </ion-label>
-        <div class="action-buttons">
-          <button class="gold-button">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-          </button>
-          <button class="red-button">
-            <ion-icon name="close-circle-outline"></ion-icon>
-          </button>
-        </div>
-      </ion-item>
-      <ion-item>
-        <ion-label>
-          <strong>Jani Amz</strong><br />
-          Coupe + barbe (25,99€)
-        </ion-label>
-        <div class="action-buttons">
-          <button class="gold-button">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-          </button>
-          <button class="red-button">
-            <ion-icon name="close-circle-outline"></ion-icon>
-          </button>
-        </div>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
 
-  <!-- Tuesday's calendar -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Mardi 18 novembre 2024</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p>Aucun rendez-vous à ce jour</p>
-    </ion-card-content>
-  </ion-card>
+  <!-- Group appointments by date -->
+  <ng-container *ngFor="let appointment of appointments; let first = first">
+    <!-- Show date header when date changes -->
+    <h2 
+    *ngIf="first || appointment.date !== appointments[i-1]?.date"
+    style="padding: 16px 16px 8px 16px;">
+      {{formatDate(appointment.date)}}
+    </h2>
 
-  <!-- Future appointment -->
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Vendredi 20 novembre 2024</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-item>
-        <ion-label>
-          <strong>Alex Dupont</strong><br />
-          Coloration (30,99€)
-        </ion-label>
-        <div class="action-buttons">
-          <button class="gold-button">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
-          </button>
-          <button class="red-button">
-            <ion-icon name="close-circle-outline"></ion-icon>
-          </button>
-        </div>
-      </ion-item>
-    </ion-card-content>
-  </ion-card>
+    <!-- Appointment card -->
+    <ion-card>
+        <h2>{{appointment.nomCompletClient}}</h2>
+        <h2>⏱️ <span class="date">{{appointment.heure}}</span></h2>
+
+        <p>💵 {{appointment.tarif}}</p>
+        <h2>📍 {{appointment.adresse}}</h2>
+    </ion-card>
+  </ng-container>
+
+  <!-- Show message when no appointments -->
+  <ion-text *ngIf="appointments.length === 0">
+    <p class="ion-text-center">Aucun rendez-vous prévu</p>
+  </ion-text>
+
 </ion-content>
