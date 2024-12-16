@@ -86,28 +86,6 @@ export class DetailBarberPage implements OnInit, OnDestroy {
 
   async onBookingClick() {
     if (await this.authService.isAuthenticated()) {
-      const userProfile = await this.authService.getProfile() as User;
-      
-      if (!userProfile?.adresse?.rue || !userProfile?.adresse?.commune) {
-        const toast = await this.toastCtrl.create({
-          message: 'Veuillez configurer votre adresse dans votre profil avant de prendre rendez-vous.',
-          duration: 5000,
-          position: 'bottom',
-          cssClass: 'custom-toast',
-          buttons: [
-            {
-              text: 'Configurer',
-              role: 'confirm',
-              handler: () => {
-                this.router.navigate(['/mes-informations']);
-              },
-            }
-          ]
-        });
-        await toast.present();
-        return;
-      }
-
       this.router.navigate(['/prendre-rdv'], {
         state: { coiffeur: this.barber }
       });
