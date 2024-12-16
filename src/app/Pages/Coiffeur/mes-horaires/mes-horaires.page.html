@@ -9,14 +9,14 @@
 
 <ion-content class="ion-padding">
   <ion-list>
-    <ion-item-group *ngFor="let day of weekSchedule | keyvalue">
+    <ion-item-group *ngFor="let day of orderedDays">
       <ion-item>
-        <ion-label>{{day.key}}</ion-label>
-        <ion-toggle [(ngModel)]="day.value.enabled"></ion-toggle>
+        <ion-label>{{day}}</ion-label>
+        <ion-toggle [(ngModel)]="weekSchedule[day].enabled"></ion-toggle>
       </ion-item>
       
-      <ion-item *ngIf="day.value.enabled">
-        <ion-select [(ngModel)]="day.value.hours" 
+      <ion-item *ngIf="weekSchedule[day].enabled">
+        <ion-select [(ngModel)]="weekSchedule[day].hours" 
                    multiple="true"
                    placeholder="Sélectionnez vos heures">
           <ion-select-option *ngFor="let hour of availableHours" [value]="hour">
