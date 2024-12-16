@@ -81,10 +81,27 @@ export class PrendreRdvPage implements OnInit {
         const currentUser = await this.authService.getProfile();
         if (!currentUser) throw new Error('Utilisateur non connecté');
 
-        // Get the date value and format it
         const fullDate = this.bookingForm.get('selectedDate').value;
-        const dateOnly = fullDate.split('T')[0]; // This will get only '2024-12-16'
-        
+        const dateOnly = fullDate.split('T')[0];
+        const selectedTime = this.bookingForm.get('selectedTime').value;
+
+        // Vérifier si le créneau est disponible
+        const isAvailable = await this.googleCalendarService.isTimeSlotAvailable(
+          this.coiffeur.uid,
+          dateOnly,
+          selectedTime
+        );
+
+        if (!isAvailable) {
+          const alert = await this.alertController.create({
+            header: 'Créneau non disponible',
+            message: 'Le créneau sélectionné n\'est plus disponible. Veuillez en choisir un autre.',
+            buttons: ['OK']
+          });
+          await alert.present();
+          return;
+        }
+
         const appointment: Appointment = {
           uidCoiffeur: this.coiffeur.uid,
           uidClient: currentUser.uid,
@@ -92,7 +109,7 @@ export class PrendreRdvPage implements OnInit {
           tarif: this.bookingForm.get('selectedService').value,
           adresse: this.userAddress,
           date: dateOnly, // Using only the date part
-          heure: this.bookingForm.get('selectedTime').value,
+          heure: selectedTime,
           statut: 'active' // Include status
         };
 

@@ -1,11 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GoogleCalendarService {
+  private firestore = getFirestore();
+
   constructor() { }
+
+  async isTimeSlotAvailable(coiffeurId: string, date: string, heure: string): Promise<boolean> {
+    const rdvRef = collection(this.firestore, 'RDV');
+    const q = query(rdvRef, 
+      where('uidCoiffeur', '==', coiffeurId),
+      where('date', '==', date),
+      where('heure', '==', heure),
+      where('statut', '!=', 'canceled')
+    );
+
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.empty;
+  }
 
   getAvailableTimes(date: string): string[] {
     const selectedDate = new Date(date);
