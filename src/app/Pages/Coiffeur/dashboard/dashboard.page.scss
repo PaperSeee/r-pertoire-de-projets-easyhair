@@ -3,6 +3,7 @@ ion-content {
 }
 
 h2 {
+  margin-top: 0px;
   margin-bottom: 0px;
   font-size: 18px;
   font-weight: 600;
@@ -10,8 +11,25 @@ h2 {
 }
 
 ion-card {
-  margin: 12px 0px 12px 0px;
+  margin: 0px 0px 12px 0px;
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+p {
+  margin-top: 0px;
+  margin-bottom: 8px;
+}
+
+.date {
+  background: linear-gradient(to bottom, #FFC268, #AA7019);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.canceled-text {
+  color: var(--ion-color-danger);
+  font-weight: bold;
 }
