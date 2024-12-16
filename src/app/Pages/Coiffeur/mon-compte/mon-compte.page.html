@@ -43,7 +43,7 @@
       <ion-icon name="person-outline" slot="start"></ion-icon>
       <span>Mes informations</span>
     </a>
-    <a class="clickable-item">
+    <a class="clickable-item" id="open-modal">
       <ion-icon name="git-commit-outline" slot="start"></ion-icon>
       <span>Historique des rendez-vous</span>
     </a>
@@ -62,6 +62,34 @@
     routerLink="/connexion"
     class="black-button"
     expand="block"
-    >Se déconnecter</ion-button
-  >
+    >Se déconnecter
+  </ion-button>
+
+  <ion-modal trigger="open-modal" [initialBreakpoint]="1" [breakpoints]="[0, 1]">
+    <ng-template>
+      <div class="block">
+
+        <ng-container *ngIf="appointments.length > 0; else noAppointments2">
+          <ng-container *ngFor="let rdv of appointments">
+            <ion-card class="ion-padding" *ngIf="rdv.statut == 'finished'">
+              <h2 class="date" style="padding: 0%;">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
+              <p style="font-weight: 500;">{{rdv.nomCompletClient}}</p>
+              <p>💵 {{rdv.tarif}}</p>
+              <p>📍 {{rdv.adresse}}</p>
+              <div style="display: flex; justify-content: space-around;">
+              </div>
+            </ion-card>
+          </ng-container>
+        </ng-container>
+
+        <ng-template #noAppointments2>
+          <ion-card class="ion-padding">
+            <p>Vous n'avez pas d'anciens rendez-vous.</p>
+          </ion-card>
+        </ng-template>
+
+      </div>
+    </ng-template>
+  </ion-modal>
+
 </ion-content>
