@@ -96,6 +96,6 @@ ion-card-content {
 ion-chip {
   &.active {
     --background: var(--ion-color-primary);
-    --color: white;
+    font-weight: 600;
   }
 }

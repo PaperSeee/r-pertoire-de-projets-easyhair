@@ -19,14 +19,13 @@
       Barbers
     </ion-chip>
     <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur homme'" (click)="filterByType('Coiffeur homme')">
-      Coupe homme
+      Hommes
     </ion-chip>
     <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur femme'" (click)="filterByType('Coiffeur femme')">
-      Coupe femme
+      Femmes
     </ion-chip>
     <ion-chip [outline]="true" (click)="toggleSortByPrice()">
-      <ion-icon [name]="sortByPriceAsc ? 'arrow-up' : 'arrow-down'"></ion-icon>
-      Prix
+      ↑↓ Prix
     </ion-chip>
   </div>
 
