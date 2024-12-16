@@ -48,6 +48,20 @@ export class GoogleCalendarService {
       return false;
     });
   }
+
+  async getAvailableTimesForDate(coiffeurId: string, date: string): Promise<string[]> {
+    const allTimes = this.getAvailableTimes(date);
+    const availableTimes = [];
+
+    for (const time of allTimes) {
+      const isAvailable = await this.isTimeSlotAvailable(coiffeurId, date, time);
+      if (isAvailable) {
+        availableTimes.push(time);
+      }
+    }
+
+    return availableTimes;
+  }
 }
 
 export default GoogleCalendarService;

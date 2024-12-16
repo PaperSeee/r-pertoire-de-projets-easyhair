@@ -58,18 +58,24 @@ export class PrendreRdvPage implements OnInit {
     await this.loadUserAddress();
   }
 
-  onDateSelected(event: any) {
+  async onDateSelected(event: any) {
     if (this.bookingForm.get('selectedTime')?.value) {
       this.bookingForm.patchValue({ selectedTime: '' });
     }
     const selectedDate = event.detail.value;
-    this.availableTimes = this.googleCalendarService.getAvailableTimes(selectedDate);
+    const dateOnly = selectedDate.split('T')[0];
     
+    // Récupérer uniquement les créneaux disponibles
+    this.availableTimes = await this.googleCalendarService.getAvailableTimesForDate(
+      this.coiffeur.uid,
+      dateOnly
+    );
+      
     // Si aucun horaire n'est disponible
     if (this.availableTimes.length === 0) {
       this.alertController.create({
         header: 'Information',
-        message: 'Aucun horaire n\'est disponible pour aujourd\'hui. Veuillez sélectionner une autre date.',
+        message: 'Aucun horaire n\'est disponible pour cette date. Veuillez sélectionner une autre date.',
         buttons: ['OK']
       }).then(alert => alert.present());
     }
