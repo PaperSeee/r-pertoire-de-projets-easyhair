@@ -71,7 +71,8 @@
 
   <h2 class="ion-padding">📆 Futurs rendez-vous</h2>
 
-  <ng-container *ngIf="appointments.length > 0; else noAppointments">
+  <!-- Modifier la condition pour utiliser les rendez-vous actifs -->
+  <ng-container *ngIf="getActiveAppointments().length > 0; else noAppointments">
     <ng-container *ngFor="let rdv of appointments">
       <ion-card class="ion-padding nxtrdv" *ngIf="rdv.statut !== 'finished'">
         <h2>{{rdv.nomCompletClient}}</h2>

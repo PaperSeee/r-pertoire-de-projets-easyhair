@@ -226,4 +226,9 @@ export class DashboardPage implements OnInit, OnDestroy {
   getConfigCount(): number {
     return Object.values(this.configProgress).filter(Boolean).length;
   }
+
+  // Ajouter une méthode pour filtrer les rendez-vous actifs
+  getActiveAppointments() {
+    return this.appointments.filter(rdv => rdv.statut !== 'finished' && rdv.statut !== 'canceled');
+  }
 }
