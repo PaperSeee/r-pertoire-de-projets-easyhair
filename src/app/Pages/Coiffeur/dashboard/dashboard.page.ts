@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { getFirestore, collection, query, where, getDocs, getDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { AuthentificationService } from 'src/app/authentification.service';
 import { Chart, registerables } from 'chart.js';
@@ -20,7 +20,7 @@ interface Appointment {
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage implements OnInit, OnDestroy {
   appointments: Appointment[] = [];
   private firestore = getFirestore();
   stats = {
@@ -28,6 +28,7 @@ export class DashboardPage implements OnInit {
     finished: 0,
     canceled: 0
   };
+  private pieChart: Chart | null = null;
 
   constructor(private authService: AuthentificationService) {}
 
@@ -38,6 +39,12 @@ export class DashboardPage implements OnInit {
   // Rafraîchir les données quand on revient sur la page
   ionViewWillEnter() {
     this.loadAppointments();
+  }
+
+  ngOnDestroy() {
+    if (this.pieChart) {
+      this.pieChart.destroy();
+    }
   }
 
   private async getClientName(uid: string): Promise<string> {
@@ -111,7 +118,13 @@ export class DashboardPage implements OnInit {
   private createCharts() {
     const pieCtx = document.getElementById('pieChart') as HTMLCanvasElement;
     if (pieCtx) {
-      new Chart(pieCtx, {
+      // Détruire l'ancien graphique s'il existe
+      if (this.pieChart) {
+        this.pieChart.destroy();
+      }
+
+      // Créer le nouveau graphique
+      this.pieChart = new Chart(pieCtx, {
         type: 'pie',
         data: {
           labels: ['En cours', 'Terminés', 'Annulés'],
