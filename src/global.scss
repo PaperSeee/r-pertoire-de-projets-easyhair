@@ -85,3 +85,15 @@ a {
     font-weight: 500;
     color: #1543A7;
 }
+
+.custom-toast {
+  --background: #1a1a1a;
+  --color: white;
+  
+  .toast-button {
+    --color: #ffc409;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+  }
+}
