@@ -204,4 +204,10 @@ export class ProfilPage implements OnInit {
       toast.present();
     }
   }
+
+  getActiveAppointments(): Appointment[] {
+    return this.appointments.filter(rdv => 
+      rdv.statut !== 'finished' && rdv.statut !== 'canceled'
+    );
+  }
 }

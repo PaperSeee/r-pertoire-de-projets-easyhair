@@ -10,7 +10,7 @@
 
     <h2 class="ion-padding2">Mes rendez-vous</h2>
 
-    <ng-container *ngIf="appointments.length > 0; else noAppointments">
+    <ng-container *ngIf="getActiveAppointments().length > 0; else noAppointments">
       <ng-container *ngFor="let rdv of appointments">
         <ion-card class="nextrdv ion-padding" *ngIf="rdv.statut !== 'finished' && rdv.statut !== 'canceled'">
           <div style="display: flex; justify-content: space-between; align-items: start;">
