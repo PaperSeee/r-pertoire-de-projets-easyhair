@@ -94,6 +94,34 @@ export class GoogleCalendarService {
 
     return availableHours;
   }
+
+  async isDateAvailable(uid: string, date: string): Promise<boolean> {
+    // 1. Récupérer le jour de la semaine
+    const selectedDate = new Date(date);
+    const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    const dayName = days[selectedDate.getDay()];
+
+    // 2. Récupérer les horaires du coiffeur
+    const coiffeurDoc = await getDoc(doc(this.firestore, 'Coiffeurs', uid));
+    if (!coiffeurDoc.exists()) return false;
+
+    const schedule = coiffeurDoc.data()?.['schedule'];
+    if (!schedule) return false;
+
+    // 3. Vérifier si le jour est activé et a des horaires
+    const daySchedule = schedule[dayName];
+    if (!daySchedule?.enabled || !daySchedule?.hours?.length) return false;
+
+    // 4. Pour ce jour, vérifier s'il y a au moins un créneau disponible
+    for (const hour of daySchedule.hours) {
+      const isAvailable = await this.isTimeSlotAvailable(uid, date, hour);
+      if (isAvailable) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
 }
 
 export default GoogleCalendarService;

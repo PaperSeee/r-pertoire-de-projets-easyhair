@@ -7,7 +7,8 @@
   <ion-toolbar *ngIf="isSearchbarOpen">
     <ion-searchbar placeholder="Rechercher un coiffeur" 
                    (ionInput)="handleSearch($event)"
-                   [value]="searchTerm">
+                   [value]="searchTerm"
+                   style="--border-radius: 6px;">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
