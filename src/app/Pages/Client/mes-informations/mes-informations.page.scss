@@ -50,3 +50,9 @@ ion-input {
   text-decoration: none;
   font-size: 14px;
 }
+
+.error-message {
+  color: var(--ion-color-danger);
+  font-size: 0.8rem;
+  margin: 5px 0 10px 16px;
+}

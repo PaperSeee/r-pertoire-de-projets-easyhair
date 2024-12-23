@@ -11,12 +11,15 @@
   <form [formGroup]="userForm" *ngIf="userForm">
     <!-- Prénom -->
     <ion-input 
-      label="Prénom" 
+      label="Prénom *" 
       labelPlacement="stacked" 
       formControlName="prénom" 
       fill="outline"
       class="top-input">
     </ion-input>
+    <div *ngIf="userForm.get('prénom').touched && userForm.get('prénom').invalid" class="error-message">
+      Prénom requis
+    </div>
 
     <!-- Nom -->
     <ion-input 
@@ -62,7 +65,7 @@
       
       <!-- Rue et numéro -->
       <ion-input 
-        label="Rue et numéro"
+        label="Rue et numéro *"
         labelPlacement="stacked" 
         type="text"
         placeholder="Ex: Rue de la Loi 16"
@@ -70,10 +73,13 @@
         class="address-input"
         fill="outline">
       </ion-input>
+      <div *ngIf="userForm.get('rue').touched && userForm.get('rue').invalid" class="error-message">
+        Rue et numéro requis
+      </div>
 
-      <!-- Remplacer la div postal-city-container par le select des communes -->
+      <!-- Commune -->
       <ion-select
-        label="Commune"
+        label="Commune *"
         labelPlacement="stacked"
         placeholder="Sélectionnez votre commune"
         fill="outline"
@@ -83,9 +89,12 @@
           {{commune}}
         </ion-select-option>
       </ion-select>
+      <div *ngIf="userForm.get('commune').touched && userForm.get('commune').invalid" class="error-message">
+        Commune requise
+      </div>
     </div>
 
-    <ion-button expand="block" (click)="updateProfile()" class="black-button">
+    <ion-button expand="block" (click)="updateProfile()" class="black-button" [disabled]="!userForm.valid">
       Sauvegarder
     </ion-button>
   </form>

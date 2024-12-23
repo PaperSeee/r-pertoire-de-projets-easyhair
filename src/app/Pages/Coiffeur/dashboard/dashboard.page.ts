@@ -229,6 +229,6 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   // Ajouter une méthode pour filtrer les rendez-vous actifs
   getActiveAppointments() {
-    return this.appointments.filter(rdv => rdv.statut !== 'finished' && rdv.statut !== 'canceled');
+    return this.appointments.filter(rdv => rdv.statut !== 'finished');
   }
 }

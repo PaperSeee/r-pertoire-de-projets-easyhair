@@ -38,13 +38,13 @@ export class MesInformationsPage implements OnInit {
 
   private initForm() {
     this.userForm = this.formBuilder.group({
-      prénom: ['', Validators.required],
-      nom: ['', Validators.required],
+      prénom: ['', [Validators.required]],
+      nom: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      telephone: ['', Validators.pattern('^[0-9]{9,13}$')],
-      genre: ['', Validators.required],
-      rue: [''],
-      commune: [''] // Remplacer codePostal et ville par commune
+      telephone: ['', [Validators.required, Validators.pattern('^[0-9]{9,13}$')]],
+      genre: ['', [Validators.required]],
+      rue: ['', [Validators.required]],
+      commune: ['', [Validators.required]]
     });
   }
 
