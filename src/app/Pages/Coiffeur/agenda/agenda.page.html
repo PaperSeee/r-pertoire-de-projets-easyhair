@@ -18,12 +18,17 @@
     </h2>
 
     <!-- Appointment card -->
-    <ion-card>
+    <ion-card [ngStyle]="{'background-color': appointment.statut === 'canceled' ? '#FFEFEF' : ''}">
         <h2>{{appointment.nomCompletClient}}</h2>
         <h2>⏱️ <span class="date">{{appointment.heure}}</span></h2>
-
         <p>💵 {{appointment.tarif}}</p>
-        <h2>📍 {{appointment.adresse}}</h2>
+        
+        <ng-container *ngIf="appointment.statut === 'canceled'; else showAddress">
+            <h2 class="canceled-text">Annulé</h2>
+        </ng-container>
+        <ng-template #showAddress>
+            <h2>📍 {{appointment.adresse}}</h2>
+        </ng-template>
     </ion-card>
   </ng-container>
 

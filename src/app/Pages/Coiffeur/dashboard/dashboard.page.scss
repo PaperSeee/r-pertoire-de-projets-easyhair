@@ -123,11 +123,11 @@ p {
 
 .black {
   font-size: 16px;
-    font-weight: 600;
-    color: #ffffff;
-    --background: linear-gradient(to bottom, #555555, #2A2626);
-    border: none;
-    outline: none;
+  font-weight: 600;
+  color: #ffffff;
+  --background: linear-gradient(to bottom, #555555, #2A2626);
+  border: none;
+  outline: none;
 }
 
 .setup-card {
@@ -173,4 +173,8 @@ p {
       color: #666;
     }
   }
+}
+
+.canceled-card {
+  background-color: #FFEFEF;
 }
