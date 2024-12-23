@@ -177,12 +177,15 @@ export class ProfilPage implements OnInit {
     return diffHours >= 24;
   }
 
-  async cancelAppointment(rdv: Appointment) {
+  async cancelAppointment(rdv: Appointment, popover: any) {
     try {
       const rdvDoc = doc(this.firestore, 'RDV', rdv.id);
       await updateDoc(rdvDoc, {
         statut: 'canceled'
       });
+
+      // Ferme le popover
+      await popover.dismiss();
 
       const toast = await this.toastController.create({
         message: 'Rendez-vous annulé avec succès',

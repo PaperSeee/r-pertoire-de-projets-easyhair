@@ -31,7 +31,7 @@
                             style="margin: 0%;" 
                             color="danger"
                             [disabled]="!canCancelAppointment(rdv)"
-                            (click)="cancelAppointment(rdv)">
+                            (click)="cancelAppointment(rdv, $event.target.closest('ion-popover'))">
                     Annuler le rendez-vous
                   </ion-button>
                 </ion-content>
