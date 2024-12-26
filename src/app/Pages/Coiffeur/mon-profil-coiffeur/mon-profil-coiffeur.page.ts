@@ -1,10 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { getFirestore, doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, updateDoc, arrayUnion, collection, query, where, getDocs } from 'firebase/firestore';
 import { getStorage, ref, uploadString, getDownloadURL, deleteObject } from 'firebase/storage';
 import { LoadingController, ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
 import { UploadService } from 'src/app/services/upload.service';
+
+interface Review {
+  id?: string;
+  uidClient: string;
+  uidCoiffeur: string;
+  note: number;
+  commentaire: string;
+  date: string;
+  reponse: string;
+  userData?: {
+    prenom: string;
+    nom: string;
+  };
+}
+
+interface ClientData {
+  uid: string;
+  nom: string;
+  prenom: string;
+}
 
 @Component({
   selector: 'app-mon-profil-coiffeur',
@@ -25,6 +45,8 @@ export class MonProfilCoiffeurPage implements OnInit {
     "Coiffeur femme"
   ];
   selectedTypes: string[] = [];
+  reviews: Array<Review & { clientData?: ClientData }> = [];
+  reponses: { [key: string]: string } = {};
 
   constructor(
     private authService: AuthentificationService,
@@ -35,6 +57,7 @@ export class MonProfilCoiffeurPage implements OnInit {
 
   async ngOnInit() {
     await this.loadProfileData();
+    await this.loadTypes();
   }
 
   private async loadProfileData() {
@@ -87,6 +110,7 @@ export class MonProfilCoiffeurPage implements OnInit {
   async ionViewWillEnter() {
     await this.loadProfileData();
     await this.loadTypes();
+    await this.loadReviews();
   }
 
   async ajouterPhoto(type: 'profile' | 'hairstyle') {
@@ -229,6 +253,73 @@ export class MonProfilCoiffeurPage implements OnInit {
     } catch (error) {
       console.error('Erreur lors de la mise à jour des types:', error);
       this.presentToast('Erreur lors de la mise à jour des types');
+    }
+  }
+
+  async loadReviews() {
+    try {
+      // Get connected barber profile
+      const barber = await this.authService.getProfile();
+      if (!barber) {
+        this.presentToast('Erreur: profil non trouvé');
+        return;
+      }
+
+      // Get all reviews for this barber
+      const reviewsRef = collection(this.firestore, 'Avis');
+      const q = query(reviewsRef, where('uidCoiffeur', '==', barber.uid));
+      const reviewsSnapshot = await getDocs(q);
+
+      // Reset reviews array
+      this.reviews = [];
+
+      // Process each review
+      for (const reviewDoc of reviewsSnapshot.docs) {
+        const review = { id: reviewDoc.id, ...reviewDoc.data() } as Review;
+        
+        // Get client data from users collection
+        const clientDoc = await getDoc(doc(this.firestore, 'users', review.uidClient));
+        if (clientDoc.exists()) {
+          const userData = clientDoc.data();
+          review.userData = {
+            prenom: userData['prénom'],
+            nom: userData['nom']
+          };
+          this.reviews.push(review);
+        }
+      }
+
+      // Sort reviews by date (most recent first)
+      this.reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      
+    } catch (error) {
+      console.error('Erreur chargement avis:', error);
+      this.presentToast('Erreur lors du chargement des avis');
+    }
+  }
+
+  async submitResponse(reviewId: string) {
+    try {
+      // Validate response
+      if (!this.reponses[reviewId]?.trim()) {
+        this.presentToast('Veuillez écrire une réponse');
+        return;
+      }
+
+      // Update review document
+      const reviewRef = doc(this.firestore, 'Avis', reviewId);
+      await updateDoc(reviewRef, {
+        reponse: this.reponses[reviewId].trim()
+      });
+
+      // Success feedback
+      this.presentToast('Réponse enregistrée');
+      this.reponses[reviewId] = ''; // Reset input
+      await this.loadReviews(); // Refresh reviews
+      
+    } catch (error) {
+      console.error('Erreur enregistrement réponse:', error);
+      this.presentToast('Erreur lors de l\'enregistrement de la réponse');
     }
   }
 

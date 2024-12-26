@@ -7,7 +7,8 @@
   <ion-toolbar *ngIf="isSearchbarOpen">
     <ion-searchbar placeholder="Rechercher un coiffeur" 
                    (ionInput)="handleSearch($event)"
-                   [value]="searchTerm">
+                   [value]="searchTerm"
+                   style="--border-radius: 6px;">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
@@ -42,7 +43,13 @@
       </ion-card-title>
 
       <ion-card-subtitle class="barbertype">{{coiffeur.typeCoiffeur?.join(', ')}}</ion-card-subtitle>
-      <ion-card-subtitle class="barberrate">0.0<ion-icon name="star"></ion-icon></ion-card-subtitle>
+      <!--moyenne des avis-->
+      <ion-card-subtitle class="barberrate" *ngIf="coiffeur.averageRating">
+        {{coiffeur.averageRating.toFixed(1)}} <ion-icon name="star" style="color: #ffd700;"></ion-icon>
+      </ion-card-subtitle>
+      <ion-card-subtitle class="barberrate" *ngIf="!coiffeur.averageRating">
+        0.0 <ion-icon name="star" style="color: #ffd700;"></ion-icon>
+      </ion-card-subtitle>
     </ion-card-content>
   </ion-card>
 

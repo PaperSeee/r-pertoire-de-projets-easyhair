@@ -87,3 +87,26 @@ a.ion-text-white {
 ion-modal {
   --height: auto;
 }
+
+.review-form {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.star-rating {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  
+  ion-icon {
+    color: #ffd700;
+    font-size: 24px;
+    margin: 0 4px;
+    cursor: pointer;
+  }
+}
+
+.submit-review {
+  margin-top: 16px;
+}

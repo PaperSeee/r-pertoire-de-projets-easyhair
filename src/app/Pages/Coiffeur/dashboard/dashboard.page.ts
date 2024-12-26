@@ -150,7 +150,7 @@ export class DashboardPage implements OnInit, OnDestroy {
   async deleteAppointment(appointmentId: string) {
     try {
       await deleteDoc(doc(this.firestore, 'RDV', appointmentId));
-      // Remove the appointment from the local array
+      // Supprimer le rdv en local
       this.appointments = this.appointments.filter(rdv => rdv.id !== appointmentId);
     } catch (error) {
       console.error('Erreur lors de la suppression du rendez-vous:', error);
@@ -165,7 +165,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     return appointmentDate < now;
   }
 
-  // Optional: Add this method for debugging specific appointments
+  // debug
   debugAppointment(date: string, heure: string): void {
     const [hours, minutes] = heure.split(':');
     const appointmentDate = new Date(date);
@@ -183,7 +183,7 @@ export class DashboardPage implements OnInit, OnDestroy {
       await updateDoc(appointmentRef, {
         statut: 'finished'
       });
-      // Update local array
+      // Maj local array
       const index = this.appointments.findIndex(rdv => rdv.id === appointmentId);
       if (index !== -1) {
         this.appointments[index].statut = 'finished';
@@ -229,6 +229,6 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   // Ajouter une méthode pour filtrer les rendez-vous actifs
   getActiveAppointments() {
-    return this.appointments.filter(rdv => rdv.statut !== 'finished' && rdv.statut !== 'canceled');
+    return this.appointments.filter(rdv => rdv.statut !== 'finished');
   }
 }

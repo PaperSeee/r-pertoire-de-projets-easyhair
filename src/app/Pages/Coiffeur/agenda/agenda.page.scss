@@ -29,3 +29,8 @@ p {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.canceled-text {
+  color: var(--ion-color-danger);
+  font-weight: bold;
+}

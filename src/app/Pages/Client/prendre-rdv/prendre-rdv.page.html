@@ -56,8 +56,13 @@
           presentation="date"
           [min]="minDate"
           [max]="maxDate"
-          (ionChange)="onDateSelected($event)">
+          [isDateEnabled]="isDateEnabled"
+          (ionChange)="onDateSelected($event)"
+          (ionMonthChange)="onMonthChange($event)">
+          <ion-spinner *ngIf="isLoading" name="dots"></ion-spinner>
         </ion-datetime>
+        <!-- Ajouter un spinner pendant le chargement -->
+        <ion-spinner *ngIf="availableDates.length === 0"></ion-spinner>
       </ion-item>
 
       <!-- Time picker existant -->

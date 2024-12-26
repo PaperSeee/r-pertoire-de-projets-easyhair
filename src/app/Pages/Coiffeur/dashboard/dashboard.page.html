@@ -71,17 +71,16 @@
 
   <h2 class="ion-padding">📆 Futurs rendez-vous</h2>
 
-  <!-- Modifier la condition pour utiliser les rendez-vous actifs -->
   <ng-container *ngIf="getActiveAppointments().length > 0; else noAppointments">
-    <ng-container *ngFor="let rdv of appointments">
-      <ion-card class="ion-padding nxtrdv" *ngIf="rdv.statut !== 'finished'">
+    <ng-container *ngFor="let rdv of getActiveAppointments()">
+      <ion-card class="ion-padding nxtrdv" [ngClass]="{'canceled-card': rdv.statut === 'canceled'}">
         <h2>{{rdv.nomCompletClient}}</h2>
         <p>💵 {{rdv.tarif}}</p>
         <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
         
         <ng-container *ngIf="rdv.statut === 'canceled'; else showAddress">
-          <h2 class="canceled-text" color="danger">Annulé</h2>
-          <ion-button class="black" (click)="deleteAppointment(rdv.id)">D'accord</ion-button>
+          <h2 class="canceled-text" style="margin-top: 4px;">Annulé</h2>
+          <ion-button class="black" (click)="deleteAppointment(rdv.id)">Confirmer</ion-button>
         </ng-container>
         
         <ng-template #showAddress>

@@ -10,7 +10,7 @@
 
     <h2 class="ion-padding2">Mes rendez-vous</h2>
 
-    <ng-container *ngIf="appointments.length > 0; else noAppointments">
+    <ng-container *ngIf="getActiveAppointments().length > 0; else noAppointments">
       <ng-container *ngFor="let rdv of appointments">
         <ion-card class="nextrdv ion-padding" *ngIf="rdv.statut !== 'finished' && rdv.statut !== 'canceled'">
           <div style="display: flex; justify-content: space-between; align-items: start;">
@@ -31,7 +31,7 @@
                             style="margin: 0%;" 
                             color="danger"
                             [disabled]="!canCancelAppointment(rdv)"
-                            (click)="cancelAppointment(rdv)">
+                            (click)="cancelAppointment(rdv, $event.target.closest('ion-popover'))">
                     Annuler le rendez-vous
                   </ion-button>
                 </ion-content>
@@ -104,6 +104,35 @@
                 <p>💵 {{rdv.tarif}}</p>
                 <p>📍 {{rdv.adresse}}</p>
                 <div style="display: flex; justify-content: space-around;">
+                </div>
+
+                <!-- Review section -->
+                <ion-button expand="block" 
+                            (click)="toggleReviewForm(rdv.id)"
+                            fill="clear"
+                            size="small">
+                  <ion-icon name="create-outline" slot="start"></ion-icon>
+                  Donner mon avis
+                </ion-button>
+
+                <div *ngIf="activeReviewForm === rdv.id" class="review-form">
+                  <div class="star-rating">
+                    <ion-icon *ngFor="let star of [1,2,3,4,5]" 
+                              [name]="rdv.rating >= star ? 'star' : 'star-outline'"
+                              (click)="rdv.rating = star">
+                    </ion-icon>
+                  </div>
+
+                  <ion-textarea placeholder="Partagez votre expérience..." 
+                                [(ngModel)]="rdv.comment"
+                                rows="3">
+                  </ion-textarea>
+
+                  <ion-button expand="block"
+                              (click)="submitReview(rdv)"
+                              class="black-button">
+                    Envoyer mon avis
+                  </ion-button>
                 </div>
               </ion-card>
             </ng-container>

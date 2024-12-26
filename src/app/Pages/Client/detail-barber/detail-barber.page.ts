@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FavoritesService } from '../../../services/favorites.service';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { Subscription } from 'rxjs';
 import { ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
@@ -15,6 +15,21 @@ interface User {
   };
 }
 
+// Ajouter l'interface Review en haut du fichier
+interface Review {
+  id?: string;
+  uidClient: string;
+  uidCoiffeur: string;
+  note: number;
+  commentaire: string;
+  date: string;
+  reponse: string;
+  userData?: {
+    prenom: string;
+    nom: string;
+  };
+}
+
 @Component({
   selector: 'app-detail-barber',
   templateUrl: './detail-barber.page.html',
@@ -25,6 +40,10 @@ export class DetailBarberPage implements OnInit, OnDestroy {
   isFavorite = false;
   private firestore = getFirestore();
   private favoriteStatusSubscription?: Subscription;
+
+  // Ajouter la propriété reviews
+  reviews: Review[] = [];
+  averageRating: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +68,7 @@ export class DetailBarberPage implements OnInit, OnDestroy {
     }
   }
 
+  // Modifier loadBarberData pour charger aussi les avis
   private async loadBarberData(barberId: string) {
     try {
       const barberDoc = await getDoc(doc(this.firestore, 'Coiffeurs', barberId));
@@ -58,6 +78,7 @@ export class DetailBarberPage implements OnInit, OnDestroy {
           ...barberDoc.data()
         };
         this.subscribeToFavoriteStatus();
+        await this.loadReviews(barberId); // Ajouter cette ligne
       }
     } catch (error) {
       console.error('Erreur lors du chargement du barbier:', error);
@@ -96,6 +117,41 @@ export class DetailBarberPage implements OnInit, OnDestroy {
         position: 'bottom'
       });
       toast.present();
+    }
+  }
+
+  // Ajouter la fonction loadReviews
+  async loadReviews(barberId: string) {
+    try {
+      const reviewsRef = collection(this.firestore, 'Avis');
+      const q = query(reviewsRef, where('uidCoiffeur', '==', barberId));
+      const reviewsSnapshot = await getDocs(q);
+
+      this.reviews = [];
+
+      for (const reviewDoc of reviewsSnapshot.docs) {
+        const review = { id: reviewDoc.id, ...reviewDoc.data() } as Review;
+        
+        const clientDoc = await getDoc(doc(this.firestore, 'users', review.uidClient));
+        if (clientDoc.exists()) {
+          const userData = clientDoc.data();
+          review.userData = {
+            prenom: userData['prénom'],
+            nom: userData['nom']
+          };
+          this.reviews.push(review);
+        }
+      }
+
+      this.reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      // Calculer la moyenne après avoir chargé tous les avis
+      if (this.reviews.length > 0) {
+        const sum = this.reviews.reduce((acc, review) => acc + review.note, 0);
+        this.averageRating = Number((sum / this.reviews.length).toFixed(1));
+      }
+    } catch (error) {
+      console.error('Erreur chargement avis:', error);
     }
   }
 }
