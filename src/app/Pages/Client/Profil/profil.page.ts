@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
-import { getFirestore, collection, query, where, getDocs, doc, updateDoc} from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
 
 interface Appointment {
   id: string;
@@ -14,6 +14,18 @@ interface Appointment {
   uidClient: string;
   uidCoiffeur: string;
   statut?: string;
+  showReviewForm?: boolean;
+  rating?: number;
+  comment?: string;
+}
+
+interface Review {
+  uidClient: string;
+  uidCoiffeur: string;
+  note: number;
+  commentaire: string;
+  date: string;
+  reponse: string;
 }
 
 @Component({
@@ -212,5 +224,56 @@ export class ProfilPage implements OnInit {
     return this.appointments.filter(rdv => 
       rdv.statut !== 'finished' && rdv.statut !== 'canceled'
     );
+  }
+
+  async submitReview(rdv: Appointment) {
+    try {
+      if (!rdv.rating || !rdv.comment) {
+        const toast = await this.toastController.create({
+          message: 'Veuillez donner une note et un commentaire',
+          duration: 2000,
+          position: 'bottom',
+          color: 'warning'
+        });
+        toast.present();
+        return;
+      }
+
+      const review: Review = {
+        uidClient: rdv.uidClient,
+        uidCoiffeur: rdv.uidCoiffeur,
+        note: rdv.rating,
+        commentaire: rdv.comment,
+        date: new Date().toISOString(),
+        reponse: ''
+      };
+
+      // Add to Firestore
+      await addDoc(collection(this.firestore, 'Avis'), review);
+
+      // Show success message
+      const toast = await this.toastController.create({
+        message: 'Votre avis a été enregistré',
+        duration: 2000,
+        position: 'bottom',
+        color: 'success'
+      });
+      toast.present();
+
+      // Reset form
+      rdv.showReviewForm = false;
+      rdv.rating = undefined;
+      rdv.comment = '';
+
+    } catch (error) {
+      console.error('Erreur lors de l\'enregistrement de l\'avis:', error);
+      const toast = await this.toastController.create({
+        message: 'Erreur lors de l\'enregistrement de l\'avis',
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger'
+      });
+      toast.present();
+    }
   }
 }

@@ -105,6 +105,35 @@
                 <p>📍 {{rdv.adresse}}</p>
                 <div style="display: flex; justify-content: space-around;">
                 </div>
+
+                <!-- Review section -->
+                <ion-button expand="block" 
+                            (click)="rdv.showReviewForm = !rdv.showReviewForm"
+                            fill="clear"
+                            size="small">
+                  <ion-icon name="create-outline" slot="start"></ion-icon>
+                  Donner mon avis
+                </ion-button>
+
+                <div *ngIf="rdv.showReviewForm" class="review-form">
+                  <div class="star-rating">
+                    <ion-icon *ngFor="let star of [1,2,3,4,5]" 
+                              [name]="rdv.rating >= star ? 'star' : 'star-outline'"
+                              (click)="rdv.rating = star">
+                    </ion-icon>
+                  </div>
+
+                  <ion-textarea placeholder="Partagez votre expérience..." 
+                                [(ngModel)]="rdv.comment"
+                                rows="3">
+                  </ion-textarea>
+
+                  <ion-button expand="block"
+                              (click)="submitReview(rdv)"
+                              class="black-button">
+                    Envoyer mon avis
+                  </ion-button>
+                </div>
               </ion-card>
             </ng-container>
           </ng-container>

@@ -71,6 +71,21 @@
     transition: --background 0.3s ease;
 }
 
+.grey-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    --background: rgb(229, 229, 229);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: --background 0.3s ease;
+    margin-bottom: 0px;
+}
+
 .grey-background {
     color: #ffffff;
     --background: linear-gradient(to bottom, #555555, #2A2626);
