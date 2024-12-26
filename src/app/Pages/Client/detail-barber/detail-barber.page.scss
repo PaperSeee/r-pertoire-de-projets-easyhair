@@ -137,3 +137,21 @@ ion-card-content {
     margin-top: 12px;
   }
 }
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  .average-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+    
+    ion-icon {
+      color: #ffd700;
+      font-size: 20px;
+    }
+  }
+}

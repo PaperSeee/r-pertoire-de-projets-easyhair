@@ -43,6 +43,7 @@ export class DetailBarberPage implements OnInit, OnDestroy {
 
   // Ajouter la propriété reviews
   reviews: Review[] = [];
+  averageRating: number = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -143,6 +144,12 @@ export class DetailBarberPage implements OnInit, OnDestroy {
       }
 
       this.reviews.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+      // Calculer la moyenne après avoir chargé tous les avis
+      if (this.reviews.length > 0) {
+        const sum = this.reviews.reduce((acc, review) => acc + review.note, 0);
+        this.averageRating = Number((sum / this.reviews.length).toFixed(1));
+      }
     } catch (error) {
       console.error('Erreur chargement avis:', error);
     }
