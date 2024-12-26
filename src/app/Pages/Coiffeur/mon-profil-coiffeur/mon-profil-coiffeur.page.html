@@ -15,7 +15,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-img [src]="photoProfil" *ngIf="photoProfil" class="photo-profil"></ion-img>
-      <ion-button expand="block" (click)="ajouterPhoto('profile')" class="ion-margin-top">
+      <ion-button expand="block" (click)="ajouterPhoto('profile')" class="ion-margin-top black-button">
         <ion-icon name="camera" slot="start"></ion-icon>
         {{ photoProfil ? 'Modifier' : 'Ajouter' }} la photo de profil
       </ion-button>
@@ -40,7 +40,7 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      <ion-button expand="block" (click)="ajouterPhoto('hairstyle')">
+      <ion-button expand="block" (click)="ajouterPhoto('hairstyle')" class="black-button">
         <ion-icon name="add" slot="start"></ion-icon>
         Ajouter une photo
       </ion-button>
@@ -90,7 +90,7 @@
             [(ngModel)]="nouveauTarif">
           </ion-input>
         </ion-item>
-        <ion-button expand="block" (click)="ajouterTarif()" class="gold-button">
+        <ion-button expand="block" (click)="ajouterTarif()" class="black-button">
           <ion-icon name="add" slot="start"></ion-icon>
           Ajouter un tarif
         </ion-button>
