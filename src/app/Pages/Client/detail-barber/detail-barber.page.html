@@ -45,19 +45,38 @@
     </ion-card-content>
   </ion-card>
 
+  <!--avis-->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Avis Clients</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <div class="review-item">
-        <p>Excellent service, je recommande vivement !</p>
-        <p>Note : 5.0</p>
-      </div>
-      <div class="review-item">
-        <p>Coupe parfaite, j'y retournerai.</p>
-        <p>Note : 4.7</p>
-      </div>
+      <ng-container *ngIf="reviews.length > 0; else noReviews">
+        <div class="review-item" *ngFor="let review of reviews">
+          <div class="review-header">
+            <h3>{{review.userData?.prenom}} {{review.userData?.nom}}</h3>
+            <p class="date">{{review.date | date:'dd/MM/yyyy'}}</p>
+          </div>
+          
+          <div class="rating">
+            <span class="note">{{review.note}}.0</span>
+            <ion-icon name="star" *ngFor="let num of [1,2,3,4,5]" 
+                      [style.color]="num <= review.note ? '#ffd700' : '#ccc'">
+            </ion-icon>
+          </div>
+
+          <p class="comment">{{review.commentaire}}</p>
+
+          <div *ngIf="review.reponse" class="response">
+            <p><strong>Réponse du coiffeur:</strong> {{review.reponse}}</p>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noReviews>
+        <p>Aucun avis pour le moment</p>
+      </ng-template>
     </ion-card-content>
   </ion-card>
+
 </ion-content>
