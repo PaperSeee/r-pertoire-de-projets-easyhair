@@ -108,14 +108,14 @@
 
                 <!-- Review section -->
                 <ion-button expand="block" 
-                            (click)="rdv.showReviewForm = !rdv.showReviewForm"
+                            (click)="toggleReviewForm(rdv.id)"
                             fill="clear"
                             size="small">
                   <ion-icon name="create-outline" slot="start"></ion-icon>
                   Donner mon avis
                 </ion-button>
 
-                <div *ngIf="rdv.showReviewForm" class="review-form">
+                <div *ngIf="activeReviewForm === rdv.id" class="review-form">
                   <div class="star-rating">
                     <ion-icon *ngFor="let star of [1,2,3,4,5]" 
                               [name]="rdv.rating >= star ? 'star' : 'star-outline'"

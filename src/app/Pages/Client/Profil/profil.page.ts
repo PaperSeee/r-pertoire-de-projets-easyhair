@@ -37,6 +37,7 @@ export class ProfilPage implements OnInit {
   user: any;
   appointments: Appointment[] = [];
   private firestore = getFirestore();
+  activeReviewForm: string | null = null;  // Add this property
 
   constructor(
     private authService: AuthentificationService,
@@ -274,6 +275,14 @@ export class ProfilPage implements OnInit {
         color: 'danger'
       });
       toast.present();
+    }
+  }
+
+  toggleReviewForm(rdvId: string) {
+    if (this.activeReviewForm === rdvId) {
+      this.activeReviewForm = null;  // Close if already open
+    } else {
+      this.activeReviewForm = rdvId;  // Open this one, closing others
     }
   }
 }
