@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 import { initializeApp } from 'firebase/app';
 import { environment } from 'src/environments/environment';
+
+interface Coiffeur {
+  id: string;
+  nomCoiffeur: string;
+  typeCoiffeur: string[];
+  tarifs: string[];
+  photoURL?: string;
+  photosCoupes?: string[];
+  averageRating?: number;
+}
 
 @Component({
   selector: 'app-accueil',
@@ -42,9 +52,24 @@ export class AccueilPage implements OnInit {
   async loadCoiffeurs() {
     try {
       const querySnapshot = await getDocs(collection(this.firestore, 'Coiffeurs'));
-      this.coiffeurs = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
+      this.coiffeurs = await Promise.all(querySnapshot.docs.map(async doc => {
+        const coiffeur = {
+          id: doc.id,
+          ...doc.data()
+        } as Coiffeur;
+
+        // Récupérer les avis pour ce coiffeur
+        const reviewsRef = collection(this.firestore, 'Avis');
+        const q = query(reviewsRef, where('uidCoiffeur', '==', coiffeur.id));
+        const reviewsSnapshot = await getDocs(q);
+        
+        // Calculer la moyenne
+        if (!reviewsSnapshot.empty) {
+          const sum = reviewsSnapshot.docs.reduce((acc, doc) => acc + doc.data()['note'], 0);
+          coiffeur.averageRating = Number((sum / reviewsSnapshot.docs.length).toFixed(1));
+        }
+
+        return coiffeur;
       }));
       this.filteredCoiffeurs = [...this.coiffeurs];
     } catch (error) {

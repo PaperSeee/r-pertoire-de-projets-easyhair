@@ -51,7 +51,7 @@
       <div class="header-container">
         <ion-card-title>Avis Clients</ion-card-title>
         <div class="average-rating" *ngIf="reviews.length > 0">
-          {{averageRating}} <ion-icon name="star" color="warning"></ion-icon>
+          {{averageRating.toFixed(1)}} <ion-icon name="star" color="warning"></ion-icon>
         </div>
       </div>
     </ion-card-header>
