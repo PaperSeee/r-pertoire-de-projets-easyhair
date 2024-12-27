@@ -30,10 +30,11 @@ Donc comme une double application qui permet, coté clients de choisir parmi un 
 
 Mis à part le système de messagerie qui n'a pas pu être développé pour des raisons de compétences et de manque de temps, toutes ces fonctionnalités ont étés développées avec succès.
 
-**Voici les fonctionnalités qui ont été développées :**
+**Voici d'autres fonctionnalités qui ont été développées :**
 
 - Système d'authentification plus complet
 - Système de recherche
+- Affichage des coiffeurs en fonction de la commune du client
 - Système de favoris
 - Historique des rendez-vous
 - Gestion et annulation des rendez-vous
