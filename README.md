@@ -46,7 +46,7 @@ Mis à part le système de messagerie qui n'a pas pu être développé pour des 
 
 **Pour mieux comprendre notre application, nous vous suggérons le test suivant :**
 
-1. Créer un profil **coiffeur** (Inscription --> Professionnels, attentionn retenez bien votre mot de passe !)
+1. Créer un profil **coiffeur** (Inscription --> Professionnels, attention retenez bien votre mot de passe !)
 2. Confirez votre profil coiffeur (photos, tarifs, ...)
 3. Configurez vos disponibiltés
 
@@ -60,13 +60,13 @@ Votre profil coiffeur est terminé, déconnectez vous.
 
 Une fois l'heure du rendez-vous **passée**, un bouton 'Terminé' deviendra cliquable sur les cards des rendez-vous. Une fois cliqué, le rendez-vous recevra le statut de 'finished'. Vous pourrez ainsi le retrouver dans les historiques de rendez-vous aussi bien coté client que coté coiffeur.
 
-8. Coté coiffeurs, marquez le rendez-vous comme terminé
-9. Coté client, retrouver le rendez-vous dans votre historique et cliquez sur le bouton 'donner mon avis', entrez ensuite un avis.
-10. Coté coiffeurs, naviguez (Mon compte --> mon profil coiffeur, en bas de la page vous retrouverez l'avis que vous venez de soumettre avec votre compte client) entrez ensuite une réponse.
+8. **Coté coiffeurs**, marquez le rendez-vous comme terminé
+9. **Coté client**, retrouver le rendez-vous dans votre historique et cliquez sur le bouton 'donner mon avis', entrez ensuite un avis.
+10. **Coté coiffeurs**, naviguez (Mon compte --> mon profil coiffeur, en bas de la page vous retrouverez l'avis que vous venez de soumettre avec votre compte client) entrez ensuite une réponse.
 
 Ces avis seront maintenant affichés sur la page de votre coiffeur, et une notre générale sera calculée en reprenant la moyenne de tous les avis. 
 
-11. Après cette fabuleuse expérience, vous décidez de supprimer vos comptes : page 'Mes informations', 'supprimer mon compte', confirmer.
+11. Après cette fabuleuse expérience, vous décidez de **supprimer vos comptes** : page 'Mes informations', 'supprimer mon compte', confirmer.
 
 Merci d'avoir pris le temps de tester notre application, si vous rencontrez des problèmes lors de l'utilisation, n'hésitez pas à rafraichir la page et à changer de tabs et revenir sur la tabs pour que l'information s'actualise.
 
