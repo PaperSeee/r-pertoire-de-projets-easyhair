@@ -49,7 +49,7 @@ export class InscriptionProfessionnelsPage implements OnInit {
       genre: ['', [Validators.required]],
       email: ['', [
         Validators.required,
-        Validators.pattern("[a-z0-9._%+\\-]+@gmail\\.com$")
+        Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
       ]],
       telephone: ['', [
         Validators.required,
