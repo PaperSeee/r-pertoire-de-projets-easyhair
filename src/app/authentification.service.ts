@@ -12,8 +12,14 @@ export class AuthentificationService {
   private firebaseApp = initializeApp(environment.firebaseConfig);
   private auth: Auth = getAuth(this.firebaseApp);
   private firestore: Firestore = getFirestore(this.firebaseApp);
+  private currentUser: User | null = null;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.auth.onAuthStateChanged((user) => {
+      this.currentUser = user;
+      console.log('Auth state changed:', user?.uid);
+    });
+  }
 
   // Fonction d'inscription
   async registerUser(email: string, password: string, prénom: string, nom: string, genre: string, telephone: string) {
@@ -59,7 +65,13 @@ export class AuthentificationService {
 
   // fonction pour identifier le profil connecté
   async getProfile(): Promise<User | null> {
-    return this.auth.currentUser;
+    return new Promise((resolve) => {
+      const unsubscribe = this.auth.onAuthStateChanged((user) => {
+        unsubscribe();
+        console.log('getProfile user:', user?.uid);
+        resolve(user);
+      });
+    });
   }
 
   isAuthenticated(): boolean {
