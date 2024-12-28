@@ -13,7 +13,7 @@ interface ExpandedCards {
 export class ForfaitPage {
   public expandedCards: ExpandedCards = {
     standard: false,
-    premium: false,
+    premium: true,
   };
 
   constructor(private cdr: ChangeDetectorRef) {}
