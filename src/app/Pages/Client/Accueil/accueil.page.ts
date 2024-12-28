@@ -156,12 +156,16 @@ export class AccueilPage implements OnInit, OnDestroy, ViewWillEnter {
     if (!this.isLoggedIn) {
         // Not logged in - show all coiffeurs
         this.filteredCoiffeurs = [...this.coiffeurs];
+        // Trier par averageRating
+        this.sortByRating(this.filteredCoiffeurs);
         return;
     }
 
     if (!this.hasAddress) {
         // Logged in but no address - show only suggestions
         this.suggestedCoiffeurs = this.coiffeurs.slice(0, 5);
+        // Trier par averageRating
+        this.sortByRating(this.suggestedCoiffeurs);
         return;
     }
 
@@ -177,11 +181,24 @@ export class AccueilPage implements OnInit, OnDestroy, ViewWillEnter {
             !coiffeur.communes || !coiffeur.communes.includes(this.userCommune!)
         );
         this.suggestedCoiffeurs = otherCoiffeurs.slice(0, 3);
+
+        // Trier les deux listes par averageRating
+        this.sortByRating(this.filteredCoiffeurs);
+        this.sortByRating(this.suggestedCoiffeurs);
     }
 
     console.log('Results:', {
         filtered: this.filteredCoiffeurs.length,
         suggested: this.suggestedCoiffeurs.length
+    });
+}
+
+// Ajouter cette nouvelle méthode de tri
+private sortByRating(coiffeurs: Coiffeur[]) {
+    coiffeurs.sort((a, b) => {
+        const ratingA = a.averageRating || 0;
+        const ratingB = b.averageRating || 0;
+        return ratingB - ratingA; // Tri décroissant
     });
 }
 
