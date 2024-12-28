@@ -1,5 +1,5 @@
 ion-content {
-    --background: #F1F1F1;
+  --background: #F1F1F1;
 }
 
 // Style de base pour la card
@@ -9,7 +9,7 @@ ion-card {
   border-radius: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
-  
+
 .barbercuts {
   height: 200px;
   width: 100%;
@@ -18,12 +18,6 @@ ion-card {
   scroll-snap-align: start;
 }
 
-.cuts {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-}
-  
 // Layout du contenu de la card
 ion-card-content {
   display: grid;
@@ -35,7 +29,7 @@ ion-card-content {
   align-items: center;
   padding: 16px;
 }
-  
+
 .barberprofilepicture {
   grid-area: profile;
   width: 60px;
@@ -43,16 +37,14 @@ ion-card-content {
   border-radius: 50%;
   object-fit: cover; /* Assure que la photo de profil remplit son conteneur */
   margin-right: 12px;
-  margin-bottom: 10px;
 }
 
 .barbername {
   grid-area: name;
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 5px;
 }
-  
+
 .barbertype {
   grid-area: type;
   color: #666;
@@ -63,16 +55,13 @@ ion-card-content {
 .prices {
   grid-area: price;
   margin: 0;
-  color: #0000;
   font-size: 18px;
   font-weight: 600;
 }
-  
+
 .barberrate {
   grid-area: rate;
   margin: 0;
-  color: #000;
-  font-size: 0.9em;
 }
 
 .barberrate ion-icon {
