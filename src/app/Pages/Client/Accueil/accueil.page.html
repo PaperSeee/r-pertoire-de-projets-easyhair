@@ -18,31 +18,32 @@
   <ion-card *ngIf="isLoggedIn && !hasAddress" class="warning-card">
     <ion-card-content>
       <p>Pour voir les coiffeurs près de chez vous, veuillez configurer votre adresse.</p>
-      <ion-button routerLink="/mes-informations" expand="block">
+      <ion-button routerLink="/mes-informations" expand="block" class="blacky">
         Configurer
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <div class="filters">
-    <ion-chip [outline]="true" [class.active]="activeFilter === 'Barber'" (click)="filterByType('Barber')">
-      Barbers
-    </ion-chip>
-    <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur homme'" (click)="filterByType('Coiffeur homme')">
-      Hommes
-    </ion-chip>
-    <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur femme'" (click)="filterByType('Coiffeur femme')">
-      Femmes
-    </ion-chip>
-    <ion-chip [outline]="true" (click)="toggleSortByPrice()">
-      ↑↓ Prix
-    </ion-chip>
-  </div>
-
   <!-- Liste des coiffeurs de la commune -->
   <div *ngIf="filteredCoiffeurs.length > 0">
-    <h2 *ngIf="isLoggedIn && hasAddress">Coiffeurs à {{getCommuneWithoutPostalCode(userCommune)}}</h2>
+    <h2 *ngIf="isLoggedIn && hasAddress">Coiffeurs à <span class="goldtext">{{getCommuneWithoutPostalCode(userCommune)}}</span></h2>
     <h2 *ngIf="!isLoggedIn">Tous les coiffeurs</h2>
+
+    <div class="filters">
+      <ion-chip [outline]="true" [class.active]="activeFilter === 'Barber'" (click)="filterByType('Barber')">
+        Barbers
+      </ion-chip>
+      <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur homme'" (click)="filterByType('Coiffeur homme')">
+        Hommes
+      </ion-chip>
+      <ion-chip [outline]="true" [class.active]="activeFilter === 'Coiffeur femme'" (click)="filterByType('Coiffeur femme')">
+        Femmes
+      </ion-chip>
+      <ion-chip [outline]="true" (click)="toggleSortByPrice()">
+        ↑↓ Prix
+      </ion-chip>
+    </div>
+
     <ion-card *ngFor="let coiffeur of filteredCoiffeurs" [routerLink]="['/detail-barber', coiffeur.id]">
       <div class="cuts" style="display: inline;" *ngIf="coiffeur.photosCoupes?.length > 0">
         <img class="barbercuts" [src]="coiffeur.photosCoupes[0]" alt="coupe" />

@@ -35,3 +35,34 @@ ion-card {
     color: #666;
   }
 }
+
+.goldtext {
+  font-weight: 700;
+  background: linear-gradient(to bottom, #dba759, #AA7019);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.goldcard {
+  position: relative;
+  border-radius: 12px; // Match ion-card radius
+  background: white;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px; 
+    padding: 3px; // Border width
+    background: linear-gradient(to bottom, #dba759, #AA7019);
+    mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+  }
+}

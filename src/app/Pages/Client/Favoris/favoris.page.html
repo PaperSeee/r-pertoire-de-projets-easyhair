@@ -17,9 +17,7 @@
         <ion-card-title class="prices" *ngIf="coiffeur.tarifs?.length > 0">
           {{getPrix(coiffeur.tarifs[0])}}
         </ion-card-title>
-
         <ion-card-subtitle class="barbertype">{{coiffeur.typeCoiffeur?.join(', ')}}</ion-card-subtitle>
-        <ion-card-subtitle class="barberrate">0.0<ion-icon name="star"></ion-icon></ion-card-subtitle>
       </ion-card-content>
     </ion-card>
   </div>

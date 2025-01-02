@@ -8,12 +8,12 @@ ion-content {
 }
 
 h2 {
-  margin-top: 14px;
+  margin-top: 0px;
   margin-bottom: 0px;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 600;
   color: #333;
-  padding: 16px 16px 0px 16px;
+  padding: 16px 16px 0px 4px;
 }
 
 .search{
@@ -107,4 +107,23 @@ ion-chip {
     --background: var(--ion-color-primary);
     font-weight: 600;
   }
+}
+
+.goldtext {
+  background: linear-gradient(to bottom, #dba759, #AA7019);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.blacky {
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+  --background: linear-gradient(to bottom, #555555, #373131);
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: --background 0.3s ease;
+  margin: 0px;
 }
