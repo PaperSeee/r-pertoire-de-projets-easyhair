@@ -80,7 +80,9 @@
           <!-- Add popover trigger button -->
           <ion-button fill="clear" 
                       [id]="'trigger-button-' + rdv.id"
-                      style="margin-top: -10px; margin-right: -10px;">
+                      style="margin-top: -10px; margin-right: -10px;"
+                      *ngIf="shouldShowCancelButton(rdv)"
+                      >
             <ion-icon name="ellipsis-vertical-outline"></ion-icon>
           </ion-button>
       

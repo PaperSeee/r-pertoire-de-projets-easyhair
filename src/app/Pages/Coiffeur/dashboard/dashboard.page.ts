@@ -233,7 +233,9 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   // Ajouter une méthode pour filtrer les rendez-vous actifs
   getActiveAppointments() {
-    return this.appointments.filter(rdv => rdv.statut !== 'finished');
+    return this.appointments.filter(rdv => 
+      rdv.statut === 'active' || rdv.statut === 'canceled'
+    );
   }
 
   canCancelAppointment(rdv: any): boolean {
@@ -278,5 +280,9 @@ export class DashboardPage implements OnInit, OnDestroy {
       });
       toast.present();
     }
+  }
+
+  shouldShowCancelButton(rdv: any): boolean {
+    return rdv.statut === 'active';
   }
 }
