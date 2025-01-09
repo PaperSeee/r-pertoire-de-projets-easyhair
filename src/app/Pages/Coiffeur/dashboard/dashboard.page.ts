@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { getFirestore, collection, query, where, getDocs, getDoc, doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { AuthentificationService } from 'src/app/authentification.service';
 import { Chart, registerables } from 'chart.js';
+import { ToastController } from '@ionic/angular';
 Chart.register(...registerables);
 
 interface Appointment {
@@ -34,7 +35,10 @@ export class DashboardPage implements OnInit, OnDestroy {
     schedule: false
   };
 
-  constructor(private authService: AuthentificationService) {}
+  constructor(
+    private authService: AuthentificationService,
+    private toastController: ToastController
+  ) {}
 
   ngOnInit() {
     this.loadAppointments();
@@ -230,5 +234,49 @@ export class DashboardPage implements OnInit, OnDestroy {
   // Ajouter une méthode pour filtrer les rendez-vous actifs
   getActiveAppointments() {
     return this.appointments.filter(rdv => rdv.statut !== 'finished');
+  }
+
+  canCancelAppointment(rdv: any): boolean {
+    const appointmentDate = new Date(rdv.date);
+    const appointmentTime = rdv.heure.split(':');
+    appointmentDate.setHours(parseInt(appointmentTime[0]), parseInt(appointmentTime[1]));
+    
+    const now = new Date();
+    const diffInHours = (appointmentDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+    
+    return diffInHours >= 24;
+  }
+
+  // Update cancelAppointment method to handle popover
+  async cancelAppointment(rdv: any, popover: any) {
+    try {
+      const rdvDoc = doc(this.firestore, 'RDV', rdv.id);
+      await updateDoc(rdvDoc, {
+        statut: 'canceled-coiffeur'
+      });
+
+      // Close popover
+      await popover.dismiss();
+
+      const toast = await this.toastController.create({
+        message: 'Rendez-vous annulé avec succès',
+        duration: 2000,
+        position: 'bottom',
+        color: 'success'
+      });
+      toast.present();
+
+      // Refresh appointments list
+      await this.loadAppointments();
+    } catch (error) {
+      console.error('Erreur lors de l\'annulation:', error);
+      const toast = await this.toastController.create({
+        message: 'Erreur lors de l\'annulation du rendez-vous',
+        duration: 2000,
+        position: 'bottom', 
+        color: 'danger'
+      });
+      toast.present();
+    }
   }
 }

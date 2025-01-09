@@ -74,24 +74,53 @@
   <ng-container *ngIf="getActiveAppointments().length > 0; else noAppointments">
     <ng-container *ngFor="let rdv of getActiveAppointments()">
       <ion-card class="ion-padding nxtrdv" [ngClass]="{'canceled-card': rdv.statut === 'canceled'}">
-        <h2>{{rdv.nomCompletClient}}</h2>
+        <div style="display: flex; justify-content: space-between; align-items: start;">
+          <h2>{{rdv.nomCompletClient}}</h2>
+          
+          <!-- Add popover trigger button -->
+          <ion-button fill="clear" 
+                      [id]="'trigger-button-' + rdv.id"
+                      style="margin-top: -10px; margin-right: -10px;">
+            <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+          </ion-button>
+      
+          <!-- Add popover -->
+          <ion-popover [trigger]="'trigger-button-' + rdv.id" triggerAction="click">
+            <ng-template>
+              <ion-content>
+                <ion-button expand="block" 
+                          fill="clear"
+                          style="margin: 0%;" 
+                          color="danger"
+                          [disabled]="!canCancelAppointment(rdv)"
+                          (click)="cancelAppointment(rdv, $event.target.closest('ion-popover'))">
+                  Annuler le rendez-vous
+                </ion-button>
+              </ion-content>
+            </ng-template>
+          </ion-popover>
+        </div>
+        
         <p>💵 {{rdv.tarif}}</p>
         <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
-        
+      
+        <!-- Remove existing cancel button -->
         <ng-container *ngIf="rdv.statut === 'canceled'; else showAddress">
           <h2 class="canceled-text" style="margin-top: 4px;">Annulé</h2>
           <ion-button class="black" (click)="deleteAppointment(rdv.id)">Confirmer</ion-button>
         </ng-container>
-        
+              
         <ng-template #showAddress>
           <h2>📍 {{rdv.adresse}}</h2>
-          <ion-button 
-            *ngIf="isAppointmentPast(rdv.date, rdv.heure) && rdv.statut !== 'canceled'"
-            expand="block"
-            class="black-button"
-            (click)="markAsFinished(rdv.id)">
-            Terminé
-          </ion-button>
+          <div style="display: flex; gap: 8px;">
+            <ion-button 
+              *ngIf="isAppointmentPast(rdv.date, rdv.heure) && rdv.statut !== 'canceled'"
+              expand="block"
+              class="black-button"
+              (click)="markAsFinished(rdv.id)">
+              Terminé
+            </ion-button>
+          </div>
         </ng-template>
       </ion-card>
     </ng-container>
