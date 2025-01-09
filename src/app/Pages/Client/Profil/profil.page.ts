@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { AuthentificationService } from 'src/app/authentification.service';
-import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, query, where, getDocs, doc, updateDoc, addDoc, deleteDoc } from 'firebase/firestore';  // Ajouter cet import
 
 interface Appointment {
   id: string;
@@ -284,5 +284,35 @@ export class ProfilPage implements OnInit {
     } else {
       this.activeReviewForm = rdvId;  // Open this one, closing others
     }
+  }
+
+  async deleteAppointment(appointmentId: string) {
+    try {
+      await deleteDoc(doc(this.firestore, 'RDV', appointmentId));
+      
+      const toast = await this.toastController.create({
+        message: 'Rendez-vous supprimé avec succès',
+        duration: 2000,
+        position: 'bottom',
+        color: 'success'
+      });
+      toast.present();
+
+      // Rafraîchir la liste des rendez-vous
+      this.loadAppointments();
+    } catch (error) {
+      console.error('Erreur lors de la suppression du rendez-vous:', error);
+      const toast = await this.toastController.create({
+        message: 'Erreur lors de la suppression du rendez-vous',
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger'
+      });
+      toast.present();
+    }
+  }
+
+  shouldShowCancelButton(rdv: any): boolean {
+    return rdv.statut !== 'canceled-coiffeur';
   }
 }
