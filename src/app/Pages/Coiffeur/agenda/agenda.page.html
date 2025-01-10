@@ -29,6 +29,13 @@
         <ng-template #showAddress>
             <h2>📍 {{appointment.adresse}}</h2>
         </ng-template>
+        <ion-button *ngIf="appointment.statut === 'active'" 
+                    [routerLink]="['/message', appointment.id]"
+                    class="grey-button"
+                    fill="clear">
+          <ion-icon name="chatbubble-outline" slot="end"></ion-icon>
+          Envoyer un message
+        </ion-button>
     </ion-card>
   </ng-container>
 

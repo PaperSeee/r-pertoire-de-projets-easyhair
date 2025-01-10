@@ -68,6 +68,11 @@
                 (click)="markAsFinished(rdv)">
                 Terminé
               </ion-button>
+              <ion-button *ngIf="rdv.statut === 'active'" 
+                          [routerLink]="['/message', rdv.id]"
+                          fill="clear">
+                <ion-icon name="chatbubble-outline"></ion-icon>
+              </ion-button>
             </div>
           </ng-template>
           

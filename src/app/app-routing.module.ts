@@ -124,6 +124,10 @@ const routes: Routes = [
     path: 'mes-horaires',
     loadChildren: () => import('./Pages/Coiffeur/mes-horaires/mes-horaires.module').then( m => m.MesHorairesPageModule)
   },
+  {
+    path: 'message',
+    loadChildren: () => import('./Pages/message/message.module').then( m => m.MessagePageModule)
+  },
 ];
 
 @NgModule({
