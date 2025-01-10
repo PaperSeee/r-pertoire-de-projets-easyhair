@@ -110,3 +110,13 @@ ion-modal {
 .submit-review {
   margin-top: 16px;
 }
+
+.canceled-card {
+  background-color: #FFEFEF;
+}
+
+.canceled-text {
+  color: var(--ion-color-danger);
+  font-weight: bold;
+  margin-top: 8px;
+}

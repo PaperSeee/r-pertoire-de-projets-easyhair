@@ -18,23 +18,30 @@
     </h2>
 
     <!-- Appointment card -->
-    <ion-card [ngStyle]="{'background-color': appointment.statut === 'canceled' ? '#FFEFEF' : ''}">
+    <ion-card [ngStyle]="{'background-color': appointment.statut === 'canceled' || appointment.statut === 'canceled-coiffeur' ? '#FFEFEF' : ''}">
         <h2>{{appointment.nomCompletClient}}</h2>
         <h2>⏱️ <span class="date">{{appointment.heure}}</span></h2>
         <p>💵 {{appointment.tarif}}</p>
         
-        <ng-container *ngIf="appointment.statut === 'canceled'; else showAddress">
+        <ng-container *ngIf="appointment.statut === 'canceled' || appointment.statut === 'canceled-coiffeur'; else showAddress">
             <h2 class="canceled-text">Annulé</h2>
         </ng-container>
         <ng-template #showAddress>
             <h2>📍 {{appointment.adresse}}</h2>
         </ng-template>
+        <ion-button *ngIf="appointment.statut === 'active'" 
+                    [routerLink]="['/message', appointment.id]"
+                    class="grey-button"
+                    fill="clear">
+          <ion-icon name="chatbubble-outline" slot="end"></ion-icon>
+          Envoyer un message
+        </ion-button>
     </ion-card>
   </ng-container>
 
   <!-- Show message when no appointments -->
   <ion-text *ngIf="appointments.length === 0">
-    <p class="ion-text-center">Aucun rendez-vous de prévu.</p>
+    <p class="ion-text-center" style="margin-top: 12px;">Aucun rendez-vous de prévu.</p>
   </ion-text>
 
 </ion-content>

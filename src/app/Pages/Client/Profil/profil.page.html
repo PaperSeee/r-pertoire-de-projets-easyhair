@@ -12,14 +12,18 @@
 
     <ng-container *ngIf="getActiveAppointments().length > 0; else noAppointments">
       <ng-container *ngFor="let rdv of appointments">
-        <ion-card class="nextrdv ion-padding" *ngIf="rdv.statut !== 'finished' && rdv.statut !== 'canceled'">
+        <ion-card class="nextrdv ion-padding" 
+                  [ngClass]="{'canceled-card': rdv.statut === 'canceled-coiffeur'}" 
+                  *ngIf="rdv.statut !== 'finished' && rdv.statut !== 'canceled'">
           <div style="display: flex; justify-content: space-between; align-items: start;">
 
             <h2 class="date">{{formatDate(rdv.date)}}, {{rdv.heure}}</h2>
 
             <ion-button fill="clear" 
                       [id]="'trigger-button-' + rdv.id"
-                      style="margin-top: -10px; margin-right: -10px;">
+                      style="margin-top: -10px; margin-right: -10px;"
+                      *ngIf="shouldShowCancelButton(rdv)"
+                      >
               <ion-icon name="ellipsis-vertical-outline"></ion-icon>
             </ion-button>
 
@@ -42,18 +46,35 @@
 
           <p style="font-weight: 500;">💇‍♂️ {{rdv.nomCoiffeur}}</p>
           <p>💵 {{rdv.tarif}}</p>
-          <p>📍 {{rdv.adresse}}</p>
-
-          <div style="display: flex; justify-content: space-around;">
-            <ion-button class="black-button" style="width: 100%;" (click)="goToBarberDetail(rdv.uidCoiffeur)">{{rdv.nomCoiffeur}}</ion-button>
-            <ion-button 
-              class="finish gold-button" 
-              style="width: 100%;" 
-              [disabled]="!isAppointmentPassed(rdv)"
-              (click)="markAsFinished(rdv)">
-              Terminé
+          
+          <ng-container *ngIf="rdv.statut === 'canceled-coiffeur'; else normalAppointment">
+            <h2 class="canceled-text">Annulé par le coiffeur</h2>
+            <ion-button
+                        class="black-button"
+                        size="small" 
+                        (click)="deleteAppointment(rdv.id)">
+              Confirmer
             </ion-button>
-          </div>
+          </ng-container>
+          
+          <ng-template #normalAppointment>
+            <p>📍 {{rdv.adresse}}</p>
+            <div style="display: flex; justify-content: space-around;">
+              <ion-button class="black-button" style="width: 100%;" (click)="goToBarberDetail(rdv.uidCoiffeur)">{{rdv.nomCoiffeur}}</ion-button>
+              <ion-button 
+                class="finish gold-button" 
+                style="width: 100%;" 
+                [disabled]="!isAppointmentPassed(rdv)"
+                (click)="markAsFinished(rdv)">
+                Terminé
+              </ion-button>
+              <ion-button *ngIf="rdv.statut === 'active'" 
+                          [routerLink]="['/message', rdv.id]"
+                          fill="clear">
+                <ion-icon name="chatbubble-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ng-template>
           
         </ion-card>
       </ng-container>
