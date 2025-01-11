@@ -39,7 +39,7 @@ export class DeleteAccountPage {
   async deleteAccount() {
     try {
       await this.authService.deleteAccount();
-      this.router.navigate(['/connexion']);
+      this.router.navigate(['/inscription']); // Changed from '/connexion' to '/inscription'
     } catch (error) {
       console.error('Erreur lors de la suppression:', error);
     }
