@@ -4,6 +4,16 @@
       <ion-back-button defaultHref="/coiffeur-tabs/mon-compte"></ion-back-button>
     </ion-buttons>
     <ion-title>Forfaits</ion-title>
+    <ion-buttons slot="end">
+      <ion-button id="auto-trigger"><ion-icon name="ellipsis-vertical-outline"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-popover trigger="auto-trigger" size="auto">
+      <ng-template>
+        <ion-content class="ion-padding">
+          Gérer mon abonnement
+        </ion-content>
+      </ng-template>
+    </ion-popover>
   </ion-toolbar>
 </ion-header>
 
